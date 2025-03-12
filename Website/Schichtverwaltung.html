@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Kalender Website</title>
+	<link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+    <div class="header">Turnverein St. Ingbert</div>
+
+    <div class="menu" onclick="toggleMenu()">☰</div>
+    <ul class="menu-list" id="menuList">
+        <li>Schichtplan</li>
+
+    </ul>
+	<button id= "Veranstaltungsanlegung" onclick= "veranstaltungAnlegen()">Veranstaltung anlegen</button>
+	<h3>Veranstaltungseinstellungen</h3>
+<script>
+        function toggleMenu() {
+            const menu = document.getElementById('menuList');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function Start(){
+
+			window.location.href="Seite.html";
+
+		}
+		
+		function veranstaltungAnlegen(){
+			window.location.href="VeranstaltungAnlegen.html";
+		}
+		
+    </script>
+</body>
+</html>
