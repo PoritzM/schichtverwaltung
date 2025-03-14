@@ -5,30 +5,56 @@ import org.schichtverwaltung.zUtils.TimeStamps;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static org.schichtverwaltung.dbTools.InsertMethods.insertTask;
+
 public class Task {
 
-    private final int taskID;
-    private final String taskDescription;
+    private int eventID;
+    private int dayID;
+    private int serviceID;
+    private int taskID;
+    private String taskDescription;
+    private int neededWorker;
 
     private ArrayList<Worker> workers = new ArrayList<>();
 
     private TimeStamps timeStamps;
 
-    public Task(int taskID, String taskDescription) {
-        this.taskID = taskID;
-        this.taskDescription = taskDescription;
+//    public Task(int eventID, int dayID, int serviceID, String taskDescription, int neededWorker) {
+//        this.eventID = eventID;
+//        this.dayID = dayID;
+//        this.serviceID = serviceID;
+//        this.taskDescription = taskDescription;
+//        this.neededWorker = neededWorker;
+//
+//        timeStamps = new TimeStamps();
+//    }
 
-        timeStamps = new TimeStamps();
-    }
-
-    public void addWorker(Worker worker) {
-        workers.add(worker);
+    public int taskToDB () {
+        taskID = insertTask(eventID, dayID, serviceID, taskDescription, neededWorker, timeStamps.getTimeStampCreate(), timeStamps.getTimeStampEdit());
+        return taskID;
     }
 
     public void print() {
-        System.out.println("\t\t\t\t\t" + taskDescription + " (" + taskID + " " + timeStamps.getTimeStampCreate() + " " + timeStamps.getTimeStampEdit());
+        System.out.println("\t\t\t\t\t" + taskDescription + " (" + taskID + " | " + timeStamps.getTimeStampCreate() + " | " + timeStamps.getTimeStampEdit() + ")");
         for (Worker worker : workers) {
             worker.print();
         }
+    }
+
+    public void initTask (int eventID, int dayID, int serviceID) {
+
+        this.eventID = eventID;
+        this.dayID = dayID;
+        this.serviceID = serviceID;
+
+        if (workers == null) {
+            workers = new ArrayList<>();
+        }
+        timeStamps = new TimeStamps();
+    }
+
+    public ArrayList<Worker> getWorkers() {
+        return workers;
     }
 }

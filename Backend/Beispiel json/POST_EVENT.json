@@ -1,0 +1,53 @@
+{
+  "event": {
+    "eventName": "Stadtfest 2024",
+    "showEvent": true,
+    "registerOnEvent": true,
+    "days": [
+      {
+        "day": "2024-07-11",
+        "services": [
+          {
+            "serviceDescription": "Aufbauen",
+            "timeStart": "11:00",
+            "timeEnd": "13:00",
+            "tasks": [
+              {
+                "taskDescription": "Teke Aufbauen",
+                "neededWorker": 3
+              },
+              {
+                "taskDescription": "Getränke Abholen",
+                "neededWorker": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "day": "2024-07-12",
+        "services": [
+          {
+            "serviceDescription": "Dienst 1",
+            "timeStart": "13:00",
+            "timeEnd": "11:00",
+            "tasks": [
+              {
+                "taskDescription": "Spülen",
+                "neededWorker": 3
+              },
+              {
+                "taskDescription": "Bier Zapfen",
+                "neededWorker": 1
+              },
+              {
+                "taskDescription": "Bedienen",
+                "neededWorker": 5
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

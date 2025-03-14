@@ -7,34 +7,54 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static org.schichtverwaltung.dbTools.InsertMethods.insertService;
+
 public class Service {
 
-    private final int serviceID;
-    private final String serviceDescription;
-    private final LocalTime timeStart;
-    private final LocalTime timeEnd;
+    private int eventID;
+    private int dayID;
+    private int serviceID;
+    private String serviceDescription;
+    private LocalTime timeStart;
+    private LocalTime timeEnd;
 
     private ArrayList<Task> tasks = new ArrayList<>();
 
     private TimeStamps timeStamps;
 
-    public Service(int serviceID, String serviceDescription, LocalTime timeStart, LocalTime timeEnd) {
-        this.serviceID = serviceID;
-        this.serviceDescription = serviceDescription;
-        this.timeStart = timeStart;
-        this.timeEnd = timeEnd;
+//    public Service(int eventID, int dayID, String serviceDescription, LocalTime timeStart, LocalTime timeEnd) {
+//        this.eventID = eventID;
+//        this.dayID = dayID;
+//        this.serviceDescription = serviceDescription;
+//        this.timeStart = timeStart;
+//        this.timeEnd = timeEnd;
+//
+//        timeStamps = new TimeStamps();
+//    }
 
-        timeStamps = new TimeStamps();
-    }
-
-    public void addTask(Task task) {
-        tasks.add(task);
+    public int serviceToDB () {
+        serviceID = insertService(eventID, dayID, serviceDescription, timeStamps.getTimeStampCreate(), timeStamps.getTimeStampEdit(), timeStart, timeEnd);
+        return serviceID;
     }
 
     public void print() {
-        System.out.println("\t\t\t\t" + serviceDescription + " (" + serviceID + " " + timeStamps.getTimeStampCreate() + " " + timeStamps.getTimeStampEdit());
+        System.out.println("\t\t\t\t" + serviceDescription + " (" + serviceID + " | " + timeStamps.getTimeStampCreate() + " | " + timeStamps.getTimeStampEdit() + ")");
         for (Task task : tasks) {
             task.print();
         }
+    }
+
+    public void initService (int eventID, int dayID) {
+        this.eventID = eventID;
+        this.dayID = dayID;
+
+        if (tasks == null) {
+            tasks = new ArrayList<>();
+        }
+        timeStamps = new TimeStamps();
+    }
+
+    public ArrayList<Task> getTasks() {
+        return tasks;
     }
 }
