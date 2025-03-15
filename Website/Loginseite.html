@@ -41,7 +41,7 @@
         }
 		async function login(){
 			const eingegebenes_passwort = document.getElementById('pw').value;
-			const real_passwort = "richtig"; 																<!Vorläufig>
+			const real_passwort = "richtig"; 																
 			const stored_hash = await hash(real_passwort);
 			const eingegebener_hash = await hash(eingegebenes_passwort);
 			if(stored_hash == eingegebener_hash){
