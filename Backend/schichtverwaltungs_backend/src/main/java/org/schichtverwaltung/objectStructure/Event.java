@@ -21,13 +21,23 @@ public class Event {
 //        this.eventName = eventName;
 //        this.showEvent = showEvent;
 //        this.registerOnEvent = registerOnEvent;
-//
-//        timeStamps = new TimeStamps();
 //    }
+
+    public Event(int eventID,String eventName, boolean showEvent, boolean registerOnEvent, TimeStamps timeStamps) {
+        this.eventID = eventID;
+        this.eventName = eventName;
+        this.showEvent = showEvent;
+        this.registerOnEvent = registerOnEvent;
+        this.timeStamps = timeStamps;
+    }
 
     public int eventToDB () {
         eventID = insertEvent(eventName, showEvent, registerOnEvent, timeStamps.getTimeStampCreate(), timeStamps.getTimeStampEdit());
         return eventID;
+    }
+
+    public void addDay (Day day) {
+        days.add(day);
     }
 
     public void print() {

@@ -23,22 +23,22 @@ public class AddWorkerToShift {
 
         String errorPrefix = "Adding Worker Failed: ";
 
-        InfoSet infoSetEvent = selectEvent(worker.getEventID());
+        InfoSet infoSetEvent = selectTable("eventID",String.valueOf(worker.getEventID()), "events");
         if (infoSetEvent.amountRows() != 1) {
             throw new IOException(errorPrefix + "eventID error - " + worker.getEventID());
         }
 
-        InfoSet infoSetDay = selectDay(worker.getDayID());
+        InfoSet infoSetDay = selectTable("dayID", String.valueOf(worker.getDayID()), "days");
         if (infoSetDay.amountRows() != 1) {
             throw new IOException(errorPrefix + "dayID error - " + worker.getDayID());
         }
 
-        InfoSet infoSetService = selectService(worker.getServiceID());
+        InfoSet infoSetService = selectTable("serviceID", String.valueOf(worker.getServiceID()), "services");
         if (infoSetService.amountRows() != 1) {
             throw new IOException(errorPrefix + "serviceID error - " + worker.getServiceID());
         }
 
-        InfoSet infoSetTask = selectTask(worker.getTaskID());
+        InfoSet infoSetTask = selectTable("taskID", String.valueOf(worker.getTaskID()), "tasks");
 
         ArrayList<Object> eventIDValue = infoSetTask.getColumnValues("eventID");
         ArrayList<Object> dayIDValue = infoSetTask.getColumnValues("dayID");

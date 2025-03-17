@@ -6,14 +6,14 @@ import java.sql.SQLException;
 import java.util.Objects;
 
 import static org.schichtverwaltung.dbTools.RemoveMethods.removeEvent;
-import static org.schichtverwaltung.dbTools.SelectMethods.selectEvent;
+import static org.schichtverwaltung.dbTools.SelectMethods.selectTable;
 import static org.schichtverwaltung.dbTools.UpdateMethods.updateEvent;
 
 public class UpdateEvent {
 
     public static void updateShowEvent (int eventID, boolean showEvent) throws SQLException {
 
-        InfoSet infoSet = selectEvent(eventID);
+        InfoSet infoSet = selectTable("eventID", String.valueOf(eventID), "events");
 
         if (!Objects.equals((String) infoSet.getColumnValues("showEvent").getFirst(), Boolean.toString(showEvent))) {
             if (infoSet.amountRows() == 1) {
@@ -28,7 +28,7 @@ public class UpdateEvent {
 
     public static void updateRegisterOnEvent (int eventID, boolean showEvent) throws SQLException {
 
-        InfoSet infoSet = selectEvent(eventID);
+        InfoSet infoSet = selectTable("eventID", String.valueOf(eventID), "events");
 
         if (!Objects.equals((String) infoSet.getColumnValues("registerOnEvent").getFirst(), Boolean.toString(showEvent))) {
             if (infoSet.amountRows() == 1) {

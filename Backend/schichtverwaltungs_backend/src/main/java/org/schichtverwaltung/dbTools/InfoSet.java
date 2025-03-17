@@ -18,7 +18,7 @@ public class InfoSet {
             descriptions = getDescriptions(resultSet);
             infos = getRows(resultSet);
 
-            printInfoSet();
+//            printInfoSet();
     }
 
     private ArrayList<String> getDescriptions (ResultSet resultSet) throws SQLException {
@@ -72,7 +72,7 @@ public class InfoSet {
         int index = descriptions.indexOf(description);
 
         if (index == -1) {
-            throw new RuntimeException("description not found");
+            throw new RuntimeException("description not found " + description);
         }
 
         for (ArrayList<Object> rows : infos) {

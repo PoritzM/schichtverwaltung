@@ -32,6 +32,17 @@ public class Service {
 //        timeStamps = new TimeStamps();
 //    }
 
+
+    public Service(int eventID, int dayID, int serviceID, String serviceDescription, LocalTime timeStart, LocalTime timeEnd, TimeStamps timeStamps) {
+        this.eventID = eventID;
+        this.dayID = dayID;
+        this.serviceID = serviceID;
+        this.serviceDescription = serviceDescription;
+        this.timeStart = timeStart;
+        this.timeEnd = timeEnd;
+        this.timeStamps = timeStamps;
+    }
+
     public int serviceToDB () {
         serviceID = insertService(eventID, dayID, serviceDescription, timeStamps.getTimeStampCreate(), timeStamps.getTimeStampEdit(), timeStart, timeEnd);
         return serviceID;

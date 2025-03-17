@@ -16,6 +16,7 @@ import static org.schichtverwaltung.functions.AddShift.addShift;
 import static org.schichtverwaltung.functions.AddWorkerToShift.addWorkerToShift;
 import static org.schichtverwaltung.functions.RemoveShift.removeShift;
 import static org.schichtverwaltung.functions.RemoveWorkerFromShift.removeWorkerFromShift;
+import static org.schichtverwaltung.functions.SelectShift.selectAllShifts;
 import static org.schichtverwaltung.functions.UpdateEvent.updateRegisterOnEvent;
 import static org.schichtverwaltung.functions.UpdateEvent.updateShowEvent;
 
@@ -92,8 +93,9 @@ public class Main {
 //            addWorkerToShift(jsonStringWorker);
 //            removeWorkerFromShift(8);
 //            removeShift(50);
-            updateShowEvent(51, false);
-            updateRegisterOnEvent(51, false);
+//            updateShowEvent(51, false);
+//            updateRegisterOnEvent(51, false);
+            selectAllShifts();
         } catch (Exception e) {
             System.out.println(e);
         }

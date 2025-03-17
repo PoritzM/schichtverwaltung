@@ -24,6 +24,14 @@ public class Day {
 //        timeStamps = new TimeStamps();
 //    }
 
+
+    public Day(int eventID, int dayID, LocalDate day, TimeStamps timeStamps) {
+        this.eventID = eventID;
+        this.dayID = dayID;
+        this.day = day;
+        this.timeStamps = timeStamps;
+    }
+
     public int dayToDB () {
         dayID = insertDay(eventID, day, timeStamps.getTimeStampCreate(), timeStamps.getTimeStampEdit());
         return dayID;
@@ -43,6 +51,10 @@ public class Day {
             services = new ArrayList<>();
         }
         timeStamps = new TimeStamps();
+    }
+
+    public void addService (Service service) {
+        services.add(service);
     }
 
     public ArrayList<Service> getServices() {

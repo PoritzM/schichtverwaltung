@@ -13,6 +13,11 @@ public class TimeStamps {
         timeStampEdit = getTimeStamp();
     }
 
+    public TimeStamps (Date timeStampCreate, Date timeStampEdit) {
+        this.timeStampCreate = timeStampCreate;
+        this.timeStampEdit = timeStampEdit;
+    }
+
     public void setTimeStampEdit(Date timeStampEdit) {
         timeStampEdit = getTimeStamp();
     }
