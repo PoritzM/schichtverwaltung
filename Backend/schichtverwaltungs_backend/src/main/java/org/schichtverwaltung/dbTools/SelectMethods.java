@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class SelectMethods {
 
-    public static List<Map<String, Object>> selectEvent (int eventID) throws SQLException {
+    public static InfoSet selectEvent (int eventID) throws SQLException {
 
         DatabaseTools databaseTools =  new DatabaseTools();
         databaseTools.connectToDB();
@@ -17,7 +17,7 @@ public class SelectMethods {
         return databaseTools.executeSelectSQL(statement);
     }
 
-    public static List<Map<String, Object>> selectDay (int dayID) throws SQLException {
+    public static InfoSet selectDay (int dayID) throws SQLException {
 
         DatabaseTools databaseTools =  new DatabaseTools();
         databaseTools.connectToDB();
@@ -27,7 +27,7 @@ public class SelectMethods {
         return databaseTools.executeSelectSQL(statement);
     }
 
-    public static List<Map<String, Object>> selectService (int serviceID) throws SQLException {
+    public static InfoSet selectService (int serviceID) throws SQLException {
 
         DatabaseTools databaseTools =  new DatabaseTools();
         databaseTools.connectToDB();
@@ -37,7 +37,7 @@ public class SelectMethods {
         return databaseTools.executeSelectSQL(statement);
     }
 
-    public static List<Map<String, Object>> selectTask (int taskID) throws SQLException {
+    public static InfoSet selectTask (int taskID) throws SQLException {
 
         DatabaseTools databaseTools =  new DatabaseTools();
         databaseTools.connectToDB();
@@ -47,7 +47,7 @@ public class SelectMethods {
         return databaseTools.executeSelectSQL(statement);
     }
 
-    public static List<Map<String, Object>> selectWorker (int workerID) throws SQLException {
+    public static InfoSet selectWorker (int workerID) throws SQLException {
 
         DatabaseTools databaseTools =  new DatabaseTools();
         databaseTools.connectToDB();

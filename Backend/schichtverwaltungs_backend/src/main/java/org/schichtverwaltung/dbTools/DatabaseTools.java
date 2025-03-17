@@ -28,7 +28,8 @@ public class DatabaseTools {
             throw new RuntimeException("Database Connection not initialised");
         }
 
-        try (Statement statement1 = connection.createStatement();) {
+        try (Statement statement1 = connection.createStatement()) {
+            statement1.executeUpdate("PRAGMA foreign_keys = ON;");
             statement1.executeUpdate(statement);
             connection.close();
         } catch (SQLException e) {
@@ -36,62 +37,22 @@ public class DatabaseTools {
         }
     }
 
-    public List<Map<String, Object>> executeSelectSQL(String statement) throws SQLException {
+    public InfoSet executeSelectSQL (String statement) {
         if (connection == null) {
             throw new RuntimeException("Database Connection not initialised");
         }
 
-        List<Map<String, Object>> results = new ArrayList<>();
+        try {
+            Statement statement1 = connection.createStatement();
+            ResultSet resultSet = statement1.executeQuery(statement);
 
-        try (Statement statement1 = connection.createStatement();
-             ResultSet resultSet = statement1.executeQuery(statement)) {
-
-            ResultSetMetaData metaData = resultSet.getMetaData();
-            int columnCount = metaData.getColumnCount();
-
-            while (resultSet.next()) {
-                Map<String, Object> row = new HashMap<>();
-                for (int i = 1; i <= columnCount; i++) {
-                    String columnName = metaData.getColumnName(i);
-                    Object columnValue = resultSet.getObject(i);
-                    row.put(columnName, columnValue);
-                }
-                results.add(row);
-            }
-
+            InfoSet infoSet = new InfoSet(resultSet);
+            connection.close();
+            return infoSet;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        connection.close();
-        return results;
     }
-
-    public static Object sucheWertInMapListe(List<Map<String, Object>> daten, String spaltenname, Object suchwert) {
-        for (Map<String, Object> zeile : daten) {
-            if (zeile.containsKey(spaltenname) && zeile.get(spaltenname).equals(suchwert)) {
-                // Wert gefunden
-                return zeile.get(spaltenname); // Gibt den gefundenen Wert zurück
-            }
-        }
-        // Wert nicht gefunden
-        return null;
-    }
-
-//    public InfoSet executeSelectSQL (String statement) {
-//        if (connection == null) {
-//            throw new RuntimeException("Database Connection not initialised");
-//        }
-//
-//        try {
-//            Statement statement1 = connection.createStatement();
-//            ResultSet resultSet = statement1.executeQuery(statement);
-////            connection.close();
-//            return new InfoSet(resultSet, statement1);
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
 
     public int executeInsertSQLreturnID (String sql) {
 

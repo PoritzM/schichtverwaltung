@@ -14,6 +14,10 @@ import java.time.LocalTime;
 
 import static org.schichtverwaltung.functions.AddShift.addShift;
 import static org.schichtverwaltung.functions.AddWorkerToShift.addWorkerToShift;
+import static org.schichtverwaltung.functions.RemoveShift.removeShift;
+import static org.schichtverwaltung.functions.RemoveWorkerFromShift.removeWorkerFromShift;
+import static org.schichtverwaltung.functions.UpdateEvent.updateRegisterOnEvent;
+import static org.schichtverwaltung.functions.UpdateEvent.updateShowEvent;
 
 public class Main {
     public static void main(String[] args) throws SQLException, IOException {
@@ -75,18 +79,22 @@ public class Main {
 
         String jsonStringWorker = "{\n" +
                 "  \"worker\": {\n" +
-                "    \"eventID\": 21,\n" +
-                "    \"dayID\": 14,\n" +
-                "    \"serviceID\": 7,\n" +
-                "    \"taskID\": 12,\n" +
+                "    \"eventID\": 50,\n" +
+                "    \"dayID\": 72,\n" +
+                "    \"serviceID\": 65,\n" +
+                "    \"taskID\": 157,\n" +
                 "    \"workerName\": \"Max Mustermann\"\n" +
                 "  }\n" +
                 "}";
 
-        addShift(jsonString);
+//        addShift(jsonString);
         try {
-            addWorkerToShift(jsonStringWorker);
-        } catch (IOException e) {
+//            addWorkerToShift(jsonStringWorker);
+//            removeWorkerFromShift(8);
+//            removeShift(50);
+            updateShowEvent(51, false);
+            updateRegisterOnEvent(51, false);
+        } catch (Exception e) {
             System.out.println(e);
         }
 

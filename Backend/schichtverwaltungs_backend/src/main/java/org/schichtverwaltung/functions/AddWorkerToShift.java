@@ -9,8 +9,8 @@ import java.io.IOError;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
-import static org.schichtverwaltung.dbTools.DatabaseTools.sucheWertInMapListe;
 import static org.schichtverwaltung.dbTools.SelectMethods.*;
 
 public class AddWorkerToShift {
@@ -23,53 +23,37 @@ public class AddWorkerToShift {
 
         String errorPrefix = "Adding Worker Failed: ";
 
-        Object test;
-        sucheWertInMapListe (selectEvent(worker.getEventID()),"eventID", test);
+        InfoSet infoSetEvent = selectEvent(worker.getEventID());
+        if (infoSetEvent.amountRows() != 1) {
+            throw new IOException(errorPrefix + "eventID error - " + worker.getEventID());
+        }
 
+        InfoSet infoSetDay = selectDay(worker.getDayID());
+        if (infoSetDay.amountRows() != 1) {
+            throw new IOException(errorPrefix + "dayID error - " + worker.getDayID());
+        }
 
-//        InfoSet infoSetEvent = selectEvent(worker.getEventID());
-//        if (infoSetEvent.getResultSet().next()) {
-//            infoSetEvent.getStatement().close();
-//
-//            InfoSet infoSetDay = selectDay(worker.getDayID());
-//            if (infoSetDay.getResultSet().next()) {
-//                infoSetDay.getStatement().close();
-//
-//                InfoSet infoSetService = selectService(worker.getServiceID());
-//                if (infoSetService.getResultSet().next()) {
-//                    infoSetService.getStatement().close();
-//
-//                    InfoSet infoSetTask = selectTask(worker.getTaskID());
-//                    if (infoSetTask.getResultSet().next()) {
-//                        infoSetTask.getStatement().close();
-//
-//                        InfoSet infoSet = selectTask(worker.getTaskID());
-//                        if (infoSet.getResultSet().getInt("eventID") == worker.getEventID() &&
-//                                infoSet.getResultSet().getInt("dayID") == worker.getDayID() &&
-//                                infoSet.getResultSet().getInt("serviceID") == worker.getServiceID() &&
-//                                infoSet.getResultSet().getInt("taskID") == worker.getTaskID()) {
-//
-//                            worker.initWorker(worker.getEventID(), worker.getDayID(), worker.getServiceID(), worker.getTaskID());
-//                            worker.workerToDB();
-//                        } else {
-//                            infoSet.getStatement().close();
-//                            throw new IOException(errorPrefix + "mismatch in a ID");
-//                        }
-//                    } else {
-//                        infoSetTask.getStatement().close();
-//                        throw new IOException(errorPrefix + "taskID not found");
-//                    }
-//                } else {
-//                    infoSetService.getStatement().close();
-//                    throw new IOException(errorPrefix + "serviceID not found");
-//                }
-//            } else {
-//                infoSetDay.getStatement().close();
-//                throw new IOException(errorPrefix + "dayID not found");
-//            }
-//        } else {
-//            infoSetEvent.getStatement().close();
-//            throw new IOException(errorPrefix + "eventID not found - " + worker.getEventID());
-//        }
+        InfoSet infoSetService = selectService(worker.getServiceID());
+        if (infoSetService.amountRows() != 1) {
+            throw new IOException(errorPrefix + "serviceID error - " + worker.getServiceID());
+        }
+
+        InfoSet infoSetTask = selectTask(worker.getTaskID());
+
+        ArrayList<Object> eventIDValue = infoSetTask.getColumnValues("eventID");
+        ArrayList<Object> dayIDValue = infoSetTask.getColumnValues("dayID");
+        ArrayList<Object> serviceIDValue = infoSetTask.getColumnValues("serviceID");
+        ArrayList<Object> taskIDValue = infoSetTask.getColumnValues("taskID");
+
+        if ((Integer) eventIDValue.getFirst() == worker.getEventID()
+            && (Integer) dayIDValue.getFirst() == worker.getDayID()
+            && (Integer) serviceIDValue.getFirst() == worker.getServiceID()
+            && (Integer) taskIDValue.getFirst() == worker.getTaskID()) {
+
+            worker.initWorker(worker.getEventID(), worker.getDayID(), worker.getServiceID(), worker.getTaskID());
+            worker.workerToDB();
+        } else {
+            throw new RuntimeException(errorPrefix + "mismatch in a ID");
+        }
     }
 }
