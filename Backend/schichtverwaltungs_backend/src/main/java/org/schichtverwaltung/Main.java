@@ -17,6 +17,7 @@ import static org.schichtverwaltung.functions.AddWorkerToShift.addWorkerToShift;
 import static org.schichtverwaltung.functions.RemoveShift.removeShift;
 import static org.schichtverwaltung.functions.RemoveWorkerFromShift.removeWorkerFromShift;
 import static org.schichtverwaltung.functions.SelectShift.selectAllShifts;
+import static org.schichtverwaltung.functions.SelectShift.test;
 import static org.schichtverwaltung.functions.UpdateEvent.updateRegisterOnEvent;
 import static org.schichtverwaltung.functions.UpdateEvent.updateShowEvent;
 
@@ -80,56 +81,36 @@ public class Main {
 
         String jsonStringWorker = "{\n" +
                 "  \"worker\": {\n" +
-                "    \"eventID\": 50,\n" +
-                "    \"dayID\": 72,\n" +
-                "    \"serviceID\": 65,\n" +
-                "    \"taskID\": 157,\n" +
+                "    \"eventID\": 51,\n" +
+                "    \"dayID\": 74,\n" +
+                "    \"serviceID\": 67,\n" +
+                "    \"taskID\": 162,\n" +
                 "    \"workerName\": \"Max Mustermann\"\n" +
+                "  }\n" +
+                "}";
+
+        String jsonStringWorker2 = "{\n" +
+                "  \"worker\": {\n" +
+                "    \"eventID\": 52,\n" +
+                "    \"dayID\": 77,\n" +
+                "    \"serviceID\": 70,\n" +
+                "    \"taskID\": 170,\n" +
+                "    \"workerName\": \"Geiler Typ\"\n" +
                 "  }\n" +
                 "}";
 
 //        addShift(jsonString);
         try {
 //            addWorkerToShift(jsonStringWorker);
+//            addWorkerToShift(jsonStringWorker2);
 //            removeWorkerFromShift(8);
 //            removeShift(50);
 //            updateShowEvent(51, false);
 //            updateRegisterOnEvent(51, false);
-            selectAllShifts();
+//            selectAllShifts();
+            test();
         } catch (Exception e) {
             System.out.println(e);
         }
-
-//        Gson gson = new GsonBuilder()
-//                .registerTypeAdapter(LocalDate.class, new LocalDateDeserializer())
-//                .registerTypeAdapter(LocalTime.class, new LocalTimeDeserializer())
-//                .create();
-//
-//        JsonObject jsonObject = gson.fromJson(jsonString, JsonObject.class);
-//        Event event = gson.fromJson(jsonObject.getAsJsonObject("event"), Event.class);
-//
-//
-//        //
-//
-//        event.initEvent();
-//        int eventID = event.eventToDB();
-//
-//        for (Day day : event.getDays()) {
-//            day.initDay(eventID);
-//            int dayID = day.dayToDB();
-//
-//            for (Service service : day.getServices()) {
-//                service.initService(eventID, dayID);
-//                int serviceID = service.serviceToDB();
-//
-//                for (Task task : service.getTasks()) {
-//                    task.initTask(eventID, dayID, serviceID);
-//                    int taskID = task.taskToDB();
-//                }
-//            }
-//        }
-//
-//        event.print();
-
     }
 }

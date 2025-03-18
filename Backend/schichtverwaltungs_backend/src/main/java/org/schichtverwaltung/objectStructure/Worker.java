@@ -29,6 +29,17 @@ public class Worker {
 //        timeStamps = new TimeStamps();
 //    }
 
+
+    public Worker(int eventID, int dayID, int serviceID, int taskID, int workerID, String workerName, TimeStamps timeStamps) {
+        this.eventID = eventID;
+        this.dayID = dayID;
+        this.serviceID = serviceID;
+        this.taskID = taskID;
+        this.workerID = workerID;
+        this.workerName = workerName;
+        this.timeStamps = timeStamps;
+    }
+
     public int workerToDB () {
         workerID = insertWorker(eventID, dayID, serviceID, taskID, workerName, timeStamps.getTimeStampCreate(), timeStamps.getTimeStampEdit());
         return workerID;

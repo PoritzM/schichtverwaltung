@@ -32,7 +32,6 @@ public class Service {
 //        timeStamps = new TimeStamps();
 //    }
 
-
     public Service(int eventID, int dayID, int serviceID, String serviceDescription, LocalTime timeStart, LocalTime timeEnd, TimeStamps timeStamps) {
         this.eventID = eventID;
         this.dayID = dayID;
@@ -63,6 +62,10 @@ public class Service {
             tasks = new ArrayList<>();
         }
         timeStamps = new TimeStamps();
+    }
+
+    public void addTask (Task task) {
+        tasks.add(task);
     }
 
     public ArrayList<Task> getTasks() {

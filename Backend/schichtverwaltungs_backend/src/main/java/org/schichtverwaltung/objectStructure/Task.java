@@ -30,9 +30,24 @@ public class Task {
 //        timeStamps = new TimeStamps();
 //    }
 
+
+    public Task(int eventID, int dayID, int serviceID, int taskID, String taskDescription, int neededWorker, TimeStamps timeStamps) {
+        this.eventID = eventID;
+        this.dayID = dayID;
+        this.serviceID = serviceID;
+        this.taskID = taskID;
+        this.taskDescription = taskDescription;
+        this.neededWorker = neededWorker;
+        this.timeStamps = timeStamps;
+    }
+
     public int taskToDB () {
         taskID = insertTask(eventID, dayID, serviceID, taskDescription, neededWorker, timeStamps.getTimeStampCreate(), timeStamps.getTimeStampEdit());
         return taskID;
+    }
+
+    public void addWorker (Worker worker) {
+        workers.add(worker);
     }
 
     public void print() {
