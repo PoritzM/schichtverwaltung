@@ -12,8 +12,8 @@ public class DatabaseTools {
 
 
     public void connectToDB () {
-//        var path = "jdbc:sqlite:C:\\Users\\PC-Moritz\\Documents\\GitHub\\schichtverwaltung\\Backend\\schichtverwaltungs_db.db";
-        var path = "jdbc:sqlite:F:\\Documents\\GitHub\\schichtverwaltung\\Backend\\schichtverwaltungs_db.db";
+        var path = "jdbc:sqlite:C:\\Users\\PC-Moritz\\Documents\\GitHub\\schichtverwaltung\\Backend\\schichtverwaltungs_db.db";
+//        var path = "jdbc:sqlite:F:\\Documents\\GitHub\\schichtverwaltung\\Backend\\schichtverwaltungs_db.db";
 
         try {
             connection = DriverManager.getConnection(path);

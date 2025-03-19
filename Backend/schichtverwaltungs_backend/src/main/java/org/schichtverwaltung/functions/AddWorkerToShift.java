@@ -45,10 +45,10 @@ public class AddWorkerToShift {
         ArrayList<Object> serviceIDValue = infoSetTask.getColumnValues("serviceID");
         ArrayList<Object> taskIDValue = infoSetTask.getColumnValues("taskID");
 
-        if ((Integer) eventIDValue.getFirst() == worker.getEventID()
-            && (Integer) dayIDValue.getFirst() == worker.getDayID()
-            && (Integer) serviceIDValue.getFirst() == worker.getServiceID()
-            && (Integer) taskIDValue.getFirst() == worker.getTaskID()) {
+        if ((Integer) eventIDValue.get(0) == worker.getEventID()
+            && (Integer) dayIDValue.get(0) == worker.getDayID()
+            && (Integer) serviceIDValue.get(0) == worker.getServiceID()
+            && (Integer) taskIDValue.get(0) == worker.getTaskID()) {
 
             worker.initWorker(worker.getEventID(), worker.getDayID(), worker.getServiceID(), worker.getTaskID());
             worker.workerToDB();

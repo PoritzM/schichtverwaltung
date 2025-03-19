@@ -15,7 +15,7 @@ public class UpdateEvent {
 
         InfoSet infoSet = selectTable("eventID", String.valueOf(eventID), "events");
 
-        if (!Objects.equals((String) infoSet.getColumnValues("showEvent").getFirst(), Boolean.toString(showEvent))) {
+        if (!Objects.equals((String) infoSet.getColumnValues("showEvent").get(0), Boolean.toString(showEvent))) {
             if (infoSet.amountRows() == 1) {
                 updateEvent(eventID, "showEvent", Boolean.toString(showEvent));
             } else {
@@ -30,7 +30,7 @@ public class UpdateEvent {
 
         InfoSet infoSet = selectTable("eventID", String.valueOf(eventID), "events");
 
-        if (!Objects.equals((String) infoSet.getColumnValues("registerOnEvent").getFirst(), Boolean.toString(showEvent))) {
+        if (!Objects.equals((String) infoSet.getColumnValues("registerOnEvent").get(0), Boolean.toString(showEvent))) {
             if (infoSet.amountRows() == 1) {
                 updateEvent(eventID, "registerOnEvent", Boolean.toString(showEvent));
             } else {

@@ -104,7 +104,7 @@ public class SelectShift {
         ArrayList<Object> timeStampsCreate = infoSetEvent.getColumnValues("timeStampCreate");
         ArrayList<Object> timeStampsEdit = infoSetEvent.getColumnValues("timeStampEdit");
 
-        return new Event(eventID,(String) eventNames.getFirst(), Boolean.parseBoolean((String) showEvents.getFirst()), Boolean.parseBoolean((String) registerOnEvents.getFirst()), new TimeStamps(parseDateString((String) timeStampsCreate.getFirst()),parseDateString((String) timeStampsEdit.getFirst())));
+        return new Event(eventID,(String) eventNames.get(0), Boolean.parseBoolean((String) showEvents.get(0)), Boolean.parseBoolean((String) registerOnEvents.get(0)), new TimeStamps(parseDateString((String) timeStampsCreate.get(0)),parseDateString((String) timeStampsEdit.get(0))));
     }
 
     private static Day selectDay (int dayID) throws SQLException, ParseException {
@@ -115,7 +115,7 @@ public class SelectShift {
         ArrayList<Object> timeStampsCreate = infoSetEvent.getColumnValues("timeStampCreate");
         ArrayList<Object> timeStampsEdit = infoSetEvent.getColumnValues("timeStampEdit");
 
-        return new Day((Integer) eventIDs.getFirst(),dayID, parseLocalDateString((String) days.getFirst()), new TimeStamps(parseDateString((String) timeStampsCreate.getFirst()),parseDateString((String) timeStampsEdit.getFirst())));
+        return new Day((Integer) eventIDs.get(0),dayID, parseLocalDateString((String) days.get(0)), new TimeStamps(parseDateString((String) timeStampsCreate.get(0)),parseDateString((String) timeStampsEdit.get(0))));
     }
 
     private static Service selectService (int serviceID) throws SQLException, ParseException {
@@ -129,7 +129,7 @@ public class SelectShift {
         ArrayList<Object> timeStampsCreate = infoSetService.getColumnValues("timeStampCreate");
         ArrayList<Object> timeStampsEdit = infoSetService.getColumnValues("timeStampEdit");
 
-        return new Service((Integer) eventIDs.getFirst(), (Integer) dayIDs.getFirst(),serviceID , (String) serviceDescriptions.getFirst(), parseLocalTimeString((String) timeStarts.getFirst()), parseLocalTimeString((String) timeEnds.getFirst()),new TimeStamps(parseDateString((String) timeStampsCreate.getFirst()),parseDateString((String) timeStampsEdit.getFirst())));
+        return new Service((Integer) eventIDs.get(0), (Integer) dayIDs.get(0),serviceID , (String) serviceDescriptions.get(0), parseLocalTimeString((String) timeStarts.get(0)), parseLocalTimeString((String) timeEnds.get(0)),new TimeStamps(parseDateString((String) timeStampsCreate.get(0)),parseDateString((String) timeStampsEdit.get(0))));
     }
 
     private static Task selectTask (int taskID) throws SQLException, ParseException {
@@ -143,7 +143,7 @@ public class SelectShift {
         ArrayList<Object> timeStampsCreate = infoSetTask.getColumnValues("timeStampCreate");
         ArrayList<Object> timeStampsEdit = infoSetTask.getColumnValues("timeStampEdit");
 
-        return new Task((Integer) eventIDs.getFirst(), (Integer) dayIDs.getFirst(), (Integer) serviceIDs.getFirst(), taskID, (String) taskDescriptions.getFirst(), (Integer) neededWorkers.getFirst(), new TimeStamps(parseDateString((String) timeStampsCreate.getFirst()),parseDateString((String) timeStampsEdit.getFirst())));
+        return new Task((Integer) eventIDs.get(0), (Integer) dayIDs.get(0), (Integer) serviceIDs.get(0), taskID, (String) taskDescriptions.get(0), (Integer) neededWorkers.get(0), new TimeStamps(parseDateString((String) timeStampsCreate.get(0)),parseDateString((String) timeStampsEdit.get(0))));
     }
 
     private static Worker selectWorker (int workerID) throws SQLException, ParseException {
@@ -157,6 +157,6 @@ public class SelectShift {
         ArrayList<Object> timeStampsCreate = infoSetWorker.getColumnValues("timeStampCreate");
         ArrayList<Object> timeStampsEdit = infoSetWorker.getColumnValues("timeStampEdit");
 
-        return new Worker((Integer) eventIDs.getFirst(), (Integer) dayIDs.getFirst(), (Integer) serviceIDs.getFirst(), (Integer) taskIDs.getFirst(), workerID, (String) workerNames.getFirst(), new TimeStamps(parseDateString((String) timeStampsCreate.getFirst()),parseDateString((String) timeStampsEdit.getFirst())));
+        return new Worker((Integer) eventIDs.get(0), (Integer) dayIDs.get(0), (Integer) serviceIDs.get(0), (Integer) taskIDs.get(0), workerID, (String) workerNames.get(0), new TimeStamps(parseDateString((String) timeStampsCreate.get(0)),parseDateString((String) timeStampsEdit.get(0))));
     }
 }
