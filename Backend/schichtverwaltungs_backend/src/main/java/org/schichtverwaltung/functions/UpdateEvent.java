@@ -25,7 +25,7 @@ public class UpdateEvent {
 
     public static void doUpdateRegisterOnEvent (int eventID, boolean newRegisterOnEvent) throws BackendException, ItemNotFoundException, ValueAlreadySetException {
         try {
-            updateShowEvent(eventID, newRegisterOnEvent);
+            updateRegisterOnEvent(eventID, newRegisterOnEvent);
         } catch (SQLException exception) {
             throw new BackendException("OHGHHH FUCKCKCK " + exception.getMessage());
         }

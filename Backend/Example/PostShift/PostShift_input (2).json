@@ -1,0 +1,126 @@
+{
+  "event": {
+    "eventName": "Stadtfest 2025",
+    "showEvent": true,
+    "registerOnEvent": true,
+    "days": [
+      {
+        "day": "2025-07-11",
+        "services": [
+          {
+            "serviceDescription": "Aufbauen",
+            "timeStart": "11:00",
+            "timeEnd": "13:00",
+            "tasks": [
+              {
+                "taskDescription": "Teke Aufbauen",
+                "neededWorker": 3
+              },
+              {
+                "taskDescription": "Getränke Abholen",
+                "neededWorker": 1
+              },
+              {
+                "taskDescription": "Bühne aufbauen",
+                "neededWorker": 4
+              },
+              {
+                "taskDescription": "Licht- und Tontechnik installieren",
+                "neededWorker": 2
+              }
+            ]
+          },
+          {
+            "serviceDescription": "Essensausgabe",
+            "timeStart": "18:00",
+            "timeEnd": "22:00",
+            "tasks": [
+              {
+                "taskDescription": "Burger grillen",
+                "neededWorker": 2
+              },
+              {
+                "taskDescription": "Pommes frittieren",
+                "neededWorker": 1
+              },
+              {
+                "taskDescription": "Getränke ausschenken",
+                "neededWorker": 3
+              },
+              {
+                "taskDescription": "Essensausgabe organisieren",
+                "neededWorker": 2
+              }
+            ]
+          },
+          {
+            "serviceDescription": "Barbetrieb",
+            "timeStart": "20:00",
+            "timeEnd": "02:00",
+            "tasks": [
+              {
+                "taskDescription": "Cocktails mixen",
+                "neededWorker": 3
+              },
+              {
+                "taskDescription": "Bier zapfen",
+                "neededWorker": 2
+              },
+              {
+                "taskDescription": "Gäste bedienen",
+                "neededWorker": 4
+              },
+              {
+                "taskDescription": "Bar aufräumen",
+                "neededWorker": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "day": "2025-07-12",
+        "services": [
+          {
+            "serviceDescription": "Dienst 1",
+            "timeStart": "13:00",
+            "timeEnd": "11:00",
+            "tasks": [
+              {
+                "taskDescription": "Spülen",
+                "neededWorker": 3
+              },
+              {
+                "taskDescription": "Bier Zapfen",
+                "neededWorker": 1
+              },
+              {
+                "taskDescription": "Bedienen",
+                "neededWorker": 5
+              }
+            ]
+          },
+          {
+            "serviceDescription": "Abbau",
+            "timeStart": "10:00",
+            "timeEnd": "12:00",
+            "tasks": [
+              {
+                "taskDescription": "Teke abbauen",
+                "neededWorker": 2
+              },
+              {
+                "taskDescription": "Bühne abbauen",
+                "neededWorker": 4
+              },
+              {
+                "taskDescription": "Müll entsorgen",
+                "neededWorker": 3
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

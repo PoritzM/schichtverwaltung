@@ -1,0 +1,118 @@
+{
+  "event": {
+    "eventName": "Weihnachtsmarkt 2025",
+    "showEvent": true,
+    "registerOnEvent": true,
+    "days": [
+      {
+        "day": "2025-12-05",
+        "services": [
+          {
+            "serviceDescription": "Aufbau der Stände",
+            "timeStart": "08:00",
+            "timeEnd": "12:00",
+            "tasks": [
+              {
+                "taskDescription": "Holzhütten aufstellen",
+                "neededWorker": 4
+              },
+              {
+                "taskDescription": "Beleuchtung anbringen",
+                "neededWorker": 2
+              },
+              {
+                "taskDescription": "Dekoration verteilen",
+                "neededWorker": 3
+              }
+            ]
+          },
+          {
+            "serviceDescription": "Verkauf von Weihnachtsartikeln",
+            "timeStart": "14:00",
+            "timeEnd": "20:00",
+            "tasks": [
+              {
+                "taskDescription": "Weihnachtsschmuck verkaufen",
+                "neededWorker": 2
+              },
+              {
+                "taskDescription": "Geschenkverpackungen anbieten",
+                "neededWorker": 1
+              },
+              {
+                "taskDescription": "Beratung der Kunden",
+                "neededWorker": 3
+              }
+            ]
+          },
+          {
+            "serviceDescription": "Gastronomie",
+            "timeStart": "12:00",
+            "timeEnd": "22:00",
+            "tasks": [
+              {
+                "taskDescription": "Glühwein ausschenken",
+                "neededWorker": 3
+              },
+              {
+                "taskDescription": "Bratwurst grillen",
+                "neededWorker": 2
+              },
+              {
+                "taskDescription": "Crêpes zubereiten",
+                "neededWorker": 2
+              },
+              {
+                "taskDescription": "Kunden bedienen",
+                "neededWorker": 4
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "day": "2025-12-06",
+        "services": [
+          {
+            "serviceDescription": "Kinderprogramm",
+            "timeStart": "15:00",
+            "timeEnd": "18:00",
+            "tasks": [
+              {
+                "taskDescription": "Bastelstand betreuen",
+                "neededWorker": 2
+              },
+              {
+                "taskDescription": "Märchen vorlesen",
+                "neededWorker": 1
+              },
+              {
+                "taskDescription": "Kinderschminken anbieten",
+                "neededWorker": 2
+              }
+            ]
+          },
+          {
+            "serviceDescription": "Abbau der Stände",
+            "timeStart": "20:00",
+            "timeEnd": "23:00",
+            "tasks": [
+              {
+                "taskDescription": "Holzhütten abbauen",
+                "neededWorker": 4
+              },
+              {
+                "taskDescription": "Beleuchtung entfernen",
+                "neededWorker": 2
+              },
+              {
+                "taskDescription": "Müll entsorgen",
+                "neededWorker": 3
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

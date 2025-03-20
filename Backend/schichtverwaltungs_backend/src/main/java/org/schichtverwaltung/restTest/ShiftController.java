@@ -162,7 +162,7 @@ public class ShiftController {
     public ResponseEntity<String> deleteWorker (@PathVariable int workerID) {
         try {
             doRemoveWorkerFromShift(workerID);
-            ResponseEntity<String> response = ResponseEntity.status(HttpStatus.OK).body("Delete Worker: [Failed] (WorkerID: " + workerID + ") ");
+            ResponseEntity<String> response = ResponseEntity.status(HttpStatus.OK).body("Delete Worker: [Successful] (WorkerID: " + workerID + ") ");
             logger(response.getStatusCode().value(), response.getBody(), "NO JSON BODY");
             return response;
         } catch (BackendException backendException) {

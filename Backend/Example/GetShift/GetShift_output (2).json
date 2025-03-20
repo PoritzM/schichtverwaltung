@@ -1,0 +1,363 @@
+{
+  "eventID": 61,
+  "eventName": "Stadtfest 2025",
+  "showEvent": true,
+  "registerOnEvent": true,
+  "days": [
+    {
+      "eventID": 61,
+      "dayID": 94,
+      "day": "2025-07-11",
+      "services": [
+        {
+          "eventID": 61,
+          "dayID": 94,
+          "serviceID": 93,
+          "serviceDescription": "Aufbauen",
+          "timeStart": "11:00:00",
+          "timeEnd": "13:00:00",
+          "tasks": [
+            {
+              "eventID": 61,
+              "dayID": 94,
+              "serviceID": 93,
+              "taskID": 236,
+              "taskDescription": "Teke Aufbauen",
+              "neededWorker": 3,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+              }
+            },
+            {
+              "eventID": 61,
+              "dayID": 94,
+              "serviceID": 93,
+              "taskID": 237,
+              "taskDescription": "Getränke Abholen",
+              "neededWorker": 1,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+              }
+            },
+            {
+              "eventID": 61,
+              "dayID": 94,
+              "serviceID": 93,
+              "taskID": 238,
+              "taskDescription": "Bühne aufbauen",
+              "neededWorker": 4,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+              }
+            },
+            {
+              "eventID": 61,
+              "dayID": 94,
+              "serviceID": 93,
+              "taskID": 239,
+              "taskDescription": "Licht- und Tontechnik installieren",
+              "neededWorker": 2,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+              }
+            }
+          ],
+          "timeStamps": {
+            "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+            "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+          }
+        },
+        {
+          "eventID": 61,
+          "dayID": 94,
+          "serviceID": 94,
+          "serviceDescription": "Essensausgabe",
+          "timeStart": "18:00:00",
+          "timeEnd": "22:00:00",
+          "tasks": [
+            {
+              "eventID": 61,
+              "dayID": 94,
+              "serviceID": 94,
+              "taskID": 240,
+              "taskDescription": "Burger grillen",
+              "neededWorker": 2,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+              }
+            },
+            {
+              "eventID": 61,
+              "dayID": 94,
+              "serviceID": 94,
+              "taskID": 241,
+              "taskDescription": "Pommes frittieren",
+              "neededWorker": 1,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+              }
+            },
+            {
+              "eventID": 61,
+              "dayID": 94,
+              "serviceID": 94,
+              "taskID": 242,
+              "taskDescription": "Getränke ausschenken",
+              "neededWorker": 3,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+              }
+            },
+            {
+              "eventID": 61,
+              "dayID": 94,
+              "serviceID": 94,
+              "taskID": 243,
+              "taskDescription": "Essensausgabe organisieren",
+              "neededWorker": 2,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+              }
+            }
+          ],
+          "timeStamps": {
+            "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+            "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+          }
+        },
+        {
+          "eventID": 61,
+          "dayID": 94,
+          "serviceID": 95,
+          "serviceDescription": "Barbetrieb",
+          "timeStart": "20:00:00",
+          "timeEnd": "02:00:00",
+          "tasks": [
+            {
+              "eventID": 61,
+              "dayID": 94,
+              "serviceID": 95,
+              "taskID": 244,
+              "taskDescription": "Cocktails mixen",
+              "neededWorker": 3,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+              }
+            },
+            {
+              "eventID": 61,
+              "dayID": 94,
+              "serviceID": 95,
+              "taskID": 245,
+              "taskDescription": "Bier zapfen",
+              "neededWorker": 2,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+              }
+            },
+            {
+              "eventID": 61,
+              "dayID": 94,
+              "serviceID": 95,
+              "taskID": 246,
+              "taskDescription": "Gäste bedienen",
+              "neededWorker": 4,
+			  "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+              }
+            },
+            {
+              "eventID": 61,
+              "dayID": 94,
+              "serviceID": 95,
+              "taskID": 247,
+              "taskDescription": "Bar aufräumen",
+              "neededWorker": 2,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+              }
+            }
+          ],
+          "timeStamps": {
+            "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+            "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+          }
+        }
+      ],
+      "timeStamps": {
+        "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+        "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+      }
+    },
+    {
+      "eventID": 61,
+      "dayID": 95,
+      "day": "2025-07-12",
+      "services": [
+        {
+          "eventID": 61,
+          "dayID": 95,
+          "serviceID": 96,
+          "serviceDescription": "Dienst 1",
+          "timeStart": "13:00:00",
+          "timeEnd": "11:00:00",
+          "tasks": [
+            {
+              "eventID": 61,
+              "dayID": 95,
+              "serviceID": 96,
+              "taskID": 248,
+              "taskDescription": "Spülen",
+              "neededWorker": 3,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+              }
+            },
+            {
+              "eventID": 61,
+              "dayID": 95,
+              "serviceID": 96,
+              "taskID": 249,
+              "taskDescription": "Bier Zapfen",
+              "neededWorker": 1,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+              }
+            },
+            {
+              "eventID": 61,
+              "dayID": 95,
+              "serviceID": 96,
+              "taskID": 250,
+              "taskDescription": "Bedienen",
+              "neededWorker": 5,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+              }
+            }
+          ],
+          "timeStamps": {
+            "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+            "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+          }
+        },
+        {
+          "eventID": 61,
+          "dayID": 95,
+          "serviceID": 97,
+          "serviceDescription": "Abbau",
+          "timeStart": "10:00:00",
+          "timeEnd": "12:00:00",
+          "tasks": [
+            {
+              "eventID": 61,
+              "dayID": 95,
+              "serviceID": 97,
+              "taskID": 251,
+              "taskDescription": "Teke abbauen",
+              "neededWorker": 2,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+              }
+            },
+            {
+              "eventID": 61,
+              "dayID": 95,
+              "serviceID": 97,
+              "taskID": 252,
+              "taskDescription": "Bühne abbauen",
+              "neededWorker": 4,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+              }
+            },
+            {
+              "eventID": 61,
+              "dayID": 95,
+              "serviceID": 97,
+              "taskID": 253,
+              "taskDescription": "Müll entsorgen",
+              "neededWorker": 3,
+              "workers": [
+                {
+                  "eventID": 61,
+                  "dayID": 95,
+                  "serviceID": 97,
+                  "taskID": 253,
+                  "workerID": 26,
+                  "workerName": "Ista Starkman",
+                  "timeStamps": {
+                    "timeStampCreate": "Mar 20, 2025, 5:22:04 PM",
+                    "timeStampEdit": "Mar 20, 2025, 5:22:04 PM"
+                  }
+                },
+                {
+                  "eventID": 61,
+                  "dayID": 95,
+                  "serviceID": 97,
+                  "taskID": 253,
+                  "workerID": 27,
+                  "workerName": "Axel Schweis",
+                  "timeStamps": {
+                    "timeStampCreate": "Mar 20, 2025, 5:22:20 PM",
+                    "timeStampEdit": "Mar 20, 2025, 5:22:20 PM"
+                  }
+                }
+              ],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+              }
+            }
+          ],
+          "timeStamps": {
+            "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+            "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+          }
+        }
+      ],
+      "timeStamps": {
+        "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+        "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+      }
+    }
+  ],
+  "timeStamps": {
+    "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+	"timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+  }
+}

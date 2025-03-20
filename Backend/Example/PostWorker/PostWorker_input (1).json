@@ -1,0 +1,9 @@
+{
+  "worker": {
+    "eventID": 60,
+    "dayID": 92,
+    "serviceID": 92,
+    "taskID": 233,
+    "workerName": "Max Mustermann"
+  }
+}

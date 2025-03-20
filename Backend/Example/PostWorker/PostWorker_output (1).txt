@@ -1,0 +1,1 @@
+Insert Worker: [Failed] it is not allowed to register on this event! (60)

@@ -1,0 +1,24 @@
+[
+  {
+    "eventID": 61,
+    "eventName": "Stadtfest 2025",
+    "showEvent": true,
+    "registerOnEvent": true,
+    "days": [],
+    "timeStamps": {
+      "timeStampCreate": "Mar 20, 2025, 5:13:51 PM",
+      "timeStampEdit": "Mar 20, 2025, 5:13:51 PM"
+    }
+  },
+  {
+    "eventID": 62,
+    "eventName": "Weihnachtsmarkt 2025",
+    "showEvent": true,
+    "registerOnEvent": false,
+    "days": [],
+    "timeStamps": {
+      "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+      "timeStampEdit": "Mar 20, 2025, 5:14:13 PM"
+    }
+  }
+]

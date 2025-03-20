@@ -1,0 +1,313 @@
+{
+  "eventID": 62,
+  "eventName": "Weihnachtsmarkt 2025",
+  "showEvent": true,
+  "registerOnEvent": false,
+  "days": [
+    {
+      "eventID": 62,
+      "dayID": 96,
+      "day": "2025-12-05",
+      "services": [
+        {
+          "eventID": 62,
+          "dayID": 96,
+          "serviceID": 98,
+          "serviceDescription": "Aufbau der Stände",
+          "timeStart": "08:00:00",
+          "timeEnd": "12:00:00",
+          "tasks": [
+            {
+              "eventID": 62,
+              "dayID": 96,
+              "serviceID": 98,
+              "taskID": 254,
+              "taskDescription": "Holzhütten aufstellen",
+              "neededWorker": 4,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:14:13 PM"
+              }
+            },
+            {
+              "eventID": 62,
+              "dayID": 96,
+              "serviceID": 98,
+              "taskID": 255,
+              "taskDescription": "Beleuchtung anbringen",
+              "neededWorker": 2,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:14:13 PM"
+              }
+            },
+            {
+              "eventID": 62,
+              "dayID": 96,
+              "serviceID": 98,
+              "taskID": 256,
+              "taskDescription": "Dekoration verteilen",
+              "neededWorker": 3,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:14:13 PM"
+              }
+            }
+          ],
+          "timeStamps": {
+            "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+            "timeStampEdit": "Mar 20, 2025, 5:14:13 PM"
+          }
+        },
+        {
+          "eventID": 62,
+          "dayID": 96,
+          "serviceID": 99,
+          "serviceDescription": "Verkauf von Weihnachtsartikeln",
+          "timeStart": "14:00:00",
+          "timeEnd": "20:00:00",
+          "tasks": [
+            {
+              "eventID": 62,
+              "dayID": 96,
+              "serviceID": 99,
+              "taskID": 257,
+              "taskDescription": "Weihnachtsschmuck verkaufen",
+              "neededWorker": 2,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:14:13 PM"
+              }
+            },
+            {
+              "eventID": 62,
+              "dayID": 96,
+              "serviceID": 99,
+              "taskID": 258,
+              "taskDescription": "Geschenkverpackungen anbieten",
+              "neededWorker": 1,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:14:13 PM"
+              }
+            },
+            {
+              "eventID": 62,
+              "dayID": 96,
+              "serviceID": 99,
+              "taskID": 259,
+              "taskDescription": "Beratung der Kunden",
+              "neededWorker": 3,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:14:13 PM"
+              }
+            }
+          ],
+          "timeStamps": {
+            "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+            "timeStampEdit": "Mar 20, 2025, 5:14:13 PM"
+          }
+        },
+        {
+          "eventID": 62,
+          "dayID": 96,
+          "serviceID": 100,
+          "serviceDescription": "Gastronomie",
+          "timeStart": "12:00:00",
+          "timeEnd": "22:00:00",
+          "tasks": [
+            {
+              "eventID": 62,
+              "dayID": 96,
+              "serviceID": 100,
+              "taskID": 260,
+              "taskDescription": "Glühwein ausschenken",
+              "neededWorker": 3,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:14:13 PM"
+              }
+            },
+            {
+              "eventID": 62,
+              "dayID": 96,
+              "serviceID": 100,
+              "taskID": 261,
+              "taskDescription": "Bratwurst grillen",
+              "neededWorker": 2,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:14:13 PM"
+              }
+            },
+            {
+              "eventID": 62,
+              "dayID": 96,
+              "serviceID": 100,
+              "taskID": 262,
+              "taskDescription": "Crêpes zubereiten",
+              "neededWorker": 2,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:14:13 PM"
+              }
+            },
+            {
+              "eventID": 62,
+              "dayID": 96,
+              "serviceID": 100,
+              "taskID": 263,
+              "taskDescription": "Kunden bedienen",
+              "neededWorker": 4,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:14:13 PM"
+              }
+            }
+          ],
+          "timeStamps": {
+            "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+            "timeStampEdit": "
+			"Mar 20, 2025, 5:14:13 PM"
+          }
+        }
+      ],
+      "timeStamps": {
+        "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+        "timeStampEdit": "Mar 20, 2025, 5:14:13 PM"
+      }
+    },
+    {
+      "eventID": 62,
+      "dayID": 97,
+      "day": "2025-12-06",
+      "services": [
+        {
+          "eventID": 62,
+          "dayID": 97,
+          "serviceID": 101,
+          "serviceDescription": "Kinderprogramm",
+          "timeStart": "15:00:00",
+          "timeEnd": "18:00:00",
+          "tasks": [
+            {
+              "eventID": 62,
+              "dayID": 97,
+              "serviceID": 101,
+              "taskID": 264,
+              "taskDescription": "Bastelstand betreuen",
+              "neededWorker": 2,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:14:13 PM"
+              }
+            },
+            {
+              "eventID": 62,
+              "dayID": 97,
+              "serviceID": 101,
+              "taskID": 265,
+              "taskDescription": "Märchen vorlesen",
+              "neededWorker": 1,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:14:13 PM"
+              }
+            },
+            {
+              "eventID": 62,
+              "dayID": 97,
+              "serviceID": 101,
+              "taskID": 266,
+              "taskDescription": "Kinderschminken anbieten",
+              "neededWorker": 2,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:14:13 PM"
+              }
+            }
+          ],
+          "timeStamps": {
+            "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+            "timeStampEdit": "Mar 20, 2025, 5:14:13 PM"
+          }
+        },
+        {
+          "eventID": 62,
+          "dayID": 97,
+          "serviceID": 102,
+          "serviceDescription": "Abbau der Stände",
+          "timeStart": "20:00:00",
+          "timeEnd": "23:00:00",
+          "tasks": [
+            {
+              "eventID": 62,
+              "dayID": 97,
+              "serviceID": 102,
+              "taskID": 267,
+              "taskDescription": "Holzhütten abbauen",
+              "neededWorker": 4,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:14:13 PM"
+              }
+            },
+            {
+              "eventID": 62,
+              "dayID": 97,
+              "serviceID": 102,
+              "taskID": 268,
+              "taskDescription": "Beleuchtung entfernen",
+              "neededWorker": 2,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:14:13 PM"
+              }
+            },
+            {
+              "eventID": 62,
+              "dayID": 97,
+              "serviceID": 102,
+              "taskID": 269,
+              "taskDescription": "Müll entsorgen",
+              "neededWorker": 3,
+              "workers": [],
+              "timeStamps": {
+                "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+                "timeStampEdit": "Mar 20, 2025, 5:14:13 PM"
+              }
+            }
+          ],
+          "timeStamps": {
+            "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+            "timeStampEdit": "Mar 20, 2025, 5:14:13 PM"
+          }
+        }
+      ],
+      "timeStamps": {
+        "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+        "timeStampEdit": "Mar 20, 2025, 5:14:13 PM"
+      }
+    }
+  ],
+  "timeStamps": {
+    "timeStampCreate": "Mar 20, 2025, 5:14:13 PM",
+    "timeStampEdit": "Mar 20, 2025, 5:14:13 PM"
+  }
+}
