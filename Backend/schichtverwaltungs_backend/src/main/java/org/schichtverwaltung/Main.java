@@ -12,12 +12,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import static org.schichtverwaltung.functions.AddShift.addShift;
-import static org.schichtverwaltung.functions.AddWorkerToShift.addWorkerToShift;
-import static org.schichtverwaltung.functions.RemoveShift.removeShift;
 import static org.schichtverwaltung.functions.RemoveWorkerFromShift.removeWorkerFromShift;
-import static org.schichtverwaltung.functions.SelectShift.selectAllShifts;
-import static org.schichtverwaltung.functions.SelectShift.test;
 import static org.schichtverwaltung.functions.UpdateEvent.updateRegisterOnEvent;
 import static org.schichtverwaltung.functions.UpdateEvent.updateShowEvent;
 
@@ -108,7 +103,6 @@ public class Main {
 //            updateShowEvent(51, false);
 //            updateRegisterOnEvent(51, false);
 //            selectAllShifts();
-            test();
         } catch (Exception e) {
             System.out.println(e);
         }

@@ -81,4 +81,17 @@ public class Worker {
     public String getWorkerName() {
         return workerName;
     }
+
+    @Override
+    public String toString() {
+        return "Worker{" +
+                "eventID=" + eventID +
+                ", dayID=" + dayID +
+                ", serviceID=" + serviceID +
+                ", taskID=" + taskID +
+                ", workerID=" + workerID +
+                ", workerName='" + workerName + '\'' +
+                ", timeStamps=" + timeStamps +
+                '}';
+    }
 }

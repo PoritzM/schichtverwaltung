@@ -3,6 +3,8 @@ package org.schichtverwaltung.functions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.schichtverwaltung.dbTools.InfoSet;
+import org.schichtverwaltung.exceptions.BackendException;
+import org.schichtverwaltung.exceptions.ItemNotFoundException;
 import org.schichtverwaltung.objectStructure.*;
 import org.schichtverwaltung.serializer.LocalDateAdapter;
 import org.schichtverwaltung.serializer.LocalTimeAdapter;
@@ -23,21 +25,33 @@ import static org.schichtverwaltung.zUtils.StringToLocalTime.parseLocalTimeStrin
 
 public class SelectShift {
 
-    public static void test () throws SQLException, ParseException {
+    public static String doSelectShift (int eventID) throws BackendException, ItemNotFoundException {
+        try {
+            return getJsonFromSelectedShift(eventID);
+        } catch (SQLException | ParseException exception) {
+            throw new BackendException("OHHHHH MEGA FUCK " + exception.getMessage());
+        }
+    }
+
+    public static String getJsonFromSelectedShift (int eventID) throws SQLException, ParseException {
 
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateAdapter());
         gsonBuilder.registerTypeAdapter(LocalTime.class, new LocalTimeAdapter());
         Gson gson = gsonBuilder.create();
 
-        Event event = selectShift(51);
+        Event event = selectShift(eventID);
 
-        String json = gson.toJson(event);
-
-        System.out.println(json);
+        return gson.toJson(event);
     }
 
     public static Event selectShift (int eventID) throws SQLException, ParseException {
+
+        InfoSet checkForEvent = selectTable("eventID", String.valueOf(eventID), "events");
+
+        if(checkForEvent.getColumnValues("eventID").isEmpty()) {
+            throw new ItemNotFoundException("EventID " + eventID + " not found!");
+        }
 
         Event event = selectEvent(eventID);
 
@@ -79,7 +93,29 @@ public class SelectShift {
 
     }
 
-    public static void selectAllShifts () throws SQLException, ParseException {
+
+
+    public static String doSelectShiftOverview () throws BackendException {
+        try {
+            return getJsonFormShiftOverview();
+        } catch (SQLException | ParseException exception) {
+            throw new BackendException("OHHHHH MEGA FUCK " + exception.getMessage());
+        }
+    }
+
+    public static String getJsonFormShiftOverview () throws SQLException, ParseException {
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateAdapter());
+        gsonBuilder.registerTypeAdapter(LocalTime.class, new LocalTimeAdapter());
+        Gson gson = gsonBuilder.create();
+
+        ArrayList<Event> events = selectShiftOverview();
+
+        return gson.toJson(events);
+    }
+
+    public static ArrayList<Event> selectShiftOverview () throws SQLException, ParseException {
 
         InfoSet infoSetEvent = selectTableAll("events");
 
@@ -87,15 +123,20 @@ public class SelectShift {
         ArrayList<Event> events = new ArrayList<>();
 
         for (Object eventID : eventIDs) {
-            events.add(selectShift((Integer) eventID));
+//            events.add(selectShift((Integer) eventID));
+            events.add(selectEvent((Integer) eventID));
         }
 
-        for (Event event : events) {
-            event.print();
-        }
+//        for (Event event : events) {
+//            event.print();
+//        }
+
+        return events;
     }
 
-    private static Event selectEvent (int eventID) throws SQLException, ParseException {
+
+
+    private static Event selectEvent (int eventID) throws SQLException, ParseException, ItemNotFoundException {
         InfoSet infoSetEvent = selectTable("eventID",String.valueOf(eventID), "events");
 
         ArrayList<Object> eventNames = infoSetEvent.getColumnValues("eventName");

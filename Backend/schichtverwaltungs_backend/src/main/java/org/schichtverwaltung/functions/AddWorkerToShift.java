@@ -3,7 +3,11 @@ package org.schichtverwaltung.functions;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.schichtverwaltung.dbTools.InfoSet;
+import org.schichtverwaltung.exceptions.BackendException;
+import org.schichtverwaltung.exceptions.BlockedActionException;
+import org.schichtverwaltung.exceptions.ItemNotFoundException;
 import org.schichtverwaltung.objectStructure.Worker;
+import org.schichtverwaltung.zUtils.ReturnInfos;
 
 import java.io.IOError;
 import java.io.IOException;
@@ -15,27 +19,47 @@ import static org.schichtverwaltung.dbTools.SelectMethods.*;
 
 public class AddWorkerToShift {
 
-    public static void addWorkerToShift (String jsonString) throws SQLException, IOException {
+    public static ReturnInfos doAddWorkerToShift (String jsonString) throws BackendException, BlockedActionException {
+
+        try {
+            return addWorkerToShift(jsonString);
+        } catch (SQLException | IOException exception) {
+            throw new BackendException("OHH FUCK " + exception.getMessage());
+        }
+    }
+
+    private static ReturnInfos addWorkerToShift (String jsonString) throws SQLException, IOException, BackendException, BlockedActionException, ItemNotFoundException {
+
+        int workerID = -1;
+        ReturnInfos returnInfos = new ReturnInfos();
 
         Gson gson = new Gson();
         JsonObject jsonObject = gson.fromJson(jsonString, JsonObject.class);
         Worker worker = gson.fromJson(jsonObject.getAsJsonObject("worker"), Worker.class);
 
-        String errorPrefix = "Adding Worker Failed: ";
-
         InfoSet infoSetEvent = selectTable("eventID",String.valueOf(worker.getEventID()), "events");
+
+
+
+
+
         if (infoSetEvent.amountRows() != 1) {
-            throw new IOException(errorPrefix + "eventID error - " + worker.getEventID());
+            throw new ItemNotFoundException("eventID " + worker.getEventID() + " not in Database");
+        }
+
+        ArrayList<Object> checkRegisterOnEvent = infoSetEvent.getColumnValues("registerOnEvent");
+        if (!Boolean.parseBoolean((String) checkRegisterOnEvent.get(0))) {
+            throw new BlockedActionException("it is not allowed to register on this event! (" + worker.getEventID() + ")");
         }
 
         InfoSet infoSetDay = selectTable("dayID", String.valueOf(worker.getDayID()), "days");
         if (infoSetDay.amountRows() != 1) {
-            throw new IOException(errorPrefix + "dayID error - " + worker.getDayID());
+            throw new ItemNotFoundException("dayID " + worker.getDayID() + " not in Database");
         }
 
         InfoSet infoSetService = selectTable("serviceID", String.valueOf(worker.getServiceID()), "services");
         if (infoSetService.amountRows() != 1) {
-            throw new IOException(errorPrefix + "serviceID error - " + worker.getServiceID());
+            throw new ItemNotFoundException("serviceID " + worker.getServiceID() + " not in Database");
         }
 
         InfoSet infoSetTask = selectTable("taskID", String.valueOf(worker.getTaskID()), "tasks");
@@ -51,9 +75,13 @@ public class AddWorkerToShift {
             && (Integer) taskIDValue.get(0) == worker.getTaskID()) {
 
             worker.initWorker(worker.getEventID(), worker.getDayID(), worker.getServiceID(), worker.getTaskID());
-            worker.workerToDB();
+            workerID = worker.workerToDB();
+            returnInfos.addInfo("WorkerID", workerID);
+
         } else {
-            throw new RuntimeException(errorPrefix + "mismatch in a ID");
+            throw new BackendException("mismatch in a ID from Task entry vs new Worker");
         }
+
+        return returnInfos;
     }
 }
