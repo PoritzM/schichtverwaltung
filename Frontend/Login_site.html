@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+</head>
+<body>
+    <div class="header">Turnverein St. Ingbert</div>
+
+    <div class="menu" onclick="toggleMenu()">☰</div>
+    <ul class="menu-list" id="menuList">
+        <li onclick="Start()">Schichtplan</li>
+    </ul>
+    
+        <h3 id ="anmeldung">Anmeldung</h3>
+        <div id="Formular">
+        <input type ="text" name=" Nutzername" id="name" placeholder="Nutzername">
+        <input type="password" name = "PW" id ="pw" placeholder="Passwort">
+        </div>
+        
+        <button onclick="login()" id="login"><b>Anmelden</b></button>
+
+
+
+    <script>
+        function Start(){
+
+            window.location.href="Seite.html"
+
+        }
+
+
+        function toggleMenu() {
+            const menu = document.getElementById('menuList');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+
+
+        }
+
+        async function hash(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            return Array.from(new Uint8Array(hashBuffer))
+                .map(byte => byte.toString(16).padStart(2, '0'))
+                .join('');
+        }
+       
+        async function login()
+        {
+            const password_eingegeben=document.getElementById('pw').value;
+            const richtig="richtig"; // SOLLTE AM BESTEN DEN WERT AUS EINER DATENBANK HOLLLEN UNSICHER ANSONSTEN !!!!!
+            const storedHash= await hash(richtig);
+            const hashed = await hash(password_eingegeben);
+
+            if ( hashed == storedHash){ 
+                window.location.href= "schichtplan.html"}
+            else{
+
+                document.getElementById('name').value = '';
+                document.getElementById('pw').value = '';
+                alert("Falsche Daten"); 
+            }
+        }
+        
+    </script>
+</body>
+
+</html>
