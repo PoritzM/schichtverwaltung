@@ -22,7 +22,7 @@ import static org.schichtverwaltung.functions.SelectShift.doSelectShiftOverview;
 import static org.schichtverwaltung.functions.UpdateEvent.doUpdateRegisterOnEvent;
 import static org.schichtverwaltung.functions.UpdateEvent.doUpdateShowEvent;
 import static org.schichtverwaltung.logger.Logger.logger;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/shifts")
 public class ShiftController {
