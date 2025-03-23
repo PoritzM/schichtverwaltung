@@ -1,0 +1,115 @@
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+.header {
+    width: 100%;
+    background: orange;
+    color: black;
+    text-align: center;
+    padding: 1rem 0;
+    font-size: 1.5rem;
+}
+.menu {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    cursor: pointer;
+    z-index: 10;
+}
+.menu-list {
+    display: none;
+    position: absolute;
+    top: 3rem;
+    left: 1rem;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    list-style: none;
+    padding: 0;
+}
+.menu-list li {
+    padding: 0.5rem 1rem;
+}
+.menu-list li:hover {
+    background: #f0f0f0;
+}
+
+table{
+    border-collapse: collapse;
+    width: 60%;
+}
+td{
+    border: none;
+    padding: 8px;
+
+}
+h1{
+    margin-left: 30px   ;
+    text-align: left  ;
+    margin-bottom: 0px;
+}
+#Veranstaltung_live{
+    margin-left: 50px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid black;
+
+}
+#Veranstaltung_dead{
+    margin-left: 50px;
+    
+    margin-bottom: 10px;
+    border-bottom: 1px solid black;
+
+}
+#Schichtverwaltung{
+    height: 50px;
+    width: 150px;
+    background-color: orange;
+    margin-left: 50px;
+   
+}
+#login{
+    height: 50px;
+    width: 150px;
+    background-color: orange;
+    margin: 0 auto;  
+    margin-top: 15px;
+   
+}
+.btn-orange {
+    background-color: orange;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.btn-orange:hover {
+    background-color: darkorange;
+}
+#anmeldung{
+    text-align: center;
+    align-items: center;
+}
+
+#Formular {
+    display: flex;              /* Flexbox aktivieren */
+    flex-direction: column;     /* Eingabefelder untereinander */
+    align-items: center;        /* Inhalte innerhalb des Containers zentrieren */
+    margin: 0 auto;             /* Horizontal zentrieren */
+    width: fit-content;         /* Breite an den Inhalt anpassen */
+    margin-top: 10px;
+}
+
+#Formular input {
+    margin: 10px 0;             /* Abstand zwischen den Feldern */
+    padding: 10px;              /* Innenabstand für bessere Lesbarkeit */
+    width: 250px;               /* Breite der Eingabefelder */
+}

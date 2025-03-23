@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+</head>
+<body>
+    <div class="header">Turnverein St. Ingbert</div>
+
+    <div class="menu" onclick="toggleMenu()">☰</div>
+    <ul class="menu-list" id="menuList">
+      
+        <li onclick="Start()">Schichtplan</li>
+        
+    </ul>
+
+
+
+    <button onclick="Anlegen()" id="login"><b>Veranstaltung Anlegen</b></button>
+
+
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('menuList');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function Start(){
+
+            window.location.href="Seite.html"
+
+            }
+
+
+
+
+
+        function Anlegen(){
+
+
+            window.location.href="Veranstaltung_anlegen.html"
+        }
+    </script>
+    
+</body>
