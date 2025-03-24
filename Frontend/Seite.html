@@ -21,9 +21,9 @@
     <table id="Veranstaltung_live">
         <div id="live">
             <tr>
-            <th><b>Veranstaltung</b></th>
-            <th><b>Eingeschrieben</b></th>
-        </tr>
+                <th><b>Veranstaltung</b></th>
+                <th><b>Eingeschrieben</b></th>
+            </tr>
         </div>
 
     </table>
@@ -31,10 +31,10 @@
     <h1>Vergangene Veranstaltung</h1>
     <table id="Veranstaltung_dead">
         <div id="dead">
-        <tr>
-            <th><b>Veranstaltung</b></th>
-            <th><b>Eingeschrieben</b></th>
-        </tr>
+            <tr>
+                <th><b>Veranstaltung</b></th>
+                <th><b>Eingeschrieben</b></th>
+            </tr>
         </div>
 
     </table>
@@ -47,39 +47,42 @@
     <script>
 
         window.onload = function () {
+
+            let heute = new Date();
+
             fetch("http://localhost:8080/shifts/getEvents")
                 .then(res => res.json())
                 .then(data => {
                     const live = document.getElementById("Veranstaltung_live");
                     const dead = document.getElementById("Veranstaltung_dead");
-                    const heute = new Date().toISOString().split("T")[0];
-                    
 
 
                     data.forEach(event => {
                         const name = event.eventName;
-                        const date = event.days?.[0]?.day || "-";
 
-                        let max = 0 ;//max anzahl personen
-                        let eingeschrieben  =0; //wie viele sich eingeschriben haben
-
+                        let max = 0;//max anzahl personen
+                        let eingeschrieben = 0; //wie viele sich eingeschriben haben
+                        let event_id = event.eventID;
                         const row = document.createElement("tr");
-                        row.innerHTML =`
+
+                        row.innerHTML = `
                             <td>${name}</td>
                          `;
 
-                        if(date>= heute){
+                      
+                        if (date >= heute) {
                             live.appendChild(row);
                         }
-                        else{
+                        else {
                             dead.appendChild(row);
                         }
 
 
                     });
                 })
-                .catch(err=> {
-                    console.error("Fehler beim Laden der Seite:",err);
+
+                .catch(err => {
+                    console.error("Fehler beim Laden der Seite:", err);
                 })
         }
 
