@@ -1,10 +1,16 @@
 package org.schichtverwaltung.objectStructure;
 
+import org.schichtverwaltung.dbTools.InfoSet;
+import org.schichtverwaltung.exceptions.ItemNotFoundException;
+import org.schichtverwaltung.zUtils.ReturnInfos;
 import org.schichtverwaltung.zUtils.TimeStamps;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static org.schichtverwaltung.dbTools.InsertMethods.insertEvent;
+import static org.schichtverwaltung.dbTools.SelectMethods.selectTable;
+import static org.schichtverwaltung.dbTools.UpdateMethods.updateTable;
 
 public class Event {
 
@@ -36,6 +42,30 @@ public class Event {
         return eventID;
     }
 
+    public void updateEventOnDB () throws SQLException, ItemNotFoundException {
+        InfoSet infoSet = selectTable("eventID", String.valueOf(eventID), "events");
+
+        if(infoSet.getColumnValues("eventID").isEmpty()) {
+            throw new ItemNotFoundException("EventID " + eventID + " not found!");
+        }
+
+        ArrayList<Object> eventsName = infoSet.getColumnValues("eventName");
+        ArrayList<Object> showEvents = infoSet.getColumnValues("showEvent");
+        ArrayList<Object> registerOnEvents = infoSet.getColumnValues("registerOnEvent");
+
+        if (!eventsName.get(0).equals(eventName)) {
+            updateTable("events", "eventName", eventName, "eventID", String.valueOf(eventID));
+        }
+
+        if (!showEvents.get(0).equals(showEvent)) {
+            updateTable("events", "showEvent", String.valueOf(showEvent), "eventID", String.valueOf(eventID));
+        }
+
+        if (!registerOnEvents.get(0).equals(registerOnEvent)) {
+            updateTable("events", "registerOnEvent", String.valueOf(registerOnEvent), "eventID", String.valueOf(eventID));
+        }
+    }
+
     public void addDay (Day day) {
         days.add(day);
     }
@@ -56,5 +86,9 @@ public class Event {
 
     public ArrayList<Day> getDays() {
         return days;
+    }
+
+    public int getEventID() {
+        return eventID;
     }
 }

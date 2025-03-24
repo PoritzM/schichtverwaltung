@@ -1,17 +1,13 @@
-package org.schichtverwaltung.restTest;
+package org.schichtverwaltung.restInterface;
 
 import org.schichtverwaltung.exceptions.BackendException;
 import org.schichtverwaltung.exceptions.BlockedActionException;
 import org.schichtverwaltung.exceptions.ItemNotFoundException;
 import org.schichtverwaltung.exceptions.ValueAlreadySetException;
-import org.schichtverwaltung.functions.AddShift;
 import org.schichtverwaltung.zUtils.ReturnInfos;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.sql.SQLException;
 
 import static org.schichtverwaltung.functions.AddShift.doAddShift;
 import static org.schichtverwaltung.functions.AddWorkerToShift.doAddWorkerToShift;
@@ -21,6 +17,7 @@ import static org.schichtverwaltung.functions.SelectShift.doSelectShift;
 import static org.schichtverwaltung.functions.SelectShift.doSelectShiftOverview;
 import static org.schichtverwaltung.functions.UpdateEvent.doUpdateRegisterOnEvent;
 import static org.schichtverwaltung.functions.UpdateEvent.doUpdateShowEvent;
+import static org.schichtverwaltung.functions.UpdateShift.doUpdateShift;
 import static org.schichtverwaltung.logger.Logger.logger;
 @CrossOrigin(origins = "*")
 @RestController
@@ -136,6 +133,24 @@ public class ShiftController {
         } catch (ValueAlreadySetException valueAlreadySetException) {
             ResponseEntity<String> response = ResponseEntity.status(HttpStatus.CONFLICT).body("Update Show Event: [Failed] (EventID: " + eventID + " Boolean Value: " + bool + ") " + valueAlreadySetException.getMessage());
             logger(response.getStatusCode().value(), response.getBody(), "NO JSON BODY");
+            return response;
+        }
+    }
+
+    @PutMapping ("/updateShift")
+    public ResponseEntity<String> updateShift (@RequestBody String jsonString) {
+        try {
+            doUpdateShift(jsonString);
+            ResponseEntity<String> response = ResponseEntity.status(HttpStatus.OK).body("Update Shift: [Successful] ");
+            logger(response.getStatusCode().value(), response.getBody(), jsonString);
+            return response;
+        } catch (BackendException backendException) {
+            ResponseEntity<String> response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Update Shift: [Failed] " + backendException.getMessage());
+            logger(response.getStatusCode().value(), response.getBody(),jsonString);
+            return response;
+        } catch (ItemNotFoundException itemNotFoundException) {
+            ResponseEntity<String> response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("Update Shift: [Failed] (EventID: " + itemNotFoundException.getMessage());
+            logger(response.getStatusCode().value(), response.getBody(), jsonString);
             return response;
         }
     }

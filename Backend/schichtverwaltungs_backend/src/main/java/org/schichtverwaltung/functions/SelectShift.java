@@ -123,13 +123,18 @@ public class SelectShift {
         ArrayList<Event> events = new ArrayList<>();
 
         for (Object eventID : eventIDs) {
-//            events.add(selectShift((Integer) eventID));
-            events.add(selectEvent((Integer) eventID));
-        }
 
-//        for (Event event : events) {
-//            event.print();
-//        }
+            Event event = selectEvent((Integer) eventID);
+
+            InfoSet infoSetDays = selectTable("eventID", String.valueOf(eventID), "days");
+            ArrayList<Object> dayIDs = infoSetDays.getColumnValues("dayID");
+
+            for (Object dayID : dayIDs) {
+                event.addDay(selectDay((Integer) dayID));
+            }
+
+            events.add(event);
+        }
 
         return events;
     }

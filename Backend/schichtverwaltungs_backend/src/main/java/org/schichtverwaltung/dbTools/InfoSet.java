@@ -82,6 +82,22 @@ public class InfoSet {
         return values;
     }
 
+    public ArrayList<Integer> getColumnValuesAsInt (String description) {
+        ArrayList<Integer> values = new ArrayList<>();
+
+        int index = descriptions.indexOf(description);
+
+        if (index == -1) {
+            throw new RuntimeException("description not found " + description);
+        }
+
+        for (ArrayList<Object> rows : infos) {
+            values.add((Integer) rows.get(index));
+        }
+
+        return values;
+    }
+
     public void printInfoSet () {
 
         for (String description : descriptions) {

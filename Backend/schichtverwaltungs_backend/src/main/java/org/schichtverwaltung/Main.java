@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import org.schichtverwaltung.deserializer.LocalDateDeserializer;
 import org.schichtverwaltung.deserializer.LocalTimeDeserializer;
 import org.schichtverwaltung.objectStructure.*;
+import org.schichtverwaltung.zUtils.TimeStamps;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -100,9 +101,22 @@ public class Main {
 //            addWorkerToShift(jsonStringWorker2);
 //            removeWorkerFromShift(8);
 //            removeShift(50);
-//            updateShowEvent(51, false);
+//            updateShowEvent(64, true);
 //            updateRegisterOnEvent(51, false);
 //            selectAllShifts();
+
+//            Event updateEvent = new Event(64, "Stadtfest 2024 UPDATE", false, false, new TimeStamps());
+//            updateEvent.updateEventOnDB();
+
+//            Day updateDay = new Day(64, 100, LocalDate.of(2025, 7, 11), new TimeStamps());
+//            updateDay.updateDayOnDB();
+
+//            Service updateService = new Service(64, 100, 108, "Aufbauen UPDATED", LocalTime.of(12,0), LocalTime.of(14,0), new TimeStamps());
+//            updateService.updateServiceOnDB();
+
+//            Task updateTask = new Task(64,100,109,286, "teke aufbeuen UPDATED", 10, new TimeStamps());
+//            updateTask.updateTaskOnDB();
+
         } catch (Exception e) {
             System.out.println(e);
         }
