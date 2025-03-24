@@ -1,56 +1,107 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
 </head>
+
 <body>
     <div class="header">Turnverein St. Ingbert</div>
 
     <div class="menu" onclick="toggleMenu()">☰</div>
     <ul class="menu-list" id="menuList">
-       
+
         <li onclick="Start()">Schichtplan</li>
-        
+
     </ul>
 
 
     <h1>Aktuelle Veranstaltung</h1>
-    <table id="Veranstaltung_live" >
-    <tr>
-            <td><b>Veranstaltung</b></td>  <td><b>Datum</b></td>  <td><b>Eingeschrieben</b></td> 
-    </tr>
-   
+    <table id="Veranstaltung_live">
+        <div id="live">
+            <tr>
+            <th><b>Veranstaltung</b></th>
+            <th><b>Eingeschrieben</b></th>
+        </tr>
+        </div>
 
     </table>
-    
+
     <h1>Vergangene Veranstaltung</h1>
-    <table id="Veranstaltung_dead" >
+    <table id="Veranstaltung_dead">
+        <div id="dead">
         <tr>
-                <td><b>Veranstaltung</b></td>  <td><b>Datum</b></td>  <td><b>Eingeschrieben</b></td> 
+            <th><b>Veranstaltung</b></th>
+            <th><b>Eingeschrieben</b></th>
         </tr>
-       
-    
-        </table>
-        
+        </div>
+
+    </table>
+
 
     <a href="Login_site.html">
-    <button  id="Schichtverwaltung"><b>Schichtverwaltung</b></button>
+        <button id="Schichtverwaltung"><b>Schichtverwaltung</b></button>
     </a>
 
     <script>
+
+        window.onload = function () {
+            fetch("http://localhost:8080/shifts/getEvents")
+                .then(res => res.json())
+                .then(data => {
+                    const live = document.getElementById("Veranstaltung_live");
+                    const dead = document.getElementById("Veranstaltung_dead");
+                    const heute = new Date().toISOString().split("T")[0];
+                    
+
+
+                    data.forEach(event => {
+                        const name = event.eventName;
+                        const date = event.days?.[0]?.day || "-";
+
+                        let max = 0 ;//max anzahl personen
+                        let eingeschrieben  =0; //wie viele sich eingeschriben haben
+
+                        const row = document.createElement("tr");
+                        row.innerHTML =`
+                            <td>${name}</td>
+                         `;
+
+                        if(date>= heute){
+                            live.appendChild(row);
+                        }
+                        else{
+                            dead.appendChild(row);
+                        }
+
+
+                    });
+                })
+                .catch(err=> {
+                    console.error("Fehler beim Laden der Seite:",err);
+                })
+        }
+
+
 
         function toggleMenu() {
             const menu = document.getElementById('menuList');
             menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
         }
 
-         function Start(){
+        function Start() {
 
-            window.location.href="Seite.html"
+            window.location.href = "Seite.html"
 
         }
 
+
+
+
+
+
     </script>
 </body>
+
 </html>

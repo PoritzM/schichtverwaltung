@@ -53,17 +53,29 @@ h1{
     text-align: left  ;
     margin-bottom: 0px;
 }
+#Veranstaltung{
+    margin-left: 50px;
+    margin-bottom: 10px;
+}
 #Veranstaltung_live{
     margin-left: 50px;
     margin-bottom: 10px;
-    border-bottom: 1px solid black;
+
+}
+#live{
+border: 1px solid black;
+
+}
+#dead{
+border: 1px solid black;
+
 
 }
 #Veranstaltung_dead{
     margin-left: 50px;
     
     margin-bottom: 10px;
-    border-bottom: 1px solid black;
+    
 
 }
 #Schichtverwaltung{

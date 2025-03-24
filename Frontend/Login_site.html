@@ -49,10 +49,11 @@
         async function login()
         {
             const password_eingegeben=document.getElementById('pw').value;
-            const richtig="richtig"; // SOLLTE AM BESTEN DEN WERT AUS EINER DATENBANK HOLLLEN UNSICHER ANSONSTEN !!!!!
-            const storedHash= await hash(richtig);
+            // SOLLTE AM BESTEN DEN WERT AUS EINER DATENBANK HOLLLEN UNSICHER ANSONSTEN !!!!!
+            const storedHash= "953ae3742f333d144636d3a3cd3447453a645d2b76bb09b2200ce764fdc6c2e4";
+            
             const hashed = await hash(password_eingegeben);
-
+       
             if ( hashed == storedHash){ 
                 window.location.href= "schichtplan.html"}
             else{
