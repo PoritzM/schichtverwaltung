@@ -125,3 +125,33 @@ border: 1px solid black;
     padding: 10px;              /* Innenabstand für bessere Lesbarkeit */
     width: 250px;               /* Breite der Eingabefelder */
 }
+
+.content {
+    padding: 20px;
+    overflow-y: auto;
+    max-height: calc(100vh - 100px); /* passt sich an die Bildschirmhöhe an */
+}
+
+.day {
+    margin-bottom: 40px;
+}
+
+.service {
+    margin-left: 30px;
+    margin-bottom: 20px;
+}
+
+.task {
+    margin-left: 50px;
+    margin-bottom: 10px;
+}
+
+.worker {
+    margin-left: 10px;
+}
+
+.line {
+    border-bottom: 1px solid #aaa;
+    margin: 10px 0;
+}
+
