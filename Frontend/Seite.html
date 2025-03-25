@@ -45,46 +45,75 @@
     </a>
 
     <script>
+window.onload = function () {
+    const heute = new Date();
+    const liveTable = document.getElementById("Veranstaltung_live");
+    const deadTable = document.getElementById("Veranstaltung_dead");
 
-        window.onload = function () {
+    fetch("http://localhost:8080/shifts/getEvents")
+        .then(res => res.json())
+        .then(events => {
+            const grouped = new Map();
 
-            let heute = new Date();
+            // Events gruppieren nach Name + zusammenfassen
+            events.forEach(event => {
+                if (!event.showEvent) return;
 
-            fetch("http://localhost:8080/shifts/getEvents")
-                .then(res => res.json())
-                .then(data => {
-                    const live = document.getElementById("Veranstaltung_live");
-                    const dead = document.getElementById("Veranstaltung_dead");
+                const name = event.eventName;
 
-
-                    data.forEach(event => {
-                        const name = event.eventName;
-
-                        let max = 0;//max anzahl personen
-                        let eingeschrieben = 0; //wie viele sich eingeschriben haben
-                        let event_id = event.eventID;
-                        const row = document.createElement("tr");
-
-                        row.innerHTML = `
-                            <td>${name}</td>
-                         `;
-
-                      
-                        if (date >= heute) {
-                            live.appendChild(row);
-                        }
-                        else {
-                            dead.appendChild(row);
-                        }
-
-
+                if (!grouped.has(name)) {
+                    grouped.set(name, {
+                        name: name,
+                        needed: 0,
+                        signedUp: 0,
+                        date: null // wird gesetzt sobald ein Tag gefunden wird
                     });
-                })
+                }
 
-                .catch(err => {
-                    console.error("Fehler beim Laden der Seite:", err);
-                })
-        }
+                const current = grouped.get(name);
+
+                if (Array.isArray(event.days)) {
+                    event.days.forEach(day => {
+                        if (!current.date && day.day) {
+                            current.date = new Date(day.day);
+                        }
+
+                        if (Array.isArray(day.services)) {
+                            day.services.forEach(service => {
+                                if (Array.isArray(service.tasks)) {
+                                    service.tasks.forEach(task => {
+                                        current.needed += task.neededWorker || 0;
+                                        if (Array.isArray(task.workers)) {
+                                            current.signedUp += task.workers.length;
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+
+            // Gruppierte Events anzeigen
+            grouped.forEach(event => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${event.name}</td>
+                    <td>${event.signedUp} / ${event.needed}</td>
+                `;
+
+                if (event.date && event.date < heute) {
+                    deadTable.appendChild(row);
+                } else {
+                    liveTable.appendChild(row);
+                }
+            });
+        })
+        .catch(err => {
+            console.error("Fehler beim Laden der Events:", err);
+        });
+};
+
 
 
 
