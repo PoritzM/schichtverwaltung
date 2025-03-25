@@ -45,44 +45,61 @@
     </a>
 
     <script>
-window.onload = function () {
-    const heute = new Date();
-    const liveTable = document.getElementById("Veranstaltung_live");
-    const deadTable = document.getElementById("Veranstaltung_dead");
+ window.onload = function () {
+    const heute = new Date(); // Aktuelles Datum
+    const liveTable = document.getElementById("Veranstaltung_live"); // Tabelle für kommende Events
+    const deadTable = document.getElementById("Veranstaltung_dead"); // Tabelle für vergangene Events
 
+    // Hole alle Events vom Backend
     fetch("http://localhost:8080/shifts/getEvents")
         .then(res => res.json())
         .then(events => {
+
+            // Map zur Gruppierung der Events nach Namen
+            // → So wird z. B. "Stadtfest 2024" nur einmal angezeigt, auch wenn es mehrfach vorkommt
             const grouped = new Map();
 
-            // Events gruppieren nach Name + zusammenfassen
+            // Iteration durch alle Events vom Server
             events.forEach(event => {
-                if (!event.showEvent) return;
+                if (!event.showEvent) return; // Nur Events anzeigen, die wirklich sichtbar sein sollen
 
                 const name = event.eventName;
 
+                // Wenn Event mit diesem Namen noch nicht in der Map ist, neuen Eintrag anlegen
                 if (!grouped.has(name)) {
                     grouped.set(name, {
-                        name: name,
-                        needed: 0,
-                        signedUp: 0,
-                        date: null // wird gesetzt sobald ein Tag gefunden wird
+                        name: name,       // Eventname
+                        needed: 0,        // Gesamtanzahl benötigter Helfer
+                        signedUp: 0,      // Gesamtanzahl bereits eingetragener Helfer
+                        date: null        // Datum des Events (wird gleich gesetzt)
                     });
                 }
 
+                // Aktuellen Gruppierungseintrag abrufen
                 const current = grouped.get(name);
 
+                // Tage durchgehen, wenn vorhanden
                 if (Array.isArray(event.days)) {
                     event.days.forEach(day => {
+
+                        // Setze das Eventdatum (nur, wenn es noch nicht gesetzt wurde)
+                        // Wird genutzt, um zu entscheiden: vergangen oder aktuell
                         if (!current.date && day.day) {
                             current.date = new Date(day.day);
                         }
 
+                        // Alle Services (z. B. "Aufbauen", "Abbauen", "Bar") durchgehen
                         if (Array.isArray(day.services)) {
                             day.services.forEach(service => {
+
+                                // Alle Tasks pro Service durchgehen
                                 if (Array.isArray(service.tasks)) {
                                     service.tasks.forEach(task => {
+
+                                        // Zähle benötigte Helfer auf
                                         current.needed += task.neededWorker || 0;
+
+                                        // Zähle eingetragene Helfer, wenn vorhanden
                                         if (Array.isArray(task.workers)) {
                                             current.signedUp += task.workers.length;
                                         }
@@ -94,14 +111,17 @@ window.onload = function () {
                 }
             });
 
-            // Gruppierte Events anzeigen
+            // Jetzt wird jedes gruppierte Event in die Tabelle geschrieben
             grouped.forEach(event => {
                 const row = document.createElement("tr");
+
+                // Tabelle zeigt nur: Name + Anzahl eingeschriebene / benötigte Helfer
                 row.innerHTML = `
                     <td>${event.name}</td>
                     <td>${event.signedUp} / ${event.needed}</td>
                 `;
 
+                // Entscheide, ob Event bereits vergangen ist (→ deadTable) oder noch aktuell (→ liveTable)
                 if (event.date && event.date < heute) {
                     deadTable.appendChild(row);
                 } else {
@@ -110,10 +130,10 @@ window.onload = function () {
             });
         })
         .catch(err => {
+            // Fehler beim Abrufen der Daten
             console.error("Fehler beim Laden der Events:", err);
         });
 };
-
 
 
 
