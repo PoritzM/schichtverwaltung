@@ -78,7 +78,7 @@ Es werden 8 API Schnittstellen bereit gestellt:
 			- `404 - NOT_FOUND`: Sollte die angegebene `eventID` nicht gefunden werden
 			- `409 - CONFLICT`: Sollte der übergebene wert schon dem gesetzten wert übereinstimmen
 - **Delete**
-	- *Delete Shift* (`/deleteShift/{eventID}`)
+	- *Delete Shift* (`/deleteWorker/{workerID}`)
 		- Übergabe:
 			-`{eventID}`: ID welche die Veranstaltung identifiziert
 		- Rückgabe:
