@@ -149,7 +149,7 @@ public class ShiftController {
             logger(response.getStatusCode().value(), response.getBody(),jsonString);
             return response;
         } catch (ItemNotFoundException itemNotFoundException) {
-            ResponseEntity<String> response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("Update Shift: [Failed] (EventID: " + itemNotFoundException.getMessage());
+            ResponseEntity<String> response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("Update Shift: [Failed] " + itemNotFoundException.getMessage());
             logger(response.getStatusCode().value(), response.getBody(), jsonString);
             return response;
         }

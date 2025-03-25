@@ -111,4 +111,8 @@ public class Service {
     public int getServiceID() {
         return serviceID;
     }
+
+    public int getDayID() {
+        return dayID;
+    }
 }

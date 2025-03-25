@@ -108,4 +108,12 @@ public class Task {
     public int getTaskID() {
         return taskID;
     }
+
+    public int getDayID() {
+        return dayID;
+    }
+
+    public int getServiceID() {
+        return serviceID;
+    }
 }

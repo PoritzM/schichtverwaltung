@@ -42,6 +42,8 @@ public class UpdateShift {
         JsonObject jsonObject = gson.fromJson(jsonString, JsonObject.class);
         Event event = gson.fromJson(jsonObject.getAsJsonObject("event"), Event.class);
 
+        event.print();
+
         //Test ob alles past
         checkShift(event);
 
@@ -52,6 +54,7 @@ public class UpdateShift {
         deleteShift(event);
 
         //Einträge hinzufügen
+        insertShift(event);
 
     }
 
@@ -65,37 +68,46 @@ public class UpdateShift {
         for (Day day : event.getDays()) {
 
             InfoSet infoSetDay = selectTable("dayID", String.valueOf(day.getDayID()), "days");
-            if (infoSetDay.getColumnValues("dayID").isEmpty()){
-                throw new ItemNotFoundException("DayID " + day.getDayID() + " not found!)");
-            }
-            if((Integer) infoSetDay.getColumnValues("dayID").get(0) != day.getDayID() ||
-                    (Integer) infoSetDay.getColumnValues("eventID").get(0) != event.getEventID()) {
-                throw new BackendException("Missmatch in a ID (Day Object vs Day in DB)");
+
+            if (day.getDayID() != -1) {
+                if (infoSetDay.getColumnValues("dayID").isEmpty()) {
+                    throw new ItemNotFoundException("DayID " + day.getDayID() + " not found!)");
+                }
+                if ((Integer) infoSetDay.getColumnValues("dayID").get(0) != day.getDayID() ||
+                        (Integer) infoSetDay.getColumnValues("eventID").get(0) != event.getEventID()) {
+                    throw new BackendException("Missmatch in a ID (Day Object vs Day in DB)");
+                }
             }
 
             for(Service service : day.getServices()) {
 
                 InfoSet infoSetService = selectTable("serviceID", String.valueOf(service.getServiceID()), "services");
-                if (infoSetService.getColumnValues("serviceID").isEmpty()){
-                    throw new ItemNotFoundException("ServiceID " + service.getServiceID() + " not found!)");
-                }
-                if((Integer) infoSetService.getColumnValues("serviceID").get(0) != service.getServiceID() ||
-                        (Integer) infoSetService.getColumnValues("dayID").get(0) != day.getDayID() ||
-                        (Integer) infoSetService.getColumnValues("eventID").get(0) != event.getEventID()) {
-                    throw new BackendException("Missmatch in a ID (Service Object vs Service in DB)");
+
+                if (service.getServiceID() != -1) {
+                    if (infoSetService.getColumnValues("serviceID").isEmpty()) {
+                        throw new ItemNotFoundException("ServiceID " + service.getServiceID() + " not found!)");
+                    }
+                    if ((Integer) infoSetService.getColumnValues("serviceID").get(0) != service.getServiceID() ||
+                            (Integer) infoSetService.getColumnValues("dayID").get(0) != day.getDayID() ||
+                            (Integer) infoSetService.getColumnValues("eventID").get(0) != event.getEventID()) {
+                        throw new BackendException("Missmatch in a ID (Service Object vs Service in DB)");
+                    }
                 }
                 for(Task task : service.getTasks()) {
 
                     InfoSet infoSetTask = selectTable("taskID", String.valueOf(task.getTaskID()), "tasks");
-                    if (infoSetTask.getColumnValues("taskID").isEmpty()){
-                        throw new ItemNotFoundException("TaskID " + task.getTaskID() + " not found!)");
-                    }
 
-                    if((Integer) infoSetTask.getColumnValues("taskID").get(0) != task.getTaskID() ||
-                            (Integer) infoSetTask.getColumnValues("serviceID").get(0) != service.getServiceID() ||
-                            (Integer) infoSetTask.getColumnValues("dayID").get(0) != day.getDayID() ||
-                            (Integer) infoSetTask.getColumnValues("eventID").get(0) != event.getEventID()) {
-                        throw new BackendException("Missmatch in a ID (Task Object vs Task in DB)");
+                    if (task.getTaskID() != -1) {
+                        if (infoSetTask.getColumnValues("taskID").isEmpty()) {
+                            throw new ItemNotFoundException("TaskID " + task.getTaskID() + " not found!)");
+                        }
+
+                        if ((Integer) infoSetTask.getColumnValues("taskID").get(0) != task.getTaskID() ||
+                                (Integer) infoSetTask.getColumnValues("serviceID").get(0) != service.getServiceID() ||
+                                (Integer) infoSetTask.getColumnValues("dayID").get(0) != day.getDayID() ||
+                                (Integer) infoSetTask.getColumnValues("eventID").get(0) != event.getEventID()) {
+                            throw new BackendException("Missmatch in a ID (Task Object vs Task in DB)");
+                        }
                     }
                 }
             }
@@ -179,19 +191,42 @@ public class UpdateShift {
         }
     }
 
-    private static void insertShift (Event event) {
+    private static void insertShift (Event event) throws BackendException {
         for (Day day : event.getDays()) {
+
+            int dayID = -1;
+
             if(day.getDayID() == -1) {
-
+                day.initDay(event.getEventID());
+                dayID = day.dayToDB();
+            } else {
+                dayID = day.getDayID();
             }
-            for(Service service : day.getServices()) {
-                if(service.getServiceID() == -1) {
 
+            for(Service service : day.getServices()) {
+
+//                if (dayID == -1) {
+//                    throw new BackendException("Adding Day went critically wrong");
+//                }
+
+                int serviceID = -1;
+
+                if(service.getServiceID() == -1) {
+                    service.initService(event.getEventID(), dayID);
+                    serviceID = service.serviceToDB();
+                } else {
+                    serviceID = service.getServiceID();
                 }
+
                 for(Task task : service.getTasks()) {
 
-                    if(task.getTaskID() == -1) {
+//                    if (serviceID == -1) {
+//                        throw new BackendException("Adding Service went critically wrong");
+//                    }
 
+                    if(task.getTaskID() == -1) {
+                        task.initTask(event.getEventID(), dayID, serviceID);
+                        int taskID = task.taskToDB();
                     }
                 }
             }
