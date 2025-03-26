@@ -229,3 +229,116 @@ border: 1px solid black;
 	background-color: darkred;
 	
 }
+
+#Datum_container{
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    margin-left: 150px; 
+    margin-bottom: 50px;
+}
+
+#Service_überschrift{
+    margin-left: 200px;
+    font-size: 18px;
+}
+
+#Service_container{
+    margin-left: 200px;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.Normales_textfeld{
+    height: 18px;
+    width: 225px;
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+.Zeit_eingabe{
+    height: 18px;
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+#Task_container{
+    margin-left: 300px;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+#Task_überschrift{
+    margin-left: 300px;
+    font-size: 18px;
+}
+
+#Service_button{
+    background-color: orange;
+    color: white;
+    border: none;
+	margin-left: 200px;
+	cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+	padding: 10px 15px;
+	margin-top:20px;
+	margin-bottom:20px;
+}
+
+#Service_button:hover{
+    background-color: darkorange;
+
+}
+
+#Task_button{
+    background-color: orange;
+    color: white;
+    border: none;
+	margin-left: 300px;
+	cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+	padding: 10px 15px;
+	margin-top:20px;
+	margin-bottom:20px; 
+}
+
+#Send_container{
+    margin-left: 150px;
+    margin-top: 20px;
+}
+
+.btn-green{
+    background-color: green;
+    color: white;
+    border: none;
+	cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+	padding: 10px 15px;
+	margin-top:20px;
+	margin-bottom:20px;
+}
+
+.btn-green:hover{
+    background-color: darkgreen;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -37,7 +37,9 @@
         <div id="daysContainer"></div>
 
         <button type="button" class="btn-orange-va" onclick="addDay()">+ Tag hinzufügen</button>
+		<div id="Send_container">
         <button type="submit" class="btn-green">Absenden</button>
+		</div>
     </form>
 
     <script>
@@ -50,14 +52,14 @@
             dayDiv.classList.add('day-block');
 
             dayDiv.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 10px; margin-left: 150px; margin-bottom: 50px;">
+        <div id="Datum_container">
 			<label for= "Datum_eingeben" id= "Datum_überschrift"><b>Datum:</b></label>
             <input type="date" id="Datum_eingeben" required>
             <button type="button" class="btn-red" onclick="this.closest('.day-block').remove()">Entfernen</button>
         </div>
 
         <div class="servicesContainer"></div>
-        <button type="button" class="btn-orange-va" onclick="addService(this)">+ Dienst hinzufügen</button>`;
+        <button type="button" id="Service_button" onclick="addService(this)">+ Dienst hinzufügen</button>`;
 
             container.appendChild(dayDiv);
         }
@@ -69,18 +71,18 @@
             serviceDiv.classList.add('service-block');
 
             serviceDiv.innerHTML = `
-        <div class="service-header">
-            <strong>Dienst</strong>
-        </div>
+		<label id= "Service_überschrift"><b>Dienst</b></label>	
+        <div id="Service_container">
         <label>Schichtbeschreibung:</label>
-        <input type="text" required>
+        <input type="text" class="Normales_textfeld" required>
         <label>Startzeit:</label>
-        <input type="time" required>
+        <input type="time" class="Zeit_eingabe" required>
         <label>Endzeit:</label>
-        <input type="time" required>
+        <input type="time" class="Zeit_eingabe" required>
         <button type="button" class="btn-red" onclick="this.closest('.service-block').remove()">Entfernen</button>
+		</div>
         <div class="tasksContainer"></div>
-        <button type="button" class="btn-orange small" onclick="addTask(this)">+ Aufgabe hinzufügen</button>`;
+        <button type="button" id="Task_button" onclick="addTask(this)">+ Aufgabe hinzufügen</button>`;
 
             servicesContainer.appendChild(serviceDiv);
         }
@@ -94,14 +96,14 @@
             taskDiv.classList.add('task-block');
 
             taskDiv.innerHTML = `
-        <div class="task-header">
-            <strong>Aufgabe</strong>
-        </div>
+		<label id="Task_überschrift"><b>Aufgabe</b></label>
+        <div id="Task_container">
         <label>Aufgabe:</label>
         <input type="text" required>
         <label>Benötigte Personen:</label>
         <input type="number" min="1" step="1" required>
-        <button type="button" class="btn-red" onclick="this.closest('.task-block').remove()">Entfernen</button>`;
+        <button type="button" class="btn-red" onclick="this.closest('.task-block').remove()">Entfernen</button>
+		</div>`;
             tasksContainer.appendChild(taskDiv);
         }
 
