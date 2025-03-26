@@ -9,8 +9,9 @@ import static org.schichtverwaltung.logger.Logger.logger;
 public class SchichtverwaltungsBackendApplication {
 
     public static void main(String[] args) {
-        String filePath = System.getProperty("user.dir");
         SpringApplication.run(SchichtverwaltungsBackendApplication.class, args);
-        logger(0, "Webserver Started - " + "Path of Backend: " + filePath, "NO JSON BODY");
+        
+        String filePath = System.getProperty("user.dir");
+        logger(100, "Webserver Started - " + "Path of Backend: " + filePath, "NO JSON BODY");
     }
 }

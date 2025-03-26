@@ -6,14 +6,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.schichtverwaltung.zUtils.YmalReader.getYamlValue;
+
 public class DatabaseTools {
 
     private Connection connection = null;
 
 
     public void connectToDB () {
-        var path = "jdbc:sqlite:C:\\Users\\PC-Moritz\\Documents\\GitHub\\schichtverwaltungI\\Backend\\schichtverwaltungs_db.db";
-//        var path = "jdbc:sqlite:F:\\Documents\\GitHub\\schichtverwaltung\\Backend\\schichtverwaltungs_db.db";
+
+        var path = "jdbc:sqlite:" + getYamlValue("DBpath");
 
         try {
             connection = DriverManager.getConnection(path);

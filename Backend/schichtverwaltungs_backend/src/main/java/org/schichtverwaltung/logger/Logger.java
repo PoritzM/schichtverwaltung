@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static org.schichtverwaltung.zUtils.YmalReader.getYamlValue;
+
 public class Logger {
 
     public static void logger (int statusCode, String statusMessage, String jsonString) {
@@ -25,13 +27,13 @@ public class Logger {
 
     private static void logToFile (String logMessage) {
 
-        String logFilePath = "SchichtverwaltungsBackendApplicationLog.txt";
+        String logFilePath = (String) getYamlValue("LOGpath");
         File logFile = new File(logFilePath);
 
         try {
             if (!logFile.exists()) {
                 logFile.createNewFile();
-                logger(0, "Log File Created " + logFile.getAbsolutePath(), "NO JSON BODY");
+                logger(100, "Log File Created " + logFile.getAbsolutePath(), "NO JSON BODY");
                 System.out.println("Datei erstellt: " + logFile.getAbsolutePath());
             }
 
