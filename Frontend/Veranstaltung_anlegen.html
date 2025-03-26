@@ -19,7 +19,7 @@
     <form id="eventForm">
         <!-- Veranstaltung -->
         <div class="Name_der_veranstaltung">
-            <label for="eventName">Name der Veranstaltung</label>
+            <label for="eventName">Name der Veranstaltung:</label>
             <input type="text" id="eventName" required>
         </div>
 
@@ -28,7 +28,7 @@
             <label for="showEvent">Veranstaltung anzeigen</label>
         </div>
 
-        <div class="Eintragen_Erlauben">
+        <div class="Eintragen_erlauben">
             <input type="checkbox" id="registerOnEvent" checked>
             <label for="registerOnEvent">Eintragung erlauben</label>
         </div>
@@ -36,7 +36,7 @@
         <!-- Bereich für dynamisch hinzufügbare Tage -->
         <div id="daysContainer"></div>
 
-        <button type="button" class="btn-orange" onclick="addDay()">+ Tag hinzufügen</button>
+        <button type="button" class="btn-orange-va" onclick="addDay()">+ Tag hinzufügen</button>
         <button type="submit" class="btn-green">Absenden</button>
     </form>
 
@@ -50,14 +50,14 @@
             dayDiv.classList.add('day-block');
 
             dayDiv.innerHTML = `
-        <strong>Datum:</strong>
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <input type="date" required>
-            <button type="button" class="btn-red small" onclick="this.closest('.day-block').remove()">Entfernen</button>
+        <div style="display: flex; align-items: center; gap: 10px; margin-left: 150px; margin-bottom: 50px;">
+			<label for= "Datum_eingeben" id= "Datum_überschrift"><b>Datum:</b></label>
+            <input type="date" id="Datum_eingeben" required>
+            <button type="button" class="btn-red" onclick="this.closest('.day-block').remove()">Entfernen</button>
         </div>
 
         <div class="servicesContainer"></div>
-        <button type="button" class="btn-orange" onclick="addService(this)">+ Dienst hinzufügen</button>`;
+        <button type="button" class="btn-orange-va" onclick="addService(this)">+ Dienst hinzufügen</button>`;
 
             container.appendChild(dayDiv);
         }
@@ -78,7 +78,7 @@
         <input type="time" required>
         <label>Endzeit:</label>
         <input type="time" required>
-        <button type="button" class="btn-red small" onclick="this.closest('.service-block').remove()">Entfernen</button>
+        <button type="button" class="btn-red" onclick="this.closest('.service-block').remove()">Entfernen</button>
         <div class="tasksContainer"></div>
         <button type="button" class="btn-orange small" onclick="addTask(this)">+ Aufgabe hinzufügen</button>`;
 
@@ -101,7 +101,7 @@
         <input type="text" required>
         <label>Benötigte Personen:</label>
         <input type="number" min="1" step="1" required>
-        <button type="button" class="btn-red small" onclick="this.closest('.task-block').remove()">Entfernen</button>`;
+        <button type="button" class="btn-red" onclick="this.closest('.task-block').remove()">Entfernen</button>`;
             tasksContainer.appendChild(taskDiv);
         }
 
