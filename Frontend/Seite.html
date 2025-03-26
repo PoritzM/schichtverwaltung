@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <div class="header">Turnverein St. Ingbert</div>
+    <div class="header"  onclick="Start()">Turnverein St. Ingbert</div>
 
     <div class="menu" onclick="toggleMenu()">☰</div>
     <ul class="menu-list" id="menuList">
@@ -114,10 +114,12 @@
                          `;
 
                         // Vergangen oder noch bevorstehend?
-                        if (event.allDates.length > 0 && event.allDates[event.allDates.length - 1] < heute) {
+                        if(event.showEvent = true) {
+                        if (event.allDates.length > 0 && event.allDates[event.allDates.length - 1] < heute ) {
                             deadTable.appendChild(row);
                         } else {
                             liveTable.appendChild(row);
+                        }
                         }
                     });
                 })
