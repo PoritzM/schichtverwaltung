@@ -5,6 +5,7 @@ import java.lang.reflect.Type;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+//Um Daten aus LocalTime format in JSON zu übersetzten
 public class LocalTimeAdapter implements JsonSerializer<LocalTime>, JsonDeserializer<LocalTime> {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_TIME;

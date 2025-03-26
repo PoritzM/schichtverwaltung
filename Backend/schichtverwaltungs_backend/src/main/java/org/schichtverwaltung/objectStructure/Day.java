@@ -23,14 +23,6 @@ public class Day {
 
     private TimeStamps timeStamps;
 
-//    public Day(int eventID, LocalDate day) {
-//        this.eventID = eventID;
-//        this.day = day;
-//
-//        timeStamps = new TimeStamps();
-//    }
-
-
     public Day(int eventID, int dayID, LocalDate day, TimeStamps timeStamps) {
         this.eventID = eventID;
         this.dayID = dayID;
@@ -44,7 +36,6 @@ public class Day {
     }
 
     public void updateDayOnDB () throws SQLException, ItemNotFoundException, BackendException {
-
 
         InfoSet infoSet = selectTable("dayID", String.valueOf(dayID), "days");
 
@@ -91,6 +82,4 @@ public class Day {
     public int getDayID() {
         return dayID;
     }
-
-
 }

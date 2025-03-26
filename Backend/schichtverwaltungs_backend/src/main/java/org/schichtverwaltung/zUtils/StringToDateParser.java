@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+//Um aus einem String einen Date-Typ zu machen
 public class StringToDateParser {
 
     public static Date parseDateString(String dateString) throws ParseException {

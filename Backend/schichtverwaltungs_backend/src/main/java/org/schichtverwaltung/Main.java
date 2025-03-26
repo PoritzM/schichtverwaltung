@@ -20,6 +20,8 @@ import static org.schichtverwaltung.functions.UpdateEvent.updateShowEvent;
 public class Main {
     public static void main(String[] args) throws SQLException, IOException {
 
+        //Klassen und Methoden Tests
+        //Eigentlicher Server wird über SichtverwaltungsBackendApplication gestartet
 
         String jsonString = "{\n" +
                 "  \"event\": {\n" +

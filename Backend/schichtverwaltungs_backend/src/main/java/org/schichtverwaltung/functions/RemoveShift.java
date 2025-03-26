@@ -7,11 +7,12 @@ import org.schichtverwaltung.exceptions.ItemNotFoundException;
 import java.sql.SQLException;
 
 import static org.schichtverwaltung.dbTools.RemoveMethods.removeEvent;
-import static org.schichtverwaltung.dbTools.RemoveMethods.removeWorker;
 import static org.schichtverwaltung.dbTools.SelectMethods.selectTable;
 
+//Löschen einer Schicht
 public class RemoveShift {
 
+    //Ausführer der Methode zum Catchen und Verwalten von Exceptions
     public static void doRemoveShift (int eventID) throws BackendException, ItemNotFoundException {
         try {
             removeShift(eventID);

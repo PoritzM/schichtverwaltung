@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 
 import static org.schichtverwaltung.zUtils.YmalReader.getYamlValue;
 
+//Klasse um Loggen von Informationen
 public class Logger {
 
     public static void logger (int statusCode, String statusMessage, String jsonString) {
@@ -25,6 +26,7 @@ public class Logger {
         logToFile(logMessage);
     }
 
+    //Schreiben der Log-Infos in eine Datei
     private static void logToFile (String logMessage) {
 
         String logFilePath = (String) getYamlValue("LOGpath");
@@ -34,7 +36,6 @@ public class Logger {
             if (!logFile.exists()) {
                 logFile.createNewFile();
                 logger(100, "Log File Created " + logFile.getAbsolutePath(), "NO JSON BODY");
-                System.out.println("Datei erstellt: " + logFile.getAbsolutePath());
             }
 
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, true))) {

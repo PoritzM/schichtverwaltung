@@ -5,6 +5,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+//Klasse zur umwandlung eines ResultSet in ein InfoSet um Daten länger zu behalten und besser auswerten zu können
 public class InfoSet {
 
     private final ResultSet resultSet;
@@ -14,11 +15,8 @@ public class InfoSet {
 
     public InfoSet(ResultSet resultSet) throws SQLException {
         this.resultSet = resultSet;
-
-            descriptions = getDescriptions(resultSet);
-            infos = getRows(resultSet);
-
-//            printInfoSet();
+        this.descriptions = getDescriptions(resultSet);
+        this.infos = getRows(resultSet);
     }
 
     private ArrayList<String> getDescriptions (ResultSet resultSet) throws SQLException {

@@ -21,8 +21,10 @@ import java.util.Date;
 import static org.schichtverwaltung.dbTools.RemoveMethods.removeEntire;
 import static org.schichtverwaltung.dbTools.SelectMethods.selectTable;
 
+//Aktualisieren einer kompletten Schicht
 public class UpdateShift {
 
+    //Ausführer der Methode zum Catchen und Verwalten von Exceptions
     public static void doUpdateShift (String jsonString) throws BackendException {
         try {
             updateShift(jsonString);

@@ -19,11 +19,15 @@ import static org.schichtverwaltung.functions.UpdateEvent.doUpdateRegisterOnEven
 import static org.schichtverwaltung.functions.UpdateEvent.doUpdateShowEvent;
 import static org.schichtverwaltung.functions.UpdateShift.doUpdateShift;
 import static org.schichtverwaltung.logger.Logger.logger;
+
+//Definition der RESTApi Schnittstellen des Backendes
+
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/shifts")
 public class ShiftController {
 
+    //Hinzufügen einer kompletten Schicht
     @PostMapping("/addShift")
     public ResponseEntity<String> processShift(@RequestBody String jsonString) {
 
@@ -43,6 +47,7 @@ public class ShiftController {
         }
     }
 
+    //Hinzufügen einer Person zu einer Aufgabe
     @PostMapping("/addWorker")
     public ResponseEntity<String> processWorker(@RequestBody String jsonString) {
         try {
@@ -69,6 +74,7 @@ public class ShiftController {
         }
     }
 
+    //Eine gewisse Schicht anfragen
     @GetMapping ("/getShift/{eventID}")
     public ResponseEntity<String> getEvent(@PathVariable int eventID) {
         try {
@@ -91,6 +97,7 @@ public class ShiftController {
         }
     }
 
+    //Alle Veranstaltung und Tage anfragen
     @GetMapping ("/getEvents")
     public ResponseEntity<String> getShift() {
         try {
@@ -109,6 +116,7 @@ public class ShiftController {
         }
     }
 
+    //Aktualisieren von Register On Event
     @PutMapping ("/updateRegister/{eventID}")
     public ResponseEntity<String> updateRegister (@RequestBody boolean bool, @PathVariable int eventID) {
         try {
@@ -135,6 +143,7 @@ public class ShiftController {
         }
     }
 
+    //Aktualisieren von Show Event
     @PutMapping ("/updateShowEvent/{eventID}")
     public ResponseEntity<String> updateShowEvent (@RequestBody boolean bool, @PathVariable int eventID) {
         try {
@@ -161,6 +170,7 @@ public class ShiftController {
         }
     }
 
+    //Aktualisieren einer kompletten Schicht
     @PutMapping ("/updateShift")
     public ResponseEntity<String> updateShift (@RequestBody String jsonString) {
         try {
@@ -183,6 +193,7 @@ public class ShiftController {
         }
     }
 
+    //Löschen einer Schicht
     @DeleteMapping ("/deleteShift/{eventID}")
     public ResponseEntity<String> deleteShift (@PathVariable int eventID) {
         try {
@@ -205,6 +216,7 @@ public class ShiftController {
         }
     }
 
+    //Löschen einer Person aus einer Aufgabge
     @DeleteMapping ("/deleteWorker/{workerID}")
     public ResponseEntity<String> deleteWorker (@PathVariable int workerID) {
         try {

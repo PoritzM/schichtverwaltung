@@ -7,7 +7,6 @@ import org.schichtverwaltung.zUtils.TimeStamps;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 
 import static org.schichtverwaltung.dbTools.InsertMethods.insertTask;
 import static org.schichtverwaltung.dbTools.SelectMethods.selectTable;
@@ -25,17 +24,6 @@ public class Task {
     private ArrayList<Worker> workers = new ArrayList<>();
 
     private TimeStamps timeStamps;
-
-//    public Task(int eventID, int dayID, int serviceID, String taskDescription, int neededWorker) {
-//        this.eventID = eventID;
-//        this.dayID = dayID;
-//        this.serviceID = serviceID;
-//        this.taskDescription = taskDescription;
-//        this.neededWorker = neededWorker;
-//
-//        timeStamps = new TimeStamps();
-//    }
-
 
     public Task(int eventID, int dayID, int serviceID, int taskID, String taskDescription, int neededWorker, TimeStamps timeStamps) {
         this.eventID = eventID;

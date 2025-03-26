@@ -1,12 +1,11 @@
 package org.schichtverwaltung.dbTools;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
 
+//Methoden um Daten aus der Datenbank zu lesen
 public class SelectMethods {
 
+    //Um nur eine gewisse Spalte aus der Datenbank auszulesen
     public static InfoSet selectTable (String searchDescription, String searchValue,String table) throws SQLException {
 
         DatabaseTools databaseTools =  new DatabaseTools();
@@ -17,6 +16,7 @@ public class SelectMethods {
         return databaseTools.executeSelectSQL(statement);
     }
 
+    //Um alles aus einer Tabelle der Datenbank zu lesen
     public static InfoSet selectTableAll (String table) throws SQLException {
 
         DatabaseTools databaseTools =  new DatabaseTools();

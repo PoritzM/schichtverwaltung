@@ -4,6 +4,7 @@ import java.util.Date;
 
 import static org.schichtverwaltung.zUtils.GetTimeStamp.getTimeStamp;
 
+//Zusammenfassen der TimeStamps eines der Objekte
 public class TimeStamps {
     private Date timeStampCreate;
     private Date timeStampEdit;
