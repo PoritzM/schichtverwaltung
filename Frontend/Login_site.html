@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 </head>
 <body>
-    <div class="header">Turnverein St. Ingbert</div>
+    <div class="header" onclick="Start()">Turnverein St. Ingbert</div>
 
     <div class="menu" onclick="toggleMenu()">☰</div>
     <ul class="menu-list" id="menuList">
@@ -14,7 +14,7 @@
     
         <h3 id ="anmeldung">Anmeldung</h3>
         <div id="Formular">
-        <input type="password" name = "PW" id ="pw" placeholder="Passwort">
+        <input type="password" name = "PW" id ="pw" placeholder="Passwort" onkeydown="if(event.key === 'Enter') login()">
         </div>
         
         <button onclick="login()" id="login"><b>Anmelden</b></button>

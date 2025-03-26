@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <div class="header">Turnverein St. Ingbert</div>
+    <div class="header"  onclick="Start()">Turnverein St. Ingbert</div>
     <div class="menu" onclick="toggleMenu()">☰</div>
     <ul class="menu-list" id="menuList">
         <li onclick="Start()">Startseite</li>
@@ -41,7 +41,7 @@
                 .then(res => res.json())
                 .then(event => {
                     document.getElementById("eventName").textContent = event.eventName;
-
+                    const anzeigen =event.registerOnEvent;
                     const container = document.getElementById("eventContent");
 
                     event.days?.forEach((day, dayIndex) => {
@@ -63,10 +63,10 @@
                             serviceDiv.classList.add("service");
 
                             serviceDiv.innerHTML = `
-                        <h3>${service.serviceDescription} | ${service.timeStart.slice(0, 5)} bis ${service.timeEnd.slice(0, 5)} Uhr</h3>
+                        <h3>${service.serviceDescription} | ${service.timeStart.slice(0, 5)} bis ${service.timeEnd.slice(0, 5)} Uhr  </h3>
                         <div class="line"></div>
                     `;
-
+                            
                             service.tasks?.forEach(task => {
                                 const signedUp = task.workers?.length || 0;
                                 const taskDiv = document.createElement("div");
@@ -75,13 +75,14 @@
                                 let taskHTML = `<strong>${task.taskDescription}</strong> | ${signedUp} von ${task.neededWorker} Personen`;
 
                                 // Eingabe-Feld + Button
+                                if(anzeigen){                                
                                 taskHTML += `
                                     <div class="signup">
-                                        <input type="text" placeholder="Name" id="input-${event.eventID}-${day.dayID}-${service.serviceID}-${task.taskID}" /> 
-                                        <button onclick="Einschreiben(${event.eventID}, ${day.dayID}, ${service.serviceID}, ${task.taskID})">Eintragen</button>
+                                        <input type="text" placeholder="Name" id="input-${event.eventID}-${day.dayID}-${service.serviceID}-${task.taskID}" onkeydown="if(event.key === 'Enter') Einschreiben(${event.eventID}, ${day.dayID}, ${service.serviceID}, ${task.taskID})" /> 
+                                        <button id= "anlegen" onclick="Einschreiben(${event.eventID}, ${day.dayID}, ${service.serviceID}, ${task.taskID})">Eintragen</button>
                                     </div>
                                 `;
-
+                                };
                                 // Namen & Löschen-Buttons
                                 if (signedUp > 0) {
                                     const names = task.workers.map(w => `
@@ -94,8 +95,9 @@
 
                                     taskHTML += names;
                                 }
-
+                               
                                 taskDiv.innerHTML = taskHTML;
+                                
                                 serviceDiv.appendChild(taskDiv);
                             });
 
@@ -153,8 +155,8 @@
                 });
         }
 
-        function loescheWorker(workerID) {
-    fetch(`http://localhost:8080/deleteEvent/deleteWorker/${workerID}`, {
+    function loescheWorker(workerID) {
+    fetch(`http://localhost:8080/shifts/deleteWorker/${workerID}`, {
         method: "DELETE"
     })
     .then(res => {
@@ -168,7 +170,10 @@
         console.error("Fehler beim Löschen:", err);
         alert("Konnte nicht löschen.");
     });
-}
+    }
+
+
+
 
 
     </script>

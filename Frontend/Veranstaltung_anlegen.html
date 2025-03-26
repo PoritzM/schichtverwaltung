@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <div class="header">Turnverein St. Ingbert</div>
+    <div class="header" onclick="Start()">Turnverein St. Ingbert</div>
 
     <div class="menu" onclick="toggleMenu()">☰</div>
     <ul class="menu-list" id="menuList">
@@ -37,10 +37,11 @@
         <div id="daysContainer"></div>
 
         <button type="button" class="btn-orange-va" onclick="addDay()">+ Tag hinzufügen</button>
-        <button type="submit" class="btn-green">Absenden</button>
+        <button type="submit"  class="btn-green">Absenden</button>
     </form>
 
     <script>
+
         let dayCount = 0;
 
         function addDay() {
@@ -50,7 +51,7 @@
             dayDiv.classList.add('day-block');
 
             dayDiv.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 10px; margin-left: 150px; margin-bottom: 50px;">
+        <div >
 			<label for= "Datum_eingeben" id= "Datum_überschrift"><b>Datum:</b></label>
             <input type="date" id="Datum_eingeben" required>
             <button type="button" class="btn-red" onclick="this.closest('.day-block').remove()">Entfernen</button>
@@ -171,6 +172,7 @@
                 })
                 .then(res => {
                     if (res.ok) {
+                        window.location.href = "Seite.html";
                         alert("EVENT ERFOLGREICH ANGELEGT!");
                     } else {
                         return res.text().then(text => {
@@ -182,6 +184,8 @@
                     alert(err.message);
                     console.error(err);
                 });
+            
+
         }
         )
 
