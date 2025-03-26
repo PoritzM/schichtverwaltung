@@ -36,6 +36,10 @@ public class ShiftController {
             ResponseEntity<String> response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Insert Shift: [Failed] " + backendException.getMessage());
             logger(response.getStatusCode().value(), response.getBody(), jsonString);
             return response;
+        } catch (Exception exception) {
+            ResponseEntity<String> response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Insert Shift: [Failed] Major Error!: " + exception.getMessage());
+            logger(response.getStatusCode().value(), response.getBody(), "NO JSON BODY");
+            return response;
         }
     }
 
@@ -58,6 +62,10 @@ public class ShiftController {
             ResponseEntity<String> response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("Insert Worker: [Failed] " + itemNotFoundException.getMessage());
             logger(response.getStatusCode().value(), response.getBody(), jsonString);
             return response;
+        } catch (Exception exception) {
+            ResponseEntity<String> response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Insert Worker: [Failed] Major Error!: " + exception.getMessage());
+            logger(response.getStatusCode().value(), response.getBody(), "NO JSON BODY");
+            return response;
         }
     }
 
@@ -76,6 +84,10 @@ public class ShiftController {
             ResponseEntity<String> response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("Get Shift: [Failed] (EventID: " + eventID + ") " + itemNotFoundException.getMessage());
             logger(response.getStatusCode().value(), response.getBody(), "NO JSON BODY");
             return response;
+        } catch (Exception exception) {
+            ResponseEntity<String> response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Get Shift: [Failed] (EventID: " + eventID + ") Major Error!: " + exception.getMessage());
+            logger(response.getStatusCode().value(), response.getBody(), "NO JSON BODY");
+            return response;
         }
     }
 
@@ -88,6 +100,10 @@ public class ShiftController {
             return response;
         } catch (BackendException backendException) {
             ResponseEntity<String> response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Get Events: [Failed] " + backendException.getMessage());
+            logger(response.getStatusCode().value(), response.getBody(), "NO JSON BODY");
+            return response;
+        } catch (Exception exception) {
+            ResponseEntity<String> response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Get Events: [Failed] Major Error!: " + exception.getMessage());
             logger(response.getStatusCode().value(), response.getBody(), "NO JSON BODY");
             return response;
         }
@@ -112,6 +128,10 @@ public class ShiftController {
             ResponseEntity<String> response = ResponseEntity.status(HttpStatus.CONFLICT).body("Update Register on Event: [Failed] (EventID: " + eventID + " Boolean Value: " + bool + ") " + valueAlreadySetException);
             logger(response.getStatusCode().value(), response.getBody(), "NO JSON BODY");
             return response;
+        } catch (Exception exception) {
+            ResponseEntity<String> response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Update Register on Event: [Failed] (EventID: " + eventID + " Boolean Value: " + bool + ") Major Error: " + exception.getMessage());
+            logger(response.getStatusCode().value(), response.getBody(), "NO JSON BODY");
+            return response;
         }
     }
 
@@ -134,6 +154,10 @@ public class ShiftController {
             ResponseEntity<String> response = ResponseEntity.status(HttpStatus.CONFLICT).body("Update Show Event: [Failed] (EventID: " + eventID + " Boolean Value: " + bool + ") " + valueAlreadySetException.getMessage());
             logger(response.getStatusCode().value(), response.getBody(), "NO JSON BODY");
             return response;
+        } catch (Exception exception) {
+            ResponseEntity<String> response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Update Show Event: [Failed] (EventID: " + eventID + " Boolean Value: " + bool + ") Major Error: " + exception.getMessage());
+            logger(response.getStatusCode().value(), response.getBody(), "NO JSON BODY");
+            return response;
         }
     }
 
@@ -151,6 +175,10 @@ public class ShiftController {
         } catch (ItemNotFoundException itemNotFoundException) {
             ResponseEntity<String> response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("Update Shift: [Failed] " + itemNotFoundException.getMessage());
             logger(response.getStatusCode().value(), response.getBody(), jsonString);
+            return response;
+        } catch (Exception exception) {
+            ResponseEntity<String> response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Update Shift: [Failed] Major Error: " + exception.getMessage());
+            logger(response.getStatusCode().value(), response.getBody(), "NO JSON BODY");
             return response;
         }
     }
@@ -170,6 +198,10 @@ public class ShiftController {
             ResponseEntity<String> response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("Delete Shift: [Failed] (EventID: " + eventID + ") " + itemNotFoundException.getMessage());
             logger(response.getStatusCode().value(), response.getBody(), "NO JSON BODY");
             return response;
+        } catch (Exception exception) {
+            ResponseEntity<String> response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Delete Shift: [Failed] (EventID: " + eventID + ") Major Error: " + exception.getMessage());
+            logger(response.getStatusCode().value(), response.getBody(), "NO JSON BODY");
+            return response;
         }
     }
 
@@ -186,6 +218,10 @@ public class ShiftController {
             return response;
         } catch (ItemNotFoundException itemNotFoundException) {
             ResponseEntity<String> response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("Delete Worker: [Failed] (WorkerID: " + workerID + ") " + itemNotFoundException.getMessage());
+            logger(response.getStatusCode().value(), response.getBody(), "NO JSON BODY");
+            return response;
+        } catch (Exception exception) {
+            ResponseEntity<String> response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Delete Worker: [Failed] (WorkerID: " + workerID + ") Major Error: " + exception.getMessage());
             logger(response.getStatusCode().value(), response.getBody(), "NO JSON BODY");
             return response;
         }
