@@ -155,3 +155,77 @@ border: 1px solid black;
     margin: 10px 0;
 }
 
+.Name_der_veranstaltung{
+	display: 		flex;       /* Flexbox aktivieren */
+    width: 			fit-content;/* Breite an den Inhalt anpassen */
+    margin-top: 	50px;
+	margin-left:	150px;
+	margin-bottom:	50px;
+	font-size: 		20px;
+}
+.Anzeige_der_veranstaltung{
+	margin-left:	150px;
+	font-size: 		18px;
+}
+.Eintragen_erlauben{
+	margin-left:	150px;
+	font-size: 		18px;
+	margin-bottom: 50px;
+}
+
+#eventName{
+	height: 20px;
+    width: 300px;
+    margin: 0 auto;
+	margin-left: 5px;
+}
+
+#showEvent{
+	height: 18px;
+    width: 18px;
+}
+
+#registerOnEvent{
+	height: 18px;
+    width: 18px;
+}
+
+.btn-orange-va{
+	background-color: orange;
+    color: white;
+    border: none;
+	margin-left: 150px;
+	cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+	padding: 10px 15px;
+	margin-top:20px;
+	margin-bottom:20px;
+}
+.btn-orange-va:hover{
+	background-color: darkorange;
+}
+
+#Datum_überschrift{
+	font-size: 18px;
+}
+
+#Datum_eingeben{
+	width: 225px;
+	height: 18px;
+}
+
+.btn-red{
+	background-color: red;
+	color: white;
+    border: none;
+	cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+	padding: 5px;
+}
+
+.btn-red:hover{
+	background-color: darkred;
+	
+}
