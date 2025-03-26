@@ -22,7 +22,7 @@
         <div id="live">
             <tr>
                 <th><b>Veranstaltung</b></th>
-                <th><b>Eingeschrieben</b></th>
+                <th><b>Datum</b></th>
             </tr>
         </div>
 
@@ -33,7 +33,7 @@
         <div id="dead">
             <tr>
                 <th><b>Veranstaltung</b></th>
-                <th><b>Eingeschrieben</b></th>
+                <th><b>Datum</b></th>
             </tr>
         </div>
 
@@ -45,95 +45,86 @@
     </a>
 
     <script>
- window.onload = function () {
-    const heute = new Date(); // Aktuelles Datum
-    const liveTable = document.getElementById("Veranstaltung_live"); // Tabelle für kommende Events
-    const deadTable = document.getElementById("Veranstaltung_dead"); // Tabelle für vergangene Events
 
-    // Hole alle Events vom Backend
-    fetch("http://localhost:8080/shifts/getEvents")
-        .then(res => res.json())
-        .then(events => {
+        window.onload = function () {
+            const heute = new Date();
+            const liveTable = document.getElementById("Veranstaltung_live");
+            const deadTable = document.getElementById("Veranstaltung_dead");
 
-            // Map zur Gruppierung der Events nach Namen
-            // → So wird z. B. "Stadtfest 2024" nur einmal angezeigt, auch wenn es mehrfach vorkommt
-            const grouped = new Map();
+            fetch("http://localhost:8080/shifts/getEvents")
+                .then(res => res.json())
+                .then(events => {
+                    const grouped = new Map();
 
-            // Iteration durch alle Events vom Server
-            events.forEach(event => {
-                if (!event.showEvent) return; // Nur Events anzeigen, die wirklich sichtbar sein sollen
+                    events.forEach(event => {
+                        if (!event.showEvent) return;
 
-                const name = event.eventName;
+                        const name = event.eventName;
 
-                // Wenn Event mit diesem Namen noch nicht in der Map ist, neuen Eintrag anlegen
-                if (!grouped.has(name)) {
-                    grouped.set(name, {
-                        name: name,       // Eventname
-                        needed: 0,        // Gesamtanzahl benötigter Helfer
-                        signedUp: 0,      // Gesamtanzahl bereits eingetragener Helfer
-                        date: null        // Datum des Events (wird gleich gesetzt)
-                    });
-                }
+                        if (!grouped.has(name)) {
+                            grouped.set(name, {
+                            name: name,
+                            eventID: event.eventID,
+                            allDates: []
+                        });
 
-                // Aktuellen Gruppierungseintrag abrufen
-                const current = grouped.get(name);
-
-                // Tage durchgehen, wenn vorhanden
-                if (Array.isArray(event.days)) {
-                    event.days.forEach(day => {
-
-                        // Setze das Eventdatum (nur, wenn es noch nicht gesetzt wurde)
-                        // Wird genutzt, um zu entscheiden: vergangen oder aktuell
-                        if (!current.date && day.day) {
-                            current.date = new Date(day.day);
                         }
 
-                        // Alle Services (z. B. "Aufbauen", "Abbauen", "Bar") durchgehen
-                        if (Array.isArray(day.services)) {
-                            day.services.forEach(service => {
+                        const current = grouped.get(name);
 
-                                // Alle Tasks pro Service durchgehen
-                                if (Array.isArray(service.tasks)) {
-                                    service.tasks.forEach(task => {
-
-                                        // Zähle benötigte Helfer auf
-                                        current.needed += task.neededWorker || 0;
-
-                                        // Zähle eingetragene Helfer, wenn vorhanden
-                                        if (Array.isArray(task.workers)) {
-                                            current.signedUp += task.workers.length;
-                                        }
-                                    });
+                        if (Array.isArray(event.days)) {
+                            event.days.forEach(day => {
+                                const parsed = new Date(day.day);
+                                if (!isNaN(parsed)) {
+                                    current.allDates.push(parsed);
                                 }
                             });
                         }
                     });
-                }
-            });
 
-            // Jetzt wird jedes gruppierte Event in die Tabelle geschrieben
-            grouped.forEach(event => {
-                const row = document.createElement("tr");
+                    grouped.forEach(event => {
+                        let dateText = "-";
 
-                // Tabelle zeigt nur: Name + Anzahl eingeschriebene / benötigte Helfer
-                row.innerHTML = `
-                    <td>${event.name}</td>
-                    <td>${event.signedUp} / ${event.needed}</td>
-                `;
+                        if (event.allDates.length > 0) {
+                            // Sortieren der Daten, um Start und Ende zu finden
+                            event.allDates.sort((a, b) => a - b);
 
-                // Entscheide, ob Event bereits vergangen ist (→ deadTable) oder noch aktuell (→ liveTable)
-                if (event.date && event.date < heute) {
-                    deadTable.appendChild(row);
-                } else {
-                    liveTable.appendChild(row);
-                }
-            });
-        })
-        .catch(err => {
-            // Fehler beim Abrufen der Daten
-            console.error("Fehler beim Laden der Events:", err);
-        });
-};
+                            const start = event.allDates[0];
+                            const end = event.allDates[event.allDates.length - 1];
+
+                            // Formatfunktion für Datum: "11. Juli 2024"
+                            const formatDate = (d) => d.toLocaleDateString("de-DE", {
+                                day: "2-digit",
+                                month: "long",
+                                year: "numeric"
+                            });
+
+                            // Gleicher Tag → nur ein Datum anzeigen
+                            if (start.getTime() === end.getTime()) {
+                                dateText = formatDate(start);
+                            } else {
+                                dateText = `${formatDate(start)} – ${formatDate(end)}`;
+                            }
+                        }
+
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                        <td><a href="Veranstaltung.html?eventID=${event.eventID}">${event.name}</a></td>
+                        <td>${dateText}</td>
+                         `;
+
+                        // Vergangen oder noch bevorstehend?
+                        if (event.allDates.length > 0 && event.allDates[event.allDates.length - 1] < heute) {
+                            deadTable.appendChild(row);
+                        } else {
+                            liveTable.appendChild(row);
+                        }
+                    });
+                })
+                .catch(err => {
+                    console.error("Fehler beim Laden der Events:", err);
+                });
+        };
 
 
 

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Veranstaltungsdetails</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="header">Turnverein St. Ingbert</div>
+    <div class="menu" onclick="toggleMenu()">☰</div>
+    <ul class="menu-list" id="menuList">
+        <li onclick="Start()">Startseite</li>
+    </ul>
+
+    <div class="content">
+        <h1 id="eventName">Veranstaltung</h1>
+        <div id="eventContent"></div>
+    </div>
+
+    <script>
+
+
+
+
+        function toggleMenu() {
+            const menu = document.getElementById('menuList');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function Start() {
+            window.location.href = "Seite.html";
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const eventID = urlParams.get("eventID");
+
+        if (eventID) {
+            fetch(`http://localhost:8080/shifts/getShift/${eventID}`)
+                .then(res => res.json())
+                .then(event => {
+                    document.getElementById("eventName").textContent = event.eventName;
+
+                    const container = document.getElementById("eventContent");
+
+                    event.days?.forEach((day, dayIndex) => {
+                        const dayDiv = document.createElement("div");
+                        dayDiv.classList.add("day");
+
+                        const date = new Date(day.day);
+                        const formattedDate = date.toLocaleDateString("de-DE", {
+                            weekday: "long",
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric"
+                        });
+
+                        dayDiv.innerHTML = `<h2>Tag ${dayIndex + 1} | ${formattedDate}</h2>`;
+
+                        day.services?.forEach(service => {
+                            const serviceDiv = document.createElement("div");
+                            serviceDiv.classList.add("service");
+
+                            serviceDiv.innerHTML = `
+                        <h3>${service.serviceDescription} | ${service.timeStart.slice(0, 5)} bis ${service.timeEnd.slice(0, 5)} Uhr</h3>
+                        <div class="line"></div>
+                    `;
+
+                            service.tasks?.forEach(task => {
+                                const signedUp = task.workers?.length || 0;
+                                const taskDiv = document.createElement("div");
+                                taskDiv.classList.add("task");
+
+                                let taskHTML = `<strong>${task.taskDescription}</strong> | ${signedUp} von ${task.neededWorker} Personen`;
+
+                                // Eingabe-Feld + Button
+                                taskHTML += `
+                                    <div class="signup">
+                                        <input type="text" placeholder="Name" id="input-${event.eventID}-${day.dayID}-${service.serviceID}-${task.taskID}" /> 
+                                        <button onclick="Einschreiben(${event.eventID}, ${day.dayID}, ${service.serviceID}, ${task.taskID})">Eintragen</button>
+                                    </div>
+                                `;
+
+                                // Namen & Löschen-Buttons
+                                if (signedUp > 0) {
+                                    const names = task.workers.map(w => `
+                                    <div class="worker">
+                                        ${w.workerName}
+                                       <button onclick="loescheWorker(${w.workerID})">Löschen</button>
+
+                                    </div>
+                                `).join("");    
+
+                                    taskHTML += names;
+                                }
+
+                                taskDiv.innerHTML = taskHTML;
+                                serviceDiv.appendChild(taskDiv);
+                            });
+
+
+                            dayDiv.appendChild(serviceDiv);
+                        });
+
+                        container.appendChild(dayDiv);
+                    });
+                })
+                .catch(err => {
+                    console.error("Fehler beim Laden des Events:", err);
+                    document.getElementById("eventContent").innerHTML = "<p>Fehler beim Laden der Veranstaltungsdetails.</p>";
+                });
+        } else {
+            document.getElementById("eventContent").innerHTML = "<p>Keine Veranstaltung ausgewählt.</p>";
+        }
+
+
+        function Einschreiben(eventID, dayID, serviceID, taskID) {
+            const inputID = `input-${eventID}-${dayID}-${serviceID}-${taskID}`;
+            const nameInput = document.getElementById(inputID);
+            const workerName = nameInput?.value?.trim();
+
+            if (!workerName) {
+                alert("Bitte einen Namen eingeben.");
+                return;
+            }
+
+            const payload = {
+                worker: {
+                    eventID,
+                    dayID,
+                    serviceID,
+                    taskID,
+                    workerName
+                }
+            };
+
+            fetch("http://localhost:8080/shifts/addWorker", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+
+                .then(data => {
+                    // Optional: Seite neu laden oder UI updaten
+                    location.reload();
+                })
+                .catch(err => {
+                    console.error("Fehler beim Eintragen:", err);
+                    alert("Konnte nicht eintragen.");
+                });
+        }
+
+        function loescheWorker(workerID) {
+    fetch(`http://localhost:8080/deleteEvent/deleteWorker/${workerID}`, {
+        method: "DELETE"
+    })
+    .then(res => {
+        if (!res.ok) throw new Error("Löschen fehlgeschlagen");
+        return res.text(); // falls der Server nur "OK" zurückgibt
+    })
+    .then(() => {
+        location.reload(); // oder per DOM entfernen
+    })
+    .catch(err => {
+        console.error("Fehler beim Löschen:", err);
+        alert("Konnte nicht löschen.");
+    });
+}
+
+
+    </script>
+</body>
+
+</html>
