@@ -7,6 +7,7 @@ body {
     height: 100vh;
     overflow: auto;
 }
+
 .header {
     width: 100%;
     background: orange;
@@ -14,8 +15,8 @@ body {
     text-align: center;
     padding: 1rem 0;
     font-size: 1.5rem;
-    cursor: pointer;
 }
+
 .menu {
     position: absolute;
     top: 1rem;
@@ -23,6 +24,7 @@ body {
     cursor: pointer;
     z-index: 10;
 }
+
 .menu-list {
     display: none;
     position: absolute;
@@ -33,9 +35,11 @@ body {
     list-style: none;
     padding: 0;
 }
+
 .menu-list li {
     padding: 0.5rem 1rem;
 }
+
 .menu-list li:hover {
     background: #f0f0f0;
 }
@@ -44,29 +48,35 @@ table{
     border-collapse: collapse;
     width: 60%;
 }
+
 td{
     border: none;
     padding: 8px;
 
 }
+
 h1{
     margin-left: 30px   ;
     text-align: left  ;
     margin-bottom: 0px;
 }
+
 #Veranstaltung{
     margin-left: 50px;
     margin-bottom: 10px;
 }
+
 #Veranstaltung_live{
     margin-left: 50px;
     margin-bottom: 10px;
 
 }
+
 #live{
 border: 1px solid black;
 
 }
+
 #dead{
 border: 1px solid black;
 
@@ -79,21 +89,38 @@ border: 1px solid black;
     
 
 }
+
 #Schichtverwaltung{
     height: 50px;
     width: 150px;
     background-color: orange;
-    margin-left: 50px;
-   
+    color: white;
+    border: none;
+    margin: 0 auto;  
+    margin-top: 15px;
+    border-radius: 5px;
+    margin-left: 150px;
 }
+
+#Schichtverwaltung:hover{
+    background-color: darkorange;
+}
+
 #login{
     height: 50px;
     width: 150px;
     background-color: orange;
+    color: white;
+    border: none;
     margin: 0 auto;  
     margin-top: 15px;
-   
+    border-radius: 5px;
 }
+
+#login:hover{
+   background-color: darkorange;
+}
+
 .btn-orange {
     background-color: orange;
     color: white;
@@ -107,6 +134,7 @@ border: 1px solid black;
 .btn-orange:hover {
     background-color: darkorange;
 }
+
 #anmeldung{
     text-align: center;
     align-items: center;
@@ -334,19 +362,8 @@ border: 1px solid black;
     font-size: 30px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#Personen_eingabe{
+    height: 18px;
+    margin-left: 10px;
+    margin-right: 20px;  
+}
