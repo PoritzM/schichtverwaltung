@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <div class="header"  onclick="Start()">Turnverein St. Ingbert</div>
+    <div class="header" onclick="Start()">Turnverein St. Ingbert</div>
     <div class="menu" onclick="toggleMenu()">☰</div>
     <ul class="menu-list" id="menuList">
         <li onclick="Start()">Startseite</li>
@@ -41,7 +41,7 @@
                 .then(res => res.json())
                 .then(event => {
                     document.getElementById("eventName").textContent = event.eventName;
-                    const anzeigen =event.registerOnEvent;
+                    const anzeigen = event.registerOnEvent;
                     const container = document.getElementById("eventContent");
 
                     event.days?.forEach((day, dayIndex) => {
@@ -55,18 +55,40 @@
                             month: "2-digit",
                             year: "numeric"
                         });
+                        let signedUpDay = 0;
+                        let neededDay = 0;
 
-                        dayDiv.innerHTML = `<h2>Tag ${dayIndex + 1} | ${formattedDate}</h2>`;
+                        day.services?.forEach(service => {
+                            service.tasks?.forEach(task => {
+                                signedUpDay += task.workers?.length || 0;
+                                neededDay += task.neededWorker || 0;
+                            });
+                        });
+
+                        dayDiv.innerHTML = `<h2>Tag ${dayIndex + 1} | ${formattedDate} | ${signedUpDay} von ${neededDay} Personen eingetragen</h2>`;
 
                         day.services?.forEach(service => {
                             const serviceDiv = document.createElement("div");
                             serviceDiv.classList.add("service");
 
+                            // Gesamtzahl der Leute in diesem Service berechnen
+                            let signedUpTotal = 0;
+                            let neededTotal = 0;
+
+                            service.tasks?.forEach(task => {
+                                signedUpTotal += task.workers?.length || 0;
+                                neededTotal += task.neededWorker || 0;
+                            });
+
                             serviceDiv.innerHTML = `
-                        <h3>${service.serviceDescription} | ${service.timeStart.slice(0, 5)} bis ${service.timeEnd.slice(0, 5)} Uhr  </h3>
-                        <div class="line"></div>
-                    `;
-                            
+                                <h3>
+                                    ${service.serviceDescription} | ${service.timeStart.slice(0, 5)} bis ${service.timeEnd.slice(0, 5)} Uhr |
+                                    ${signedUpTotal} von ${neededTotal} Personen eingetragen
+                                </h3>
+                                <div class="line"></div>
+                            `;
+
+
                             service.tasks?.forEach(task => {
                                 const signedUp = task.workers?.length || 0;
                                 const taskDiv = document.createElement("div");
@@ -75,8 +97,8 @@
                                 let taskHTML = `<strong>${task.taskDescription}</strong> | ${signedUp} von ${task.neededWorker} Personen`;
 
                                 // Eingabe-Feld + Button
-                                if(anzeigen){                                
-                                taskHTML += `
+                                if (anzeigen) {
+                                    taskHTML += `
                                     <div class="signup">
                                         <input type="text" placeholder="Name" id="input-${event.eventID}-${day.dayID}-${service.serviceID}-${task.taskID}" onkeydown="if(event.key === 'Enter') Einschreiben(${event.eventID}, ${day.dayID}, ${service.serviceID}, ${task.taskID})" /> 
                                         <button id= "anlegen" onclick="Einschreiben(${event.eventID}, ${day.dayID}, ${service.serviceID}, ${task.taskID})">Eintragen</button>
@@ -91,13 +113,13 @@
                                        <button onclick="loescheWorker(${w.workerID})">Löschen</button>
 
                                     </div>
-                                `).join("");    
+                                `).join("");
 
                                     taskHTML += names;
                                 }
-                               
+
                                 taskDiv.innerHTML = taskHTML;
-                                
+
                                 serviceDiv.appendChild(taskDiv);
                             });
 
@@ -155,22 +177,22 @@
                 });
         }
 
-    function loescheWorker(workerID) {
-    fetch(`http://localhost:8080/shifts/deleteWorker/${workerID}`, {
-        method: "DELETE"
-    })
-    .then(res => {
-        if (!res.ok) throw new Error("Löschen fehlgeschlagen");
-        return res.text(); // falls der Server nur "OK" zurückgibt
-    })
-    .then(() => {
-        location.reload(); // oder per DOM entfernen
-    })
-    .catch(err => {
-        console.error("Fehler beim Löschen:", err);
-        alert("Konnte nicht löschen.");
-    });
-    }
+        function loescheWorker(workerID) {
+            fetch(`http://localhost:8080/shifts/deleteWorker/${workerID}`, {
+                method: "DELETE"
+            })
+                .then(res => {
+                    if (!res.ok) throw new Error("Löschen fehlgeschlagen");
+                    return res.text(); // falls der Server nur "OK" zurückgibt
+                })
+                .then(() => {
+                    location.reload(); // oder per DOM entfernen
+                })
+                .catch(err => {
+                    console.error("Fehler beim Löschen:", err);
+                    alert("Konnte nicht löschen.");
+                });
+        }
 
 
 
