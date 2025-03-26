@@ -55,9 +55,9 @@
                             month: "2-digit",
                             year: "numeric"
                         });
+
                         let signedUpDay = 0;
                         let neededDay = 0;
-
                         day.services?.forEach(service => {
                             service.tasks?.forEach(task => {
                                 signedUpDay += task.workers?.length || 0;
@@ -65,29 +65,52 @@
                             });
                         });
 
-                        dayDiv.innerHTML = `<h2>Tag ${dayIndex + 1} | ${formattedDate} | ${signedUpDay} von ${neededDay} Personen eingetragen</h2>`;
+                        // Überschrift zum Einklappen
+                        const header = document.createElement("h2");
+                        header.style.cursor = "pointer";
+
+                        // Pfeil-Icon hinzufügen
+                        const arrow = document.createElement("span");
+                        arrow.textContent = "▼"; // Anfangszustand: ausgeklappt
+                        arrow.classList.add("arrow");
+                        arrow.style.marginLeft = "10px";
+
+                        // Text + Pfeil setzen
+                        header.textContent = `Tag ${dayIndex + 1} | ${formattedDate} | ${signedUpDay} von ${neededDay} Personen eingetragen `;
+                        header.appendChild(arrow); // Pfeil anhängen
+                        dayDiv.appendChild(header);
+                        
+
+                        // Inhalt des Tages (einklappbar)
+                        const dayContentDiv = document.createElement("div");
+                        dayContentDiv.classList.add("dayContent");
+                        dayContentDiv.style.display = "none"; // eingeklappt
+
+                        header.addEventListener("click", () => {
+                            const visible = dayContentDiv.style.display !== "none";
+                            dayContentDiv.style.display = visible ? "none" : "block";
+                            arrow.textContent = visible ? "▼" : "▶"; // Pfeil ändern
+                        });
+
 
                         day.services?.forEach(service => {
                             const serviceDiv = document.createElement("div");
                             serviceDiv.classList.add("service");
 
-                            // Gesamtzahl der Leute in diesem Service berechnen
                             let signedUpTotal = 0;
                             let neededTotal = 0;
-
                             service.tasks?.forEach(task => {
                                 signedUpTotal += task.workers?.length || 0;
                                 neededTotal += task.neededWorker || 0;
                             });
 
                             serviceDiv.innerHTML = `
-                                <h3>
-                                    ${service.serviceDescription} | ${service.timeStart.slice(0, 5)} bis ${service.timeEnd.slice(0, 5)} Uhr |
-                                    ${signedUpTotal} von ${neededTotal} Personen eingetragen
-                                </h3>
-                                <div class="line"></div>
-                            `;
-
+                                    <h3>
+                                        ${service.serviceDescription} | ${service.timeStart.slice(0, 5)} bis ${service.timeEnd.slice(0, 5)} Uhr |
+                                        ${signedUpTotal} von ${neededTotal} Personen eingetragen
+                                    </h3>
+                                    <div class="line"></div>
+                                `;
 
                             service.tasks?.forEach(task => {
                                 const signedUp = task.workers?.length || 0;
@@ -96,39 +119,40 @@
 
                                 let taskHTML = `<strong>${task.taskDescription}</strong> | ${signedUp} von ${task.neededWorker} Personen`;
 
-                                // Eingabe-Feld + Button
                                 if (anzeigen) {
                                     taskHTML += `
-                                    <div class="signup">
-                                        <input type="text" placeholder="Name" id="input-${event.eventID}-${day.dayID}-${service.serviceID}-${task.taskID}" onkeydown="if(event.key === 'Enter') Einschreiben(${event.eventID}, ${day.dayID}, ${service.serviceID}, ${task.taskID})" /> 
-                                        <button id= "anlegen" onclick="Einschreiben(${event.eventID}, ${day.dayID}, ${service.serviceID}, ${task.taskID})">Eintragen</button>
-                                    </div>
-                                `;
-                                };
-                                // Namen & Löschen-Buttons
+                                        <div class="signup">
+                                            <input type="text" placeholder="Name" id="input-${event.eventID}-${day.dayID}-${service.serviceID}-${task.taskID}" onkeydown="if(event.key === 'Enter') Einschreiben(${event.eventID}, ${day.dayID}, ${service.serviceID}, ${task.taskID})" /> 
+                                            <button id="anlegen" onclick="Einschreiben(${event.eventID}, ${day.dayID}, ${service.serviceID}, ${task.taskID})">Eintragen</button>
+                                        </div>
+                                    `;
+                                }
+
                                 if (signedUp > 0) {
                                     const names = task.workers.map(w => `
                                     <div class="worker">
                                         ${w.workerName}
-                                       <button onclick="loescheWorker(${w.workerID})">Löschen</button>
-
+                                        <button onclick="loescheWorker(${w.workerID})">Löschen</button>
                                     </div>
                                 `).join("");
-
                                     taskHTML += names;
                                 }
 
                                 taskDiv.innerHTML = taskHTML;
-
                                 serviceDiv.appendChild(taskDiv);
                             });
 
-
-                            dayDiv.appendChild(serviceDiv);
+                            dayContentDiv.appendChild(serviceDiv);
                         });
 
+                        // Füge den einklappbaren Inhalt und das Element hinzu
+                        dayDiv.appendChild(dayContentDiv);
                         container.appendChild(dayDiv);
+
+                        // Toggle-Funktion für Ein-/Ausklappen
+                       
                     });
+
                 })
                 .catch(err => {
                     console.error("Fehler beim Laden des Events:", err);
