@@ -94,17 +94,31 @@ border: 1px solid black;
     height: 50px;
     width: 150px;
     background-color: orange;
-    margin-left: 50px;
-   
+    color: white;
+    border: none;
+    margin: 0 auto;  
+    margin-top: 15px;
+    border-radius: 5px;
+    margin-left: 150px;
+}
+
+#Schichtverwaltung:hover{
+    background-color: darkorange;
 }
 
 #login{
     height: 50px;
     width: 150px;
     background-color: orange;
+    color: white;
+    border: none;
     margin: 0 auto;  
     margin-top: 15px;
-   
+    border-radius: 5px;
+}
+
+#login:hover{
+   background-color: darkorange;
 }
 
 .btn-orange {
