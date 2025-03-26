@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 
+//Einzelnen Insert Methoden fürs Hinzufügen von Daten in die Datenbank
 public class InsertMethods {
 
     public static int insertEvent (String eventName, boolean showEvent, boolean registerOnEvent, Date timeStampCreate, Date timeStampEdit) {

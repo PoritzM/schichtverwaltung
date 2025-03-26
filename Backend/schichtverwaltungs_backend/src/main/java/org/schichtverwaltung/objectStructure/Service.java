@@ -6,10 +6,8 @@ import org.schichtverwaltung.exceptions.ItemNotFoundException;
 import org.schichtverwaltung.zUtils.TimeStamps;
 
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 
 import static org.schichtverwaltung.dbTools.InsertMethods.insertService;
 import static org.schichtverwaltung.dbTools.SelectMethods.selectTable;
@@ -27,16 +25,6 @@ public class Service {
     private ArrayList<Task> tasks = new ArrayList<>();
 
     private TimeStamps timeStamps;
-
-//    public Service(int eventID, int dayID, String serviceDescription, LocalTime timeStart, LocalTime timeEnd) {
-//        this.eventID = eventID;
-//        this.dayID = dayID;
-//        this.serviceDescription = serviceDescription;
-//        this.timeStart = timeStart;
-//        this.timeEnd = timeEnd;
-//
-//        timeStamps = new TimeStamps();
-//    }
 
     public Service(int eventID, int dayID, int serviceID, String serviceDescription, LocalTime timeStart, LocalTime timeEnd, TimeStamps timeStamps) {
         this.eventID = eventID;

@@ -17,10 +17,11 @@ import java.util.ArrayList;
 
 import static org.schichtverwaltung.dbTools.SelectMethods.*;
 
+//Hinzufügen einer Person zu einer Schicht
 public class AddWorkerToShift {
 
+    //Ausführer der Methode zum Catchen und Verwalten von Exceptions
     public static ReturnInfos doAddWorkerToShift (String jsonString) throws BackendException, BlockedActionException {
-
         try {
             return addWorkerToShift(jsonString);
         } catch (SQLException | IOException exception) {
@@ -38,10 +39,6 @@ public class AddWorkerToShift {
         Worker worker = gson.fromJson(jsonObject.getAsJsonObject("worker"), Worker.class);
 
         InfoSet infoSetEvent = selectTable("eventID",String.valueOf(worker.getEventID()), "events");
-
-
-
-
 
         if (infoSetEvent.amountRows() != 1) {
             throw new ItemNotFoundException("eventID " + worker.getEventID() + " not in Database");

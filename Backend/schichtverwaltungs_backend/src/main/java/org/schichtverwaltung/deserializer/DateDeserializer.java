@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+//Um Daten aus JSON in ein Data format zu verwandeln
 public class DateDeserializer implements JsonDeserializer<Date> {
 
     private final SimpleDateFormat dateFormat;

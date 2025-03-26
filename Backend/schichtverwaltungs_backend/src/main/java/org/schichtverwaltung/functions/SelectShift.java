@@ -23,8 +23,14 @@ import static org.schichtverwaltung.zUtils.StringToDateParser.parseDateString;
 import static org.schichtverwaltung.zUtils.StringToLocalDate.parseLocalDateString;
 import static org.schichtverwaltung.zUtils.StringToLocalTime.parseLocalTimeString;
 
+//"Lesen" der Daten aus der Datenbank zu einer Kompletten Schicht oder nur Teil Infos zu allen Schichten
 public class SelectShift {
 
+    //--------------------------------------------------------
+    //Methoden welche alle Informationen zu einer Schicht holt
+    //--------------------------------------------------------
+
+    //Ausführer der Methode zum Catchen und Verwalten von Exceptions
     public static String doSelectShift (int eventID) throws BackendException, ItemNotFoundException {
         try {
             return getJsonFromSelectedShift(eventID);
@@ -33,6 +39,7 @@ public class SelectShift {
         }
     }
 
+    //Objekte in Json umwandeln
     public static String getJsonFromSelectedShift (int eventID) throws SQLException, ParseException {
 
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -88,13 +95,14 @@ public class SelectShift {
             }
             dayIndex++;
         }
-
         return event;
-
     }
 
+    //------------------------------------------------
+    //Methoden welche zu allen Schichten die Tage holt
+    //------------------------------------------------
 
-
+    //Ausführer der Methode zum Catchen und Verwalten von Exceptions
     public static String doSelectShiftOverview () throws BackendException {
         try {
             return getJsonFormShiftOverview();
@@ -103,6 +111,7 @@ public class SelectShift {
         }
     }
 
+    //Objekte in Json umwandeln
     public static String getJsonFormShiftOverview () throws SQLException, ParseException {
 
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -132,14 +141,14 @@ public class SelectShift {
             for (Object dayID : dayIDs) {
                 event.addDay(selectDay((Integer) dayID));
             }
-
             events.add(event);
         }
-
         return events;
     }
 
-
+    //---------------------------------------------------------------
+    //Holt die Daten der einzelnen hierarchiestufen aus der Datenbank
+    //---------------------------------------------------------------
 
     private static Event selectEvent (int eventID) throws SQLException, ParseException, ItemNotFoundException {
         InfoSet infoSetEvent = selectTable("eventID",String.valueOf(eventID), "events");

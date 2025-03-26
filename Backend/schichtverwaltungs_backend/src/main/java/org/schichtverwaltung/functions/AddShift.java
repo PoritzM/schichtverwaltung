@@ -15,8 +15,10 @@ import org.schichtverwaltung.zUtils.ReturnInfos;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+//hinzufügen einer Schicht
 public class AddShift {
 
+    //Ausführer der Methode zum Catchen und Verwalten von Exceptions
     public static ReturnInfos doAddShift (String jsonString) throws BackendException {
         return addShift(jsonString);
     }

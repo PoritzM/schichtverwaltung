@@ -2,7 +2,6 @@ package org.schichtverwaltung.objectStructure;
 
 import org.schichtverwaltung.dbTools.InfoSet;
 import org.schichtverwaltung.exceptions.ItemNotFoundException;
-import org.schichtverwaltung.zUtils.ReturnInfos;
 import org.schichtverwaltung.zUtils.TimeStamps;
 
 import java.sql.SQLException;
@@ -22,12 +21,6 @@ public class Event {
     private ArrayList<Day> days = new ArrayList<>();
 
     private TimeStamps timeStamps;
-
-//    public Event(String eventName, boolean showEvent, boolean registerOnEvent) {
-//        this.eventName = eventName;
-//        this.showEvent = showEvent;
-//        this.registerOnEvent = registerOnEvent;
-//    }
 
     public Event(int eventID,String eventName, boolean showEvent, boolean registerOnEvent, TimeStamps timeStamps) {
         this.eventID = eventID;

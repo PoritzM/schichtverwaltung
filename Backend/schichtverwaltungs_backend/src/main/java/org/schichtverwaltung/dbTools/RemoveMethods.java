@@ -1,5 +1,6 @@
 package org.schichtverwaltung.dbTools;
 
+//Methoden um Daten aus der Datenbank zu löschen
 public class RemoveMethods {
 
     public static void removeEvent (int eventID) {
@@ -22,6 +23,7 @@ public class RemoveMethods {
         databaseTools.executeSQL(statement);
     }
 
+    //Flexibel einsetzbare Remove Methode
     public static void removeEntire (String table, String idName, String idValue) {
 
         DatabaseTools databaseTools =  new DatabaseTools();
@@ -30,6 +32,5 @@ public class RemoveMethods {
         String statement = "DELETE FROM " + table + " WHERE " + idName +  " = " + idValue;
 
         databaseTools.executeSQL(statement);
-
     }
 }

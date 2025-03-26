@@ -1,12 +1,7 @@
 package org.schichtverwaltung.objectStructure;
 
-import org.schichtverwaltung.zUtils.GetTimeStamp;
 import org.schichtverwaltung.zUtils.TimeStamps;
-
-import java.util.Date;
-
 import static org.schichtverwaltung.dbTools.InsertMethods.insertWorker;
-import static org.schichtverwaltung.zUtils.GetTimeStamp.getTimeStamp;
 
 public class Worker {
 
@@ -18,17 +13,6 @@ public class Worker {
     private String workerName;
 
     private TimeStamps timeStamps;
-
-//    public Worker(int eventID, int dayID, int serviceID, int taskID, String workerName) {
-//        this.eventID = eventID;
-//        this.dayID = dayID;
-//        this.serviceID = serviceID;
-//        this.taskID = taskID;
-//        this.workerName = workerName;
-//
-//        timeStamps = new TimeStamps();
-//    }
-
 
     public Worker(int eventID, int dayID, int serviceID, int taskID, int workerID, String workerName, TimeStamps timeStamps) {
         this.eventID = eventID;

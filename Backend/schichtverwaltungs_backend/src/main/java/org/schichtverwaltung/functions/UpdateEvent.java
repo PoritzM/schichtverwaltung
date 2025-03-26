@@ -4,28 +4,24 @@ import org.schichtverwaltung.dbTools.InfoSet;
 import org.schichtverwaltung.exceptions.BackendException;
 import org.schichtverwaltung.exceptions.ItemNotFoundException;
 import org.schichtverwaltung.exceptions.ValueAlreadySetException;
-import org.schichtverwaltung.zUtils.ReturnInfos;
 
 import java.sql.SQLException;
 import java.util.Objects;
 
-import static org.schichtverwaltung.dbTools.RemoveMethods.removeEvent;
 import static org.schichtverwaltung.dbTools.SelectMethods.selectTable;
 import static org.schichtverwaltung.dbTools.UpdateMethods.updateEvent;
 
+//Aktualisieren von Informationen eines Events
 public class UpdateEvent {
 
+    //---------------------------------------------
+    //Methoden um den wert von Show Event zu ändern
+    //---------------------------------------------
+
+    //Ausführer der Methode zum Catchen und Verwalten von Exceptions
     public static void doUpdateShowEvent (int eventID, boolean newShowEvent) throws BackendException, ItemNotFoundException, ValueAlreadySetException {
         try {
             updateShowEvent(eventID, newShowEvent);
-        } catch (SQLException exception) {
-            throw new BackendException("OHGHHH FUCKCKCK " + exception.getMessage());
-        }
-    }
-
-    public static void doUpdateRegisterOnEvent (int eventID, boolean newRegisterOnEvent) throws BackendException, ItemNotFoundException, ValueAlreadySetException {
-        try {
-            updateRegisterOnEvent(eventID, newRegisterOnEvent);
         } catch (SQLException exception) {
             throw new BackendException("OHGHHH FUCKCKCK " + exception.getMessage());
         }
@@ -49,6 +45,19 @@ public class UpdateEvent {
             }
         } else {
             throw new ValueAlreadySetException("Show Event already set to " + showEvent);
+        }
+    }
+
+    //----------------------------------------------------
+    //Methoden um den wert von Register On Event zu ändern
+    //----------------------------------------------------
+
+    //Ausführer der Methode zum Catchen und Verwalten von Exceptions
+    public static void doUpdateRegisterOnEvent (int eventID, boolean newRegisterOnEvent) throws BackendException, ItemNotFoundException, ValueAlreadySetException {
+        try {
+            updateRegisterOnEvent(eventID, newRegisterOnEvent);
+        } catch (SQLException exception) {
+            throw new BackendException("OHGHHH FUCKCKCK " + exception.getMessage());
         }
     }
 

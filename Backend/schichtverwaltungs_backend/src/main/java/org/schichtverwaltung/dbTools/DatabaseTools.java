@@ -12,20 +12,17 @@ public class DatabaseTools {
 
     private Connection connection = null;
 
-
+    //Stellt Verbindung zur Datenbank her
     public void connectToDB () {
-
         var path = "jdbc:sqlite:" + getYamlValue("DBpath");
-
         try {
             connection = DriverManager.getConnection(path);
-//            System.out.println("Connection to SQLite has been established.");
         } catch (SQLException e) {
-//            System.out.println(e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
     }
 
+    //Führt ein "normales" sql statement durch
     public void executeSQL (String statement) {
         if (connection == null) {
             throw new RuntimeException("Database Connection not initialised");
@@ -40,6 +37,7 @@ public class DatabaseTools {
         }
     }
 
+    //Führt ein Select aus und macht aus dem ResultSet ein InfoSet, da das ResultSet nur solange vorhanden ist, wie die verbindung zu Datenbank vorhanden ist
     public InfoSet executeSelectSQL (String statement) {
         if (connection == null) {
             throw new RuntimeException("Database Connection not initialised");
@@ -57,6 +55,7 @@ public class DatabaseTools {
         }
     }
 
+    //Führt das Einfügen von Daten in die Datenbank aus und liefert die ID der erstellen Einträge zurück
     public int executeInsertSQLreturnID (String sql) {
 
         connectToDB();
@@ -66,11 +65,8 @@ public class DatabaseTools {
         }
 
         int id = -1;
-
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
             preparedStatement.executeUpdate();
-
             try (Statement statement = connection.createStatement();
                  ResultSet resultSet = statement.executeQuery("SELECT last_insert_rowid();")) {
 
@@ -78,11 +74,9 @@ public class DatabaseTools {
                     id = resultSet.getInt(1);
                 }
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         return id;
     }
 }

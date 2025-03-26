@@ -8,6 +8,7 @@ import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+//Um Daten aus JSON in ein LocalDate format zu verwandeln
 public class LocalDateDeserializer implements JsonDeserializer<LocalDate> {
 
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");

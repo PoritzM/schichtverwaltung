@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.Map;
 
+//Zum Lesen von infos aus der Config-Datei
 public class YmalReader {
 
     public static Object getYamlValue(String variableName) {

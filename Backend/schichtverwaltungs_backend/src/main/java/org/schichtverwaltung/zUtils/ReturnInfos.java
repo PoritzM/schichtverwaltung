@@ -2,6 +2,7 @@ package org.schichtverwaltung.zUtils;
 
 import java.util.ArrayList;
 
+//Zusammenfassen von mehreren Informationen welche bei einer Methode zurückgegeben werden
 public class ReturnInfos {
 
     private ArrayList<ArrayList<String>> infos = new ArrayList<>();

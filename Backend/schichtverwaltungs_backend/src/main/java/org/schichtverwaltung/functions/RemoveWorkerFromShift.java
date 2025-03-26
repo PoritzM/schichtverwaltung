@@ -9,8 +9,10 @@ import java.sql.SQLException;
 import static org.schichtverwaltung.dbTools.RemoveMethods.removeWorker;
 import static org.schichtverwaltung.dbTools.SelectMethods.selectTable;
 
+//Löschen einer Person von einer Schicht
 public class RemoveWorkerFromShift {
 
+    //Ausführer der Methode zum Catchen und Verwalten von Exceptions
     public static void doRemoveWorkerFromShift (int workerID) throws BackendException, ItemNotFoundException {
         try {
             removeWorkerFromShift(workerID);
