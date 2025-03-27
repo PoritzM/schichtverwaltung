@@ -121,6 +121,7 @@
                                 const signedUp = task.workers?.length || 0;
                                 const taskDiv = document.createElement("div");
                                 taskDiv.classList.add("task");
+                                taskDiv.setAttribute("data-needed", task.neededWorker); // <-- DAS HIER HINZUFÜGEN
 
                                 let taskHTML = `<strong>${task.taskDescription}</strong> | ${signedUp} / ${task.neededWorker}`;
 
@@ -149,14 +150,13 @@
 
                                 taskDiv.innerHTML = taskHTML;
 
-                                // task gehört NUR in serviceContent
                                 serviceContent.appendChild(taskDiv);
                             });
 
-                            // serviceContent kommt in serviceDiv
+                            //serviceDiv
                             serviceDiv.appendChild(serviceContent);
 
-                            //  serviceDiv kommt in dayContent
+                            //dayContent
                             dayContentDiv.appendChild(serviceDiv);
                         });
 
@@ -206,13 +206,19 @@
                 .then(res => {
                     if (!res.ok) {
                         showToast(getErrorMessage(res.status), "error");
-
+                        throw new Error("Serverfehler");
                     }
                     return res.text();
                 })
                 .then(responseText => {
-                    const match = responseText.match(/ID:\s*(\d+)/);
-                    const newWorkerID = match ? Number(match[1]) : Date.now();
+                    const match = responseText.match(/\[\[WorkerID,\s*(\d+)\]\]/);
+
+                    if (!match) {
+                        showToast("Fehler beim Verarbeiten der Serverantwort", "error");
+                        return;
+                    }
+
+                    const newWorkerID = Number(match[1]);
 
                     const taskDiv = nameInput.closest(".task");
                     if (taskDiv) {
@@ -224,13 +230,15 @@
                 <button onclick="loescheWorker(${newWorkerID})">❌</button>
             `;
                         taskDiv.appendChild(workerDiv);
+                        updateCounter(taskDiv);
+
                     }
 
                     nameInput.value = "";
                     showToast("Erfolgreich eingetragen!", "success");
                 })
                 .catch(err => {
-                    console.error("Netzwerkfehler:", err);
+                    console.error("Fehler beim Eintragen:", err);
                     showToast("Verbindung zum Server fehlgeschlagen.", "error");
                 });
 
@@ -247,7 +255,11 @@
                 .then(() => {
                     const workerElement = document.getElementById(`worker-${workerID}`);
                     if (workerElement) {
+                        
+                        const taskDiv = workerElement.closest(".task");
                         workerElement.remove();
+                        updateCounter(taskDiv);
+
                     }
                     showToast("Person wurde erfolgreich entfernt.");
                 })
@@ -257,6 +269,60 @@
                 });
 
         }
+
+        function updateCounter(taskDiv) {
+            if (!taskDiv) return;
+
+            const taskLine = taskDiv.querySelector("strong");
+            if (!taskLine) return;
+
+            const needed = parseInt(taskDiv.getAttribute("data-needed")); // <-- HIER ändern
+            const description = taskLine.textContent.split("|")[0].trim();
+            const workers = taskDiv.querySelectorAll(".worker").length;
+
+            taskLine.innerHTML = `${description} | ${workers} / ${needed}`;
+
+            // Dienst aktualisieren
+            const serviceDiv = taskDiv.closest(".service");
+            if (!serviceDiv) return;
+
+            const allTasks = serviceDiv.querySelectorAll(".task");
+            let totalWorkers = 0;
+            let totalNeeded = 0;
+            allTasks.forEach(t => {
+                const taskNeeded = parseInt(t.getAttribute("data-needed")) || 0; // <-- auch hier
+                totalWorkers += t.querySelectorAll(".worker").length;
+                totalNeeded += taskNeeded;
+            });
+
+            const serviceHeader = serviceDiv.querySelector("h3");
+            if (serviceHeader) {
+                serviceHeader.innerHTML = serviceHeader.innerHTML.replace(/\d+\s*\/\s*\d+/, `${totalWorkers} / ${totalNeeded}`);
+            }
+
+            // Tag aktualisieren
+            const dayDiv = taskDiv.closest(".day");
+            if (!dayDiv) return;
+
+            const allServices = dayDiv.querySelectorAll(".service");
+            let dayWorkers = 0;
+            let dayNeeded = 0;
+            allServices.forEach(s => {
+                const serviceTasks = s.querySelectorAll(".task");
+                serviceTasks.forEach(t => {
+                    const taskNeeded = parseInt(t.getAttribute("data-needed")) || 0;
+                    const count = t.querySelectorAll(".worker").length;
+                    dayWorkers += count;
+                    dayNeeded += taskNeeded;
+                });
+            });
+
+            const dayHeader = dayDiv.querySelector("h2");
+            if (dayHeader) {
+                dayHeader.innerHTML = dayHeader.innerHTML.replace(/\d+\s*\/\s*\d+/, `${dayWorkers} / ${dayNeeded}`);
+            }
+        }
+
 
 
     </script>
