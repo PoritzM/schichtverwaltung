@@ -116,9 +116,9 @@ Es werden 9 API Schnittstellen bereit gestellt:
 			- `200 - OK`: Rückgabe ist ein einfacher Text welcher angibt das die Aktion erfolgreich war
 			- `404 - NOT_FOUND`: Sollte die angegebene `eventID` nicht gefunden werden
 			- `500 - INTERNAL_SERVER_ERROR`: Allgemeiner undefinierter Fehlern
-	- *Delete Worker from Shift* (`/deleteShift/{eventID}`)
+	- *Delete Worker from Shift* (`/deleteWorker/{workerID}`)
 		- Übergabe in URL:
-			-`{eventID}`: ID welche die Veranstaltung identifiziert
+			-`{workerID}`: ID welchen die zu Löschende Person Identifiert
 		- Rückgabe:
 			- `200 - OK`: Rückgabe ist ein einfacher Text welcher angibt das die Aktion erfolgreich war
 			- `404 - NOT_FOUND`: Sollte die angegebene `eventID` nicht gefunden werden
