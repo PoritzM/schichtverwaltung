@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
 </head>
+
 <body>
     <div class="header" onclick="Start()">Turnverein St. Ingbert</div>
 
@@ -11,30 +13,19 @@
     <ul class="menu-list" id="menuList">
         <li onclick="Start()">Schichtplan</li>
     </ul>
-    
-        <h3 id ="anmeldung">Anmeldung</h3>
-        <div id="Formular">
-        <input type="password" name = "PW" id ="pw" placeholder="Passwort" onkeydown="if(event.key === 'Enter') login()">
-        </div>
-        
-        <button onclick="login()" id="login"><b>Anmelden</b></button>
+    <div id="toast" class="toast"></div>
+
+    <h3 id="anmeldung">Anmeldung</h3>
+    <div id="Formular">
+        <input type="password" name="PW" id="pw" placeholder="Passwort" onkeydown="if(event.key === 'Enter') login()">
+    </div>
+
+    <button onclick="login()" id="login"><b>Anmelden</b></button>
 
 
-
+    <script src="utils.js"></script>
     <script>
-        function Start(){
 
-            window.location.href="Seite.html"
-
-        }
-
-
-        function toggleMenu() {
-            const menu = document.getElementById('menuList');
-            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-
-
-        }
 
         async function hash(password) {
             const encoder = new TextEncoder();
@@ -44,22 +35,22 @@
                 .map(byte => byte.toString(16).padStart(2, '0'))
                 .join('');
         }
-       
-        async function login()
-        {
-            const password_eingegeben=document.getElementById('pw').value;
+
+        async function login() {
+            const password_eingegeben = document.getElementById('pw').value;
             // SOLLTE AM BESTEN DEN WERT AUS EINER DATENBANK HOLLLEN UNSICHER ANSONSTEN !!!!!
-            const storedHash= "953ae3742f333d144636d3a3cd3447453a645d2b76bb09b2200ce764fdc6c2e4";
-            
+            const storedHash = "953ae3742f333d144636d3a3cd3447453a645d2b76bb09b2200ce764fdc6c2e4";
+
             const hashed = await hash(password_eingegeben);
-       
-            if ( hashed == storedHash){ 
-                window.location.href= "schichtplan.html"}
-            else{
-                alert("Falsches Passwort"); 
+
+            if (hashed == storedHash) {
+                window.location.href = "schichtplan.html"
+            }
+            else {
+                showToast("Falsches Passwort","error");
             }
         }
-        
+
     </script>
 </body>
 

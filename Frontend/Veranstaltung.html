@@ -14,24 +14,16 @@
         <li onclick="Start()">Startseite</li>
     </ul>
 
+    <div id="toast" class="toast"></div>
     <div class="content">
         <h1 id="eventName">Veranstaltung</h1>
         <div id="eventContent"></div>
     </div>
 
+
+
+    <script src="utils.js"></script>
     <script>
-
-
-
-
-        function toggleMenu() {
-            const menu = document.getElementById('menuList');
-            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-        }
-
-        function Start() {
-            window.location.href = "Seite.html";
-        }
 
         const urlParams = new URLSearchParams(window.location.search);
         const eventID = urlParams.get("eventID");
@@ -132,36 +124,39 @@
 
                                 let taskHTML = `<strong>${task.taskDescription}</strong> | ${signedUp} / ${task.neededWorker}`;
 
-                                if (anzeigen) {
+                                if (anzeigen == true) {
                                     taskHTML += `
                                     <div class="signup">
                                         <input type="text" placeholder="Name" id="input-${event.eventID}-${day.dayID}-${service.serviceID}-${task.taskID}" 
                                             onkeydown="if(event.key === 'Enter') Einschreiben(${event.eventID}, ${day.dayID}, ${service.serviceID}, ${task.taskID})" /> 
-                                        <button onclick="Einschreiben(${event.eventID}, ${day.dayID}, ${service.serviceID}, ${task.taskID})">Eintragen</button>
+                                        <button onclick="Einschreiben(${event.eventID}, ${day.dayID}, ${service.serviceID}, ${task.taskID})">✔️</button>
                                     </div>
                                 `;
                                 }
 
                                 if (signedUp > 0) {
-                                    const names = task.workers.map(w => `
-                                    <div class="worker">
-                                        ${w.workerName}
-                                        <button onclick="loescheWorker(${w.workerID})">Löschen</button>
-                                    </div>
-                                `).join("");
+                                    const names = task.workers.map(w => {
+                                        return `
+                                        <div class="worker" id="worker-${w.workerID}">
+                                            ${w.workerName}
+                                            ${anzeigen ? `<button onclick="loescheWorker(${w.workerID})">❌</button>` : ""}
+                                        </div>
+                                    `;
+                                    }).join("");
+
                                     taskHTML += names;
                                 }
 
                                 taskDiv.innerHTML = taskHTML;
 
-                                // ⬇️ Task gehört NUR in serviceContent
+                                // task gehört NUR in serviceContent
                                 serviceContent.appendChild(taskDiv);
                             });
 
-                            // ⬇️ serviceContent kommt in serviceDiv
+                            // serviceContent kommt in serviceDiv
                             serviceDiv.appendChild(serviceContent);
 
-                            // ⬇️ serviceDiv kommt in dayContent
+                            //  serviceDiv kommt in dayContent
                             dayContentDiv.appendChild(serviceDiv);
                         });
 
@@ -175,22 +170,19 @@
                     });
 
                 })
-                .catch(err => {
-                    console.error("Fehler beim Laden des Events:", err);
-                    document.getElementById("eventContent").innerHTML = "<p>Fehler beim Laden der Veranstaltungsdetails.</p>";
-                });
+
         } else {
             document.getElementById("eventContent").innerHTML = "<p>Keine Veranstaltung ausgewählt.</p>";
         }
 
-
+        // Funktion zum Eintragen
         function Einschreiben(eventID, dayID, serviceID, taskID) {
             const inputID = `input-${eventID}-${dayID}-${serviceID}-${taskID}`;
             const nameInput = document.getElementById(inputID);
             const workerName = nameInput?.value?.trim();
 
             if (!workerName) {
-                alert("Bitte einen Namen eingeben.");
+                showToast("Bitte einen Namen eingeben.");
                 return;
             }
 
@@ -211,15 +203,37 @@
                 },
                 body: JSON.stringify(payload)
             })
+                .then(res => {
+                    if (!res.ok) {
+                        showToast(getErrorMessage(res.status), "error");
 
-                .then(data => {
-                    // Event erfolgreich angelegt
-                    alert("Erfolgreich eingetragen!");
+                    }
+                    return res.text();
+                })
+                .then(responseText => {
+                    const match = responseText.match(/ID:\s*(\d+)/);
+                    const newWorkerID = match ? Number(match[1]) : Date.now();
+
+                    const taskDiv = nameInput.closest(".task");
+                    if (taskDiv) {
+                        const workerDiv = document.createElement("div");
+                        workerDiv.className = "worker";
+                        workerDiv.id = `worker-${newWorkerID}`;
+                        workerDiv.innerHTML = `
+                ${workerName}
+                <button onclick="loescheWorker(${newWorkerID})">❌</button>
+            `;
+                        taskDiv.appendChild(workerDiv);
+                    }
+
+                    nameInput.value = "";
+                    showToast("Erfolgreich eingetragen!", "success");
                 })
                 .catch(err => {
-                    console.error("Fehler beim Eintragen:", err);
-                    alert("Konnte nicht eintragen.");
+                    console.error("Netzwerkfehler:", err);
+                    showToast("Verbindung zum Server fehlgeschlagen.", "error");
                 });
+
         }
 
         function loescheWorker(workerID) {
@@ -227,20 +241,22 @@
                 method: "DELETE"
             })
                 .then(res => {
-                    if (!res.ok) throw new Error("Löschen fehlgeschlagen");
-                    return res.text(); // falls der Server nur "OK" zurückgibt
+                    if (!res.ok)
+                        return res.text();
                 })
                 .then(() => {
-                    location.reload(); // oder per DOM entfernen
+                    const workerElement = document.getElementById(`worker-${workerID}`);
+                    if (workerElement) {
+                        workerElement.remove();
+                    }
+                    showToast("Person wurde erfolgreich entfernt.");
                 })
                 .catch(err => {
-                    console.error("Fehler beim Löschen:", err);
-                    alert("Konnte nicht löschen.");
+                    console.error("Netzwerkfehler beim Löschen:", err);
+                    showToast("Verbindung zum Server fehlgeschlagen.", "error");
                 });
+
         }
-
-
-
 
 
     </script>

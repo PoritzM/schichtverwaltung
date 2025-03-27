@@ -6,17 +6,17 @@ Das Schichtverwaltungssystem bietet die Möglichkeit Veranstaltungen anzulegen a
 - Übersichtsseite
 	- Style Desktop
 	- Style Mobile
-	- Klickbox "Sichtverwaltung" anpassen. (Geht horizontal komplett über die Seite)
+	- ~~Klickbox "Sichtverwaltung" anpassen. (Geht horizontal komplett über die Seite)~~
 	- ~~Mouseover zur Startseite nicht vorhanden (Turnverein St. Ingbert)~~
 - Veranstaltungs-Seite
 	- Style Desktop
 	- Style Mobile
-	- Dropdown für Dienste
-	- Bestätigung wen erfolgreich in Event eingetragen
-	- Seite nicht immer neu laden bei eintragen -> Position beibehalten (Scroll Position)
+	- ~~Dropdown für Dienste~~
+	- ~~Bestätigung wen erfolgreich in Event eingetragen~~
+	- ~~Seite nicht immer neu laden bei eintragen -> Position beibehalten (Scroll Position)~~
 	- ~~Mouseover zur Startseite nicht vorhanden (Turnverein St. Ingbert)~~
 - Verwaltungslogin-Seite
-	- Fehlermeldung bei Falschem Passwort
+	~~- Fehlermeldung bei Falschem Passwort~~
 	- ~~Mouseover zur Startseite nicht vorhanden (Turnverein St. Ingbert)~~
 - Verwaltungsübersicht-Seite
 	- Style Desktop
@@ -104,7 +104,7 @@ Es werden 9 API Schnittstellen bereit gestellt:
 			- `500 - INTERNAL_SERVER_ERROR`: Allgemeiner undefinierter Fehlern
 	- *Update Shift* (`/updateShift`)
 		- Übergabe im Body:
-			-  `JSON`: Im Body muss sich ein `JSON` nach gleichem Format wie beim **Hinzufügen eines Events** befinden. ***Wichtig***! Neue IDs müssen mit -1 angegeben werden. ***Wichtig***! Die `JSON` muss in einem `{events: {JSON}}` sitzen.
+			-  `JSON`: Im Body muss sich ein `JSON` nach gleichem Format wie beim **Hinzufügen eines Events** befinden. ***Wichtig***! Neue IDs müssen mit -1  angegeben werden. ***Wichtig***! Die `JSON` muss in einem `{event: JSON}` sitzen.
 		- Rückgabe:
 			- `404 - NOT_FOUND`: Sollte eine der angegebenen IDs nicht gefunden werden.
 			- `500 - INTERNAL_SERVER_ERROR`: Allgemeiner undefinierter Fehlern

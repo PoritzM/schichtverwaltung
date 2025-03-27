@@ -15,24 +15,25 @@
         <li onclick="Start()">Schichtplan</li>
 
     </ul>
+    <div id="toast" class="toast"></div>
 
     <h1>Veranstaltungen</h1>
     <table id="Veranstaltungen">
-        <div id="live">
+      
             <tr>
                 <th><b>Veranstaltung</b></th>
             </tr>
             <tbody id="eventBody">
 
             </tbody>
-        </div>
+    
     </table>
 
 
     <button onclick="Anlegen()" id="login"><b>Veranstaltung Anlegen</b></button>
 
 
-
+    <script src="utils.js"></script>
     <script>
 
 
@@ -42,7 +43,8 @@
 
                 .then(data => {
                     console.log(data);// BUGTESTING
-                    const Veranstaltunge_anzeigen = document.getElementById("Veranstaltungen");
+                    const Veranstaltunge_anzeigen = document.getElementById("eventBody");
+
 
                     const heute = new Date().toISOString().split("T")[0];
                     data.forEach(event => {
@@ -89,11 +91,11 @@
                     return res.text();
                 })
                 .then(() => {
-                    alert("Register-On-Event erfolgreich aktualisiert.");
+                    showToast("Änderung gespeichert","success");
                 })
                 .catch(err => {
                     console.error(err);
-                    alert("Fehler beim Aktualisieren.");
+                    showToast("Fehler beim Aktualisieren.","error");
                 });
         }
 
@@ -111,23 +113,16 @@
                     return res.text();
                 })
                 .then(() => {
-                    alert("Show-Event erfolgreich aktualisiert.");
+                    showToast("Sichtbarkeit aktualisiert.","success");
                 })
                 .catch(err => {
                     console.error("Fehler:", err);
-                    alert("Fehler beim Aktualisieren.");
+                    showToast("Fehler beim Aktualisieren.","error");
                 });
         }
 
 
-        function toggleMenu() {
-            const menu = document.getElementById('menuList');
-            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-        }
-
-        function Start() {
-            window.location.href = "Seite.html"
-        }
+       
 
         function Anlegen() {
             window.location.href = "Veranstaltung_anlegen.html"
