@@ -7,25 +7,25 @@ Das Schichtverwaltungssystem bietet die Möglichkeit Veranstaltungen anzulegen a
 	- Style Desktop
 	- Style Mobile
 	- Klickbox "Sichtverwaltung" anpassen. (Geht horizontal komplett über die Seite)
-	~~- Mouseover zur Startseite nicht vorhanden (Turnverein St. Ingbert)~~
+	- ~~Mouseover zur Startseite nicht vorhanden (Turnverein St. Ingbert)~~
 - Veranstaltungs-Seite
 	- Style Desktop
 	- Style Mobile
 	- Dropdown für Dienste
 	- Bestätigung wen erfolgreich in Event eingetragen
 	- Seite nicht immer neu laden bei eintragen -> Position beibehalten (Scroll Position)
-	~~- Mouseover zur Startseite nicht vorhanden (Turnverein St. Ingbert)~~
+	- ~~Mouseover zur Startseite nicht vorhanden (Turnverein St. Ingbert)~~
 - Verwaltungslogin-Seite
 	- Fehlermeldung bei Falschem Passwort
-	~~- Mouseover zur Startseite nicht vorhanden (Turnverein St. Ingbert)~~
+	- ~~Mouseover zur Startseite nicht vorhanden (Turnverein St. Ingbert)~~
 - Verwaltungsübersicht-Seite
 	- Style Desktop
-	~~- Möglichkeit Register On Event -> ON/OFF~~
-	~~- Möglichkeit Show Event -> ON/OFF~~
-	~~- Mouseover zur Startseite nicht vorhanden (Turnverein St. Ingbert)~~
+	- ~~Möglichkeit Register On Event -> ON/OFF~~
+	- ~~Möglichkeit Show Event -> ON/OFF~~
+	- ~~Mouseover zur Startseite nicht vorhanden (Turnverein St. Ingbert)~~
 - Veranstaltung-Anlegen-Seite
-	~~-Style Desktop~~
-	~~- Mouseover zur Startseite nicht vorhanden (Turnverein St. Ingbert)~~
+  	- ~~Style Desktop~~
+	- ~~Mouseover zur Startseite nicht vorhanden (Turnverein St. Ingbert)~~
 - Veranstaltung-Bearbeiten-Seite
 	- Möglichkeit Formular wie bei "Veranstaltung Anlegen" mit werten vorzufühlen und Änderungen an eingetragenen werten durchzuführen  
 
