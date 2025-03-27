@@ -15,13 +15,13 @@ body {
     text-align: center;
     padding: 1rem 0;
     font-size: 1.5rem;
-}
+
+    cursor: pointer;}
 
 .menu {
     position: absolute;
     top: 1rem;
     left: 1rem;
-    cursor: pointer;
     z-index: 10;
 }
 
@@ -92,7 +92,7 @@ border: 1px solid black;
 
 #Schichtverwaltung{
     height: 50px;
-    width: 150px;
+    width: fit-content;
     background-color: orange;
     color: white;
     border: none;
@@ -120,7 +120,10 @@ border: 1px solid black;
 #login:hover{
    background-color: darkorange;
 }
+button:hover{
 
+cursor: pointer;
+}
 .btn-orange {
     background-color: orange;
     color: white;

@@ -40,11 +40,11 @@
     </table>
 
 
-    <a href="Login_site.html">
-        <button id="Schichtverwaltung"><b>Schichtverwaltung</b></button>
-    </a>
+        <button id="Schichtverwaltung" onclick="Loginsite()"><b>Schichtverwaltung</b></button>
+  
 
     <script>
+
 
         window.onload = function () {
             const heute = new Date();
@@ -128,6 +128,11 @@
                 });
         };
 
+
+        function Loginsite()
+        {
+            window.location.href="Login_site.html"
+        }
 
 
         function toggleMenu() {

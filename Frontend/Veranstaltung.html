@@ -58,6 +58,7 @@
 
                         let signedUpDay = 0;
                         let neededDay = 0;
+
                         day.services?.forEach(service => {
                             service.tasks?.forEach(task => {
                                 signedUpDay += task.workers?.length || 0;
@@ -76,10 +77,10 @@
                         arrow.style.marginLeft = "10px";
 
                         // Text + Pfeil setzen
-                        header.textContent = `Tag ${dayIndex + 1} | ${formattedDate} | ${signedUpDay} von ${neededDay} Personen eingetragen `;
+                        header.textContent = `Tag ${dayIndex + 1} | ${formattedDate} | ${signedUpDay} / ${neededDay}  `;
                         header.appendChild(arrow); // Pfeil anhängen
                         dayDiv.appendChild(header);
-                        
+
 
                         // Inhalt des Tages (einklappbar)
                         const dayContentDiv = document.createElement("div");
@@ -104,28 +105,41 @@
                                 neededTotal += task.neededWorker || 0;
                             });
 
-                            serviceDiv.innerHTML = `
-                                    <h3>
-                                        ${service.serviceDescription} | ${service.timeStart.slice(0, 5)} bis ${service.timeEnd.slice(0, 5)} Uhr |
-                                        ${signedUpTotal} von ${neededTotal} Personen eingetragen
-                                    </h3>
-                                    <div class="line"></div>
-                                `;
+                            const serviceHeader = document.createElement("h3");
+                            serviceHeader.style.cursor = "pointer";
+                            serviceHeader.innerHTML = `
+                                ${service.serviceDescription} | ${service.timeStart.slice(0, 5)} bis ${service.timeEnd.slice(0, 5)} Uhr |
+                                ${signedUpTotal} / ${neededTotal} 
+                                <span class="arrow" style="margin-left:10px">▶</span>
+                            `;
+                            serviceDiv.appendChild(serviceHeader);
+
+                            const serviceContent = document.createElement("div");
+                            serviceContent.classList.add("serviceContent");
+                            serviceContent.style.display = "none"; // Dienste standardmäßig eingeklappt
+
+                            const serviceArrow = serviceHeader.querySelector(".arrow");
+                            serviceHeader.addEventListener("click", () => {
+                                const visible = serviceContent.style.display !== "none";
+                                serviceContent.style.display = visible ? "none" : "block";
+                                serviceArrow.textContent = visible ? "▶" : "▼";
+                            });
 
                             service.tasks?.forEach(task => {
                                 const signedUp = task.workers?.length || 0;
                                 const taskDiv = document.createElement("div");
                                 taskDiv.classList.add("task");
 
-                                let taskHTML = `<strong>${task.taskDescription}</strong> | ${signedUp} von ${task.neededWorker} Personen`;
+                                let taskHTML = `<strong>${task.taskDescription}</strong> | ${signedUp} / ${task.neededWorker}`;
 
                                 if (anzeigen) {
                                     taskHTML += `
-                                        <div class="signup">
-                                            <input type="text" placeholder="Name" id="input-${event.eventID}-${day.dayID}-${service.serviceID}-${task.taskID}" onkeydown="if(event.key === 'Enter') Einschreiben(${event.eventID}, ${day.dayID}, ${service.serviceID}, ${task.taskID})" /> 
-                                            <button id="anlegen" onclick="Einschreiben(${event.eventID}, ${day.dayID}, ${service.serviceID}, ${task.taskID})">Eintragen</button>
-                                        </div>
-                                    `;
+                                    <div class="signup">
+                                        <input type="text" placeholder="Name" id="input-${event.eventID}-${day.dayID}-${service.serviceID}-${task.taskID}" 
+                                            onkeydown="if(event.key === 'Enter') Einschreiben(${event.eventID}, ${day.dayID}, ${service.serviceID}, ${task.taskID})" /> 
+                                        <button onclick="Einschreiben(${event.eventID}, ${day.dayID}, ${service.serviceID}, ${task.taskID})">Eintragen</button>
+                                    </div>
+                                `;
                                 }
 
                                 if (signedUp > 0) {
@@ -139,18 +153,25 @@
                                 }
 
                                 taskDiv.innerHTML = taskHTML;
-                                serviceDiv.appendChild(taskDiv);
+
+                                // ⬇️ Task gehört NUR in serviceContent
+                                serviceContent.appendChild(taskDiv);
                             });
 
+                            // ⬇️ serviceContent kommt in serviceDiv
+                            serviceDiv.appendChild(serviceContent);
+
+                            // ⬇️ serviceDiv kommt in dayContent
                             dayContentDiv.appendChild(serviceDiv);
                         });
+
 
                         // Füge den einklappbaren Inhalt und das Element hinzu
                         dayDiv.appendChild(dayContentDiv);
                         container.appendChild(dayDiv);
 
                         // Toggle-Funktion für Ein-/Ausklappen
-                       
+
                     });
 
                 })
@@ -192,8 +213,8 @@
             })
 
                 .then(data => {
-                    // Optional: Seite neu laden oder UI updaten
-                    location.reload();
+                    // Event erfolgreich angelegt
+                    alert("Erfolgreich eingetragen!");
                 })
                 .catch(err => {
                     console.error("Fehler beim Eintragen:", err);
