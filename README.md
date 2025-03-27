@@ -16,7 +16,7 @@ Das Schichtverwaltungssystem bietet die Möglichkeit Veranstaltungen anzulegen a
 	- Seite nicht immer neu laden bei eintragen -> Position beibehalten (Scroll Position)
 	- ~~Mouseover zur Startseite nicht vorhanden (Turnverein St. Ingbert)~~
 - Verwaltungslogin-Seite
-	- Fehlermeldung bei Falschem Passwort
+	- ~~Fehlermeldung bei Falschem Passwort~~
 	- ~~Mouseover zur Startseite nicht vorhanden (Turnverein St. Ingbert)~~
 - Verwaltungsübersicht-Seite
 	- Style Desktop
