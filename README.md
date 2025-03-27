@@ -104,7 +104,7 @@ Es werden 9 API Schnittstellen bereit gestellt:
 			- `500 - INTERNAL_SERVER_ERROR`: Allgemeiner undefinierter Fehlern
 	- *Update Shift* (`/updateShift`)
 		- Übergabe im Body:
-			-  `JSON`: Im Body muss sich ein `JSON` nach gleichem Format wie beim **Geten eines Events** befinden. ***Wichtig***! Neue IDs müssen mit -1 angegeben werden. ***Wichtig***! Die `JSON` muss in einem `{event: {JSON}}` sitzen.
+			-  `JSON`: Im Body muss sich ein `JSON` nach gleichem Format wie beim **Geten eines Events** befinden. ***Wichtig***! Neue IDs müssen mit -1 angegeben werden. ***Wichtig***! Die `JSON` muss in einem `{event: JSON}` sitzen.
 		- Rückgabe:
 			- `404 - NOT_FOUND`: Sollte eine der angegebenen IDs nicht gefunden werden.
 			- `500 - INTERNAL_SERVER_ERROR`: Allgemeiner undefinierter Fehlern
