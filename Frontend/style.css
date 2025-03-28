@@ -51,8 +51,14 @@ table{
 
 td{
     border: none;
-    padding: 8px;
+    padding: 20px;
+    width: auto;
+    height: auto;
+    word-wrap: break-word;
+}
 
+th{
+    text-align: left;
 }
 
 h1{
@@ -61,14 +67,23 @@ h1{
     margin-bottom: 0px;
 }
 
+
 #Veranstaltung{
     margin-left: 50px;
     margin-bottom: 10px;
 }
 
+#Veranstaltungen{
+    table-layout: fixed;
+    margin-left: 50px;
+    margin-bottom: 10px;
+	margin-top:50px;
+}
+
 #Veranstaltung_live{
     margin-left: 50px;
     margin-bottom: 10px;
+    table-layout: fixed;
 
 }
 
@@ -84,8 +99,8 @@ border: 1px solid black;
 }
 #Veranstaltung_dead{
     margin-left: 50px;
-    
     margin-bottom: 10px;
+    table-layout: fixed;
     
 
 }
@@ -100,6 +115,7 @@ border: 1px solid black;
     margin-top: 15px;
     border-radius: 5px;
     margin-left: 150px;
+    margin-bottom: 50px;
 }
 
 #Schichtverwaltung:hover{
@@ -206,8 +222,8 @@ cursor: pointer;
 }
 
 #eventName{
-	height: 20px;
-    width: 300px;
+	height: auto;
+    width: auto;
     margin: 0 auto;
 	margin-left: 5px;
 }
@@ -397,4 +413,42 @@ cursor: pointer;
 
 .toast.success {
     background-color: #5cb85c; /* grün */
+}
+
+@media only screen and (max-width: 620px){
+    h1{
+      font-size: 5vw;  
+    }
+    
+     #Veranstaltung_dead,#Veranstaltung_live,#Veranstaltungen{
+      font-size: 3vw;  
+    }
+    
+    #Schichtverwaltung,#login{
+        width: fit-content;
+        margin: 0 auto;
+        padding: 10px 15px;
+        margin-top: 20px;
+                
+    }
+    
+    #eventName,#anmeldung{
+        font-size: 6vw;
+    }
+	
+	h2{
+		font-size: 4vw;
+	}
+	
+	h3{
+		font-size: 4vw;
+	}
+    
+    #Veranstaltungsname{
+        font-size: 3vw;
+    }
+    
+    td{
+        width: 100px;
+    }
 }
