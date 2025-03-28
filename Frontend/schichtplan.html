@@ -4,7 +4,7 @@
 <head>
     <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
-	<meta name="viewport" content="width= device-width, initial-scale= 1.0">
+    <meta name="viewport" content="width= device-width, initial-scale= 1.0">
 </head>
 
 <body>
@@ -20,14 +20,14 @@
 
     <h1>Veranstaltungen</h1>
     <table id="Veranstaltungen">
-      
-            <tr>
-                <th id="Veranstaltungsname"><b>Veranstaltung</b></th>
-            </tr>
-            <tbody id="eventBody">
 
-            </tbody>
-    
+        <tr>
+            <th id="Veranstaltungsname"><b>Veranstaltung</b></th>
+        </tr>
+        <tbody id="eventBody">
+
+        </tbody>
+
     </table>
 
 
@@ -55,8 +55,12 @@
 
                         const row = document.createElement("tr");
                         row.innerHTML = `
-                            <td>${name}</td>
-                            <td>
+                                <td>
+                                    <a href="Veranstaltung_update.html?eventID=${event.eventID}" class="event-link">
+                                        ${name}
+                                    </a>
+                                </td>
+
                                 <label>
                                     <input type="checkbox" ${event.registerOnEvent ? 'checked' : ''} 
                                         onchange="toggleRegister(${event.eventID}, this.checked)">
@@ -91,11 +95,11 @@
                     return res.text();
                 })
                 .then(() => {
-                    showToast("Änderung gespeichert","success");
+                    showToast("Änderung gespeichert", "success");
                 })
                 .catch(err => {
                     console.error(err);
-                    showToast("Fehler beim Aktualisieren.","error");
+                    showToast("Fehler beim Aktualisieren.", "error");
                 });
         }
 
@@ -113,16 +117,16 @@
                     return res.text();
                 })
                 .then(() => {
-                    showToast("Sichtbarkeit aktualisiert.","success");
+                    showToast("Sichtbarkeit aktualisiert.", "success");
                 })
                 .catch(err => {
                     console.error("Fehler:", err);
-                    showToast("Fehler beim Aktualisieren.","error");
+                    showToast("Fehler beim Aktualisieren.", "error");
                 });
         }
 
 
-       
+
 
         function Anlegen() {
             window.location.href = "Veranstaltung_anlegen.html"

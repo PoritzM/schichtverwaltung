@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>UPDATE DER VERANSTALTUNG </title>
+</head>
+
+<body>
+    <div class="header" onclick="Start()">Turnverein St. Ingbert</div>
+
+    <div class="menu" onclick="toggleMenu()">☰</div>
+    <ul class="menu-list" id="menuList">
+        <li onclick="Start()">Veranstaltung bearbeiten</li>
+    </ul>
+
+    <div id="eventContainer"></div>
+    <button onclick="submitUpdate()" class="btn-green">Speichern</button>
+    <div id="toast" class="toast"></div>
+
+    <script src="utils.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const eventID = urlParams.get("eventID");
+
+        let currentData;
+
+        if (!eventID) {
+            showToast("Keine Event-ID übergeben.", "error");
+            throw new Error("eventID fehlt");
+        }
+
+        fetch(`http://localhost:8080/shifts/getShift/${eventID}`)
+            .then(res => res.json())
+            .then(data => {
+                currentData = data;
+                renderEvent(data);
+            })
+            .catch(err => {
+                showToast("Fehler beim Laden der Veranstaltung.", "error");
+            });
+
+        function renderEvent(event) {
+            const container = document.getElementById("eventContainer");
+            container.innerHTML = "";
+
+            const eventHeader = document.createElement("div");
+            eventHeader.classList.add("event-header");
+            eventHeader.innerHTML = `
+        <div class="Name_der_veranstaltung">
+          <label for="eventName">Name der Veranstaltung:</label>
+          <input type="text" id="eventName" value="${event.eventName}" required>
+        </div>
+        <div class="Anzeige_der_veranstaltung">
+          <input type="checkbox" id="showEvent" ${event.showEvent ? "checked" : ""}>
+          <label for="showEvent">Veranstaltung anzeigen</label>
+        </div>
+        <div class="Eintragen_erlauben">
+          <input type="checkbox" id="registerOnEvent" ${event.registerOnEvent ? "checked" : ""}>
+          <label for="registerOnEvent">Eintragung erlauben</label>
+        </div>
+      `;
+            container.appendChild(eventHeader);
+
+            event.days.forEach((day, dayIndex) => {
+                const dayDiv = document.createElement("div");
+                dayDiv.classList.add("day-block");
+
+                dayDiv.innerHTML = `
+          <div id="Datum_container">
+            <label for="Datum_eingeben" id="Datum_überschrift"><b>Datum:</b></label>
+            <input type="date" id="Datum_eingeben" value="${day.day}" data-day-index="${dayIndex}" required>
+          </div>
+          <div class="servicesContainer"></div>
+        `;
+
+                const servicesContainer = dayDiv.querySelector(".servicesContainer");
+
+                day.services.forEach((service, serviceIndex) => {
+                    const serviceDiv = document.createElement("div");
+                    serviceDiv.classList.add("service-block");
+
+                    serviceDiv.innerHTML = `
+            <label id="Service_überschrift"><b>Dienst</b></label>
+            <div id="Service_container">
+              <label>Dienstbeschreibung:</label>
+              <input type="text" class="Normales_textfeld dienstName" value="${service.serviceDescription}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
+              <label>Startzeit:</label>
+              <input type="time" class="Zeit_eingabe startZeit" value="${service.timeStart}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
+              <label>Endzeit:</label>
+              <input type="time" class="Zeit_eingabe endZeit" value="${service.timeEnd}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
+            </div>
+            <div class="tasksContainer"></div>
+          `;
+
+                    const tasksContainer = serviceDiv.querySelector(".tasksContainer");
+
+                    service.tasks.forEach((task, taskIndex) => {
+                        const taskDiv = document.createElement("div");
+                        taskDiv.classList.add("task-block");
+
+                        taskDiv.innerHTML = `
+              <label id="Task_überschrift"><b>Aufgabe</b></label>
+              <div id="Task_container">
+                <label>Aufgabe:</label>
+                <input type="text" class="Normales_textfeld taskBeschreibung" value="${task.taskDescription}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" data-task-index="${taskIndex}" required>
+                <label>Benötigte Personen:</label>
+                <input type="number" min="1" step="1" class="taskPersonen" value="${task.neededWorker}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" data-task-index="${taskIndex}" required>
+              </div>
+            `;
+                        tasksContainer.appendChild(taskDiv);
+                    });
+
+                    servicesContainer.appendChild(serviceDiv);
+                });
+
+                container.appendChild(dayDiv);
+            });
+        }
+
+        function padSeconds(timeStr) {
+            return timeStr.length === 5 ? timeStr + ":00" : timeStr;
+        }
+
+        function formatDateForBackend(dateInput) {
+            const date = new Date(dateInput);
+            return date.toLocaleString("en-US", {
+                month: "short",
+                day: "2-digit",
+                year: "numeric",
+                hour: "numeric",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: true
+            }).replace(",", "");
+        }
+
+        function submitUpdate() {
+            const now = new Date();
+            const updatedEvent = {
+                eventID: currentData.eventID,
+                eventName: document.getElementById("eventName").value,
+                showEvent: document.getElementById("showEvent").checked,
+                registerOnEvent: document.getElementById("registerOnEvent").checked,
+                timeStamps: {
+                    timeStampCreate: formatDateForBackend(currentData.timeStamps?.timeStampCreate || now),
+                    timeStampEdit: formatDateForBackend(now)
+                },
+                days: currentData.days.map((day, dayIndex) => {
+                    const dayInput = document.querySelector(`input[type='date'][data-day-index='${dayIndex}']`);
+                    return {
+                        dayID: day.dayID ?? -1,
+                        day: dayInput.value,
+                        timeStamps: {
+                            timeStampCreate: formatDateForBackend(day.timeStamps?.timeStampCreate || now),
+                            timeStampEdit: formatDateForBackend(now)
+                        },
+                        services: day.services.map((service, serviceIndex) => {
+                            return {
+                                serviceID: service.serviceID ?? -1,
+                                serviceDescription: document.querySelector(`.dienstName[data-day-index='${dayIndex}'][data-service-index='${serviceIndex}']`).value,
+                                timeStart: padSeconds(document.querySelector(`.startZeit[data-day-index='${dayIndex}'][data-service-index='${serviceIndex}']`).value),
+                                timeEnd: padSeconds(document.querySelector(`.endZeit[data-day-index='${dayIndex}'][data-service-index='${serviceIndex}']`).value),
+                                timeStamps: {
+                                    timeStampCreate: formatDateForBackend(service.timeStamps?.timeStampCreate || now),
+                                    timeStampEdit: formatDateForBackend(now)
+                                },
+                                tasks: service.tasks.map((task, taskIndex) => {
+                                    return {
+                                        taskID: task.taskID ?? -1,
+                                        taskDescription: document.querySelector(`.taskBeschreibung[data-day-index='${dayIndex}'][data-service-index='${serviceIndex}'][data-task-index='${taskIndex}']`).value,
+                                        neededWorker: parseInt(document.querySelector(`.taskPersonen[data-day-index='${dayIndex}'][data-service-index='${serviceIndex}'][data-task-index='${taskIndex}']`).value),
+                                        timeStamps: {
+                                            timeStampCreate: formatDateForBackend(task.timeStamps?.timeStampCreate || now),
+                                            timeStampEdit: formatDateForBackend(now)
+                                        },
+                                        workers: task.workers?.map(worker => ({
+                                            workerID: worker.workerID,
+                                            workerName: worker.workerName,
+                                            timeStamps: {
+                                                timeStampCreate: formatDateForBackend(worker.timeStamps?.timeStampCreate || now),
+                                                timeStampEdit: formatDateForBackend(now)
+                                            }
+                                        })) || []
+                                    };
+                                })
+                            };
+                        })
+                    };
+                })
+            };
+            console.log("Gesendetes JSON:", JSON.stringify({ event: updatedEvent }));
+
+            fetch("http://localhost:8080/shifts/updateShift", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                // WICHTIG: Event-Wrapper
+                body: JSON.stringify({ event: updatedEvent })
+            })
+                .then(res => {
+                    if (!res.ok) throw new Error("Update fehlgeschlagen");
+                    return res.text();
+                })
+                .then(() => {
+                    showToast("Veranstaltung erfolgreich aktualisiert.", "success");
+                })
+                .catch(err => {
+                    showToast("Fehler beim Aktualisieren: " + err.message, "error");
+                });
+            }
+    </script>
+</body>
+
+</html>
