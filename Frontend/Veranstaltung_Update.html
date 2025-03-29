@@ -89,7 +89,7 @@
               <label>Startzeit:</label>
               <input type="time" class="startZeit" value="${service.timeStart}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
               <label>Endzeit:</label>
-              <input type="time" class="ndZeit" value="${service.timeEnd}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
+              <input type="time" class="endZeit" value="${service.timeEnd}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
             </div>
             <div class="tasksContainer"></div>
           `;
@@ -145,6 +145,37 @@
             return `${month} ${day}, ${year}, ${hours}:${minutes}:${seconds} ${ampm}`;
         }
 
+        // Hilfsfunktion zum Datum vergleichen
+        function normalizeDate(d) {
+            if (!d) return null;
+            const date = new Date(d);
+            if (isNaN(date)) return null;
+            return date.toISOString().slice(0, 10); // "YYYY-MM-DD"
+        }
+
+        // In deiner Schleife, z. B. pro "day-block"
+        const dayInput = dayBlock.querySelector('.day-date');
+        const dayValue = dayInput.value;
+        const dayIDAttr = dayInput.getAttribute('data-day-id');
+        const parsedDayID = parseInt(dayIDAttr);
+        const originalDayObj = currentData.days.find(d => d.dayID === parsedDayID);
+
+        let finalDayID = -1; // Standardmäßig: Neuer Tag
+
+        if (originalDayObj) {
+            const originalDayDate = normalizeDate(originalDayObj.day);
+            const currentDayDate = normalizeDate(dayValue);
+
+            if (originalDayDate === currentDayDate) {
+                // Tag wurde nicht verändert → alte ID behalten
+                finalDayID = originalDayObj.dayID;
+            } else {
+                // Tag wurde verändert → neue ID (-1)
+                finalDayID = -1;
+            }
+        }
+
+        console.log("Verwendeter Tag:", dayValue, "| dayID:", finalDayID);
 
         function submitUpdate() {
             const now = new Date();
@@ -162,14 +193,20 @@
                 days: Array.from(dayBlocks).map((dayBlock) => {
                     const dateInput = dayBlock.querySelector("input[type='date']");
                     const currentDayValue = dateInput.value;
-                    const originalDayID = parseInt(dateInput.dataset.dayId) || -1;
-
+                    const originalDayID = parseInt(dateInput.getAttribute("data-day-id"));
                     const originalDayObj = currentData.days.find(d => d.dayID === originalDayID);
-                    const dayChanged = originalDayObj && originalDayObj.day !== currentDayValue;
-                    const effectiveDayID = (originalDayID !== -1 && !dayChanged) ? originalDayID : -1;
+
+                    // Prüfe, ob das Datum verändert wurde
+                    const normalizeDate = (d) => new Date(d).toISOString().slice(0, 10); // "YYYY-MM-DD"
+
+                    const dayChanged = originalDayObj && normalizeDate(originalDayObj.day) !== normalizeDate(currentDayValue);
+
+                    // Wenn das Datum geändert wurde oder der Tag nicht gefunden wurde, ist es ein neuer Tag
+                    const effectiveDayID = (!originalDayObj || dayChanged) ? -1 : originalDayID;
 
                     const serviceBlocks = dayBlock.querySelectorAll(".service-block");
-                    const isNewDay = effectiveDayID === -1;
+                    const isNewDay = effectiveDayID === -1 || !originalDayObj;
+
 
                     const services = Array.from(serviceBlocks).map((serviceBlock) => {
                         const serviceDescription = serviceBlock.querySelector(".dienstName").value;
@@ -192,7 +229,8 @@
                             );
 
                             return {
-                                taskID: origTask?.taskID ?? -1,
+                                taskID: isNewDay ? -1 : (origTask?.taskID ?? -1),
+
                                 taskDescription,
                                 neededWorker,
                                 timeStamps: {
@@ -216,8 +254,9 @@
                             s.timeEnd === timeEnd
                         );
 
+                        const isNewService = isNewDay || !origService;
                         return {
-                            serviceID: origService?.serviceID ?? -1,
+                            serviceID: isNewService ? -1 : origService.serviceID,
                             serviceDescription,
                             timeStart,
                             timeEnd,
