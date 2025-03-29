@@ -291,6 +291,7 @@ cursor: pointer;
     font-size: 18px;
 }
 
+
 #Service_container{
     margin-left: 200px;
     font-size: 18px;
@@ -320,6 +321,14 @@ cursor: pointer;
     margin-left: 300px;
     font-size: 18px;
 }
+
+#Task_textbox{
+    height: 18px;
+    width: 225px;
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
 
 #Service_button{
     background-color: orange;
@@ -358,6 +367,8 @@ cursor: pointer;
 }
 
 .btn-green{
+	width: 150px;
+    margin-left: 150px;
     background-color: green;
     color: white;
     border: none;
@@ -415,7 +426,7 @@ cursor: pointer;
     background-color: #5cb85c; /* grün */
 }
 
-@media only screen and (max-width: 620px){
+@media only screen and (max-width: 620px){/*style sheet für Handybildschirme */
     h1{
       font-size: 5vw;  
     }
@@ -451,4 +462,130 @@ cursor: pointer;
     td{
         width: 100px;
     }
+	
+	 #Veranstaltung_anlegen{
+        margin-left: 20px;
+        font-size: 5vw;
+    }
+    
+    .Name_der_veranstaltung{
+        margin-left: 20px;
+        font-size: 4vw;
+        
+    }
+    
+    #eventName{
+        height: 15px;
+        width: 200px;
+        font-size: 3vw;
+        word-wrap: break-word;
+        margin-right: 40px;
+        margin-top: 10px;
+    }
+    
+    .Anzeige_der_veranstaltung{
+        margin-left: 20px;
+        font-size: 4vw;
+    }
+    
+    .Eintragen_erlauben{
+        margin-left: 20px;
+        font-size: 4vw;
+    }
+    
+    .btn-orange-va{
+        margin-left: 20px;
+    }
+    
+    #Send_container{
+        margin-left: 130px;
+    }
+    
+    #Datum_container{
+        margin-left: 20px;
+    }
+    
+    #Datum_überschrift{
+        font-size: 4vw;
+    }
+    
+    #Datum_eingeben{
+        width: 150px;
+        height: 15px;
+    }
+    
+    #Service_button{
+        margin-left: 20px;
+    }
+    
+    #Service_überschrift{
+        margin-left: 20px;
+        font-size: 4vw;
+    }
+    
+    #Service_container{
+        margin-left: 20px;
+        font-size: 4vw;
+    }
+    
+    .Normales_textfeld{
+        font-size: 4vw;
+        width:150px;
+        margin-bottom: 10px;
+        height: 15px;
+        
+    }
+    
+    .Zeit_überschrift{
+        margin-bottom: 10px;
+    }
+    
+    .Zeit_eingabe{
+       margin-left: 0px;
+       margin-bottom: 10px;
+       height: 15px;
+    }
+    
+    #Task_button{
+        margin-left: 20px;
+    }
+    
+    #Task_überschrift{
+        margin-left: 20px;
+        margin-bottom: 20px;
+    }
+    
+    #Task_container{
+        margin-left: 20px;
+    }
+    
+    #Aufgabentextbox_überschrift{
+        margin-top: 10px;
+        font-size: 4vw;
+    }
+    
+    #Personen_eingabe{
+        font-size: 4vw;
+        height: 15px;
+        width: 100px;
+        margin-bottom: 10px;
+    }
+    
+    #Benötigte_personen_überschrift{
+        font-size: 4vw;
+    }
+    
+    #Task_textbox{
+        width: 250px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        margin-left: 0px;
+        margin-right: 0px;
+        height: 15px;
+    }
+    
+    .btn-green{
+        margin-left: 100px;
+    }
+}
 }

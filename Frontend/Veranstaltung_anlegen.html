@@ -78,9 +78,9 @@
         <div id="Service_container">
         <label>Schichtbeschreibung:</label>
         <input type="text" class="Normales_textfeld" required>
-        <label>Startzeit:</label>
+        <label class= "Zeit_überschrift" >Startzeit:</label>
         <input type="time" class="Zeit_eingabe" required>
-        <label>Endzeit:</label>
+        <label class= "Zeit_überschrift">Endzeit:</label>
         <input type="time" class="Zeit_eingabe" required>
         <button type="button" class="btn-red" onclick="this.closest('.service-block').remove()">Entfernen</button>
 		</div>
@@ -101,9 +101,9 @@
             taskDiv.innerHTML = `
 		<label id="Task_überschrift"><b>Aufgabe</b></label>
         <div id="Task_container">
-        <label>Aufgabe:</label>
-        <input type="text" class="Normales_textfeld" required>
-        <label>Benötigte Personen:</label>
+        <label id="Aufgabentextbox_überschrift">Aufgabe:</label>
+        <input type="text" id="Task_textbox" required>
+        <label id="Benötigte_personen_überschrift">Benötigte Personen:</label>
         <input type="number" min="1" step="1" id="Personen_eingabe" required>
         <button type="button" class="btn-red" onclick="this.closest('.task-block').remove()">Entfernen</button>
 		</div>`;
