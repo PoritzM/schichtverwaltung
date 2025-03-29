@@ -70,7 +70,7 @@
                 dayDiv.innerHTML = `
           <div id="Datum_container">
             <label for="Datum_eingeben" id="Datum_überschrift"><b>Datum:</b></label>
-            <input type="date" id="Datum_eingeben" value="${day.day}" data-day-index="${dayIndex}" required>
+            <input type="date" id="Datum_eingeben" value="${day.day}" data-day-index="${dayIndex}" data-day-id="${day.dayID}" required>
           </div>
           <div class="servicesContainer"></div>
         `;
@@ -85,11 +85,11 @@
             <label id="Service_überschrift"><b>Dienst</b></label>
             <div id="Service_container">
               <label>Dienstbeschreibung:</label>
-              <input type="text" class="Normales_textfeld dienstName" value="${service.serviceDescription}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
+              <input type="text" class="dienstName" value="${service.serviceDescription}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
               <label>Startzeit:</label>
-              <input type="time" class="Zeit_eingabe startZeit" value="${service.timeStart}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
+              <input type="time" class="startZeit" value="${service.timeStart}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
               <label>Endzeit:</label>
-              <input type="time" class="Zeit_eingabe endZeit" value="${service.timeEnd}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
+              <input type="time" class="ndZeit" value="${service.timeEnd}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
             </div>
             <div class="tasksContainer"></div>
           `;
@@ -104,7 +104,7 @@
               <label id="Task_überschrift"><b>Aufgabe</b></label>
               <div id="Task_container">
                 <label>Aufgabe:</label>
-                <input type="text" class="Normales_textfeld taskBeschreibung" value="${task.taskDescription}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" data-task-index="${taskIndex}" required>
+                <input type="text" class="taskBeschreibung" value="${task.taskDescription}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" data-task-index="${taskIndex}" required>
                 <label>Benötigte Personen:</label>
                 <input type="number" min="1" step="1" class="taskPersonen" value="${task.neededWorker}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" data-task-index="${taskIndex}" required>
               </div>
@@ -123,21 +123,33 @@
             return timeStr.length === 5 ? timeStr + ":00" : timeStr;
         }
 
+
+
         function formatDateForBackend(dateInput) {
             const date = new Date(dateInput);
-            return date.toLocaleString("en-US", {
-                month: "short",
-                day: "2-digit",
-                year: "numeric",
-                hour: "numeric",
-                minute: "2-digit",
-                second: "2-digit",
-                hour12: true
-            }).replace(",", "");
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+            const month = monthNames[date.getMonth()];
+            const day = String(date.getDate()).padStart(2, '0');
+            const year = date.getFullYear();
+
+            let hours = date.getHours();
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            const ampm = hours >= 12 ? "PM" : "AM";
+
+            hours = hours % 12;
+            hours = hours ? hours : 12; // 0 => 12
+
+            return `${month} ${day}, ${year}, ${hours}:${minutes}:${seconds} ${ampm}`;
         }
+
 
         function submitUpdate() {
             const now = new Date();
+            const dayBlocks = document.querySelectorAll(".day-block");
+
             const updatedEvent = {
                 eventID: currentData.eventID,
                 eventName: document.getElementById("eventName").value,
@@ -147,58 +159,98 @@
                     timeStampCreate: formatDateForBackend(currentData.timeStamps?.timeStampCreate || now),
                     timeStampEdit: formatDateForBackend(now)
                 },
-                days: currentData.days.map((day, dayIndex) => {
-                    const dayInput = document.querySelector(`input[type='date'][data-day-index='${dayIndex}']`);
-                    return {
-                        dayID: day.dayID ?? -1,
-                        day: dayInput.value,
-                        timeStamps: {
-                            timeStampCreate: formatDateForBackend(day.timeStamps?.timeStampCreate || now),
-                            timeStampEdit: formatDateForBackend(now)
-                        },
-                        services: day.services.map((service, serviceIndex) => {
+                days: Array.from(dayBlocks).map((dayBlock) => {
+                    const dateInput = dayBlock.querySelector("input[type='date']");
+                    const currentDayValue = dateInput.value;
+                    const originalDayID = parseInt(dateInput.dataset.dayId) || -1;
+
+                    const originalDayObj = currentData.days.find(d => d.dayID === originalDayID);
+                    const dayChanged = originalDayObj && originalDayObj.day !== currentDayValue;
+                    const effectiveDayID = (originalDayID !== -1 && !dayChanged) ? originalDayID : -1;
+
+                    const serviceBlocks = dayBlock.querySelectorAll(".service-block");
+                    const isNewDay = effectiveDayID === -1;
+
+                    const services = Array.from(serviceBlocks).map((serviceBlock) => {
+                        const serviceDescription = serviceBlock.querySelector(".dienstName").value;
+                        const timeStart = padSeconds(serviceBlock.querySelector(".startZeit").value);
+                        const timeEnd = padSeconds(serviceBlock.querySelector(".endZeit").value);
+
+                        const taskBlocks = serviceBlock.querySelectorAll(".task-block");
+
+                        const tasks = Array.from(taskBlocks).map((taskBlock) => {
+                            const taskDescription = taskBlock.querySelector(".taskBeschreibung").value;
+                            const neededWorker = parseInt(taskBlock.querySelector(".taskPersonen").value);
+
+                            const origTask = originalDayObj?.services?.find(s =>
+                                s.serviceDescription === serviceDescription &&
+                                s.timeStart === timeStart &&
+                                s.timeEnd === timeEnd
+                            )?.tasks?.find(t =>
+                                t.taskDescription === taskDescription &&
+                                t.neededWorker === neededWorker
+                            );
+
                             return {
-                                serviceID: service.serviceID ?? -1,
-                                serviceDescription: document.querySelector(`.dienstName[data-day-index='${dayIndex}'][data-service-index='${serviceIndex}']`).value,
-                                timeStart: padSeconds(document.querySelector(`.startZeit[data-day-index='${dayIndex}'][data-service-index='${serviceIndex}']`).value),
-                                timeEnd: padSeconds(document.querySelector(`.endZeit[data-day-index='${dayIndex}'][data-service-index='${serviceIndex}']`).value),
+                                taskID: origTask?.taskID ?? -1,
+                                taskDescription,
+                                neededWorker,
                                 timeStamps: {
-                                    timeStampCreate: formatDateForBackend(service.timeStamps?.timeStampCreate || now),
+                                    timeStampCreate: formatDateForBackend(origTask?.timeStamps?.timeStampCreate || now),
                                     timeStampEdit: formatDateForBackend(now)
                                 },
-                                tasks: service.tasks.map((task, taskIndex) => {
-                                    return {
-                                        taskID: task.taskID ?? -1,
-                                        taskDescription: document.querySelector(`.taskBeschreibung[data-day-index='${dayIndex}'][data-service-index='${serviceIndex}'][data-task-index='${taskIndex}']`).value,
-                                        neededWorker: parseInt(document.querySelector(`.taskPersonen[data-day-index='${dayIndex}'][data-service-index='${serviceIndex}'][data-task-index='${taskIndex}']`).value),
-                                        timeStamps: {
-                                            timeStampCreate: formatDateForBackend(task.timeStamps?.timeStampCreate || now),
-                                            timeStampEdit: formatDateForBackend(now)
-                                        },
-                                        workers: task.workers?.map(worker => ({
-                                            workerID: worker.workerID,
-                                            workerName: worker.workerName,
-                                            timeStamps: {
-                                                timeStampCreate: formatDateForBackend(worker.timeStamps?.timeStampCreate || now),
-                                                timeStampEdit: formatDateForBackend(now)
-                                            }
-                                        })) || []
-                                    };
-                                })
+                                workers: origTask?.workers?.map(worker => ({
+                                    workerID: worker.workerID,
+                                    workerName: worker.workerName,
+                                    timeStamps: {
+                                        timeStampCreate: formatDateForBackend(worker.timeStamps?.timeStampCreate || now),
+                                        timeStampEdit: formatDateForBackend(now)
+                                    }
+                                })) || []
                             };
-                        })
+                        });
+
+                        const origService = originalDayObj?.services?.find(s =>
+                            s.serviceDescription === serviceDescription &&
+                            s.timeStart === timeStart &&
+                            s.timeEnd === timeEnd
+                        );
+
+                        return {
+                            serviceID: origService?.serviceID ?? -1,
+                            serviceDescription,
+                            timeStart,
+                            timeEnd,
+                            timeStamps: {
+                                timeStampCreate: formatDateForBackend(origService?.timeStamps?.timeStampCreate || now),
+                                timeStampEdit: formatDateForBackend(now)
+                            },
+                            tasks
+                        };
+                    });
+
+                    return {
+                        dayID: effectiveDayID,
+                        day: currentDayValue,
+                        timeStamps: {
+                            timeStampCreate: formatDateForBackend(originalDayObj?.timeStamps?.timeStampCreate || now),
+                            timeStampEdit: formatDateForBackend(now)
+                        },
+                        services
                     };
                 })
+
             };
-            console.log("Gesendetes JSON:", JSON.stringify({ event: updatedEvent }));
+
+            console.log("Gesendetes JSON:", JSON.stringify(updatedEvent, null, 2));
 
             fetch("http://localhost:8080/shifts/updateShift", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                // WICHTIG: Event-Wrapper
                 body: JSON.stringify({ event: updatedEvent })
+
             })
                 .then(res => {
                     if (!res.ok) throw new Error("Update fehlgeschlagen");
@@ -210,7 +262,8 @@
                 .catch(err => {
                     showToast("Fehler beim Aktualisieren: " + err.message, "error");
                 });
-            }
+        }
+
     </script>
 </body>
 
