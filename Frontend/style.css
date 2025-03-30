@@ -509,7 +509,8 @@ cursor: pointer;
     }
     
     #Send_container{
-        margin-left: 130px;
+        align-content: center;
+        margin-left: 20px;
     }
     
     #Datum_container{
