@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    
     <div class="header" onclick="Start()">Turnverein St. Ingbert</div>
 
     <div class="menu" onclick="toggleMenu()">☰</div>
@@ -19,15 +20,40 @@
 
     <div id="eventContainer"></div>
     <button type="button" class="btn-orange-va" onclick="addDay()">+ Tag hinzufügen</button>
-	<div id="Send_container">
-    <button onclick="submitUpdate()" class="btn-green">Speichern</button>
-	</div>
+    <div id="Send_container">
+        <button onclick="submitUpdate()" class="btn-green">Speichern</button>
+    </div>
     <div id="toast" class="toast"></div>
 
 
 
     <script src="utils.js"></script>
     <script>
+
+        function deleteEvent() {
+
+            fetch(`http://localhost:8080/shifts/deleteShift/${eventID}`, {
+                method: "DELETE"
+            })
+                .then(res => {
+                    if (!res.ok) throw new Error("Fehler beim Löschen.");
+                    return res.text();
+                })
+                .then(() => {
+                    showToast("Veranstaltung erfolgreich gelöscht.", "success");
+                    setTimeout(() => {
+                        window.location.href = "Schichtverwaltung_Overview.html";
+                    }, 1000);
+                })
+                .catch(err => {
+                    showToast("Fehler beim Löschen: " + err.message, "error");
+                });
+        }
+
+
+
+
+
         const urlParams = new URLSearchParams(window.location.search);
         const eventID = urlParams.get("eventID");
 
@@ -61,9 +87,13 @@
             eventHeader.classList.add("event-header");
             eventHeader.innerHTML = `
         <div class="Name_der_veranstaltung">
+            <div class ="nem_undButton">
             <label for="eventName">Name der Veranstaltung:</label>
             <input type="text" id="eventName" value="${event.eventName}" required>
+            <button id="Del_all" onclick="deleteEvent()">Löschen Der Veranstaltung</button>
+            </div>
         </div>
+        
         <div class="Anzeige_der_veranstaltung">
             <input type="checkbox" id="showEvent" ${event.showEvent ? "checked" : ""}>
             <label for="showEvent">Veranstaltung anzeigen</label>

@@ -7,7 +7,7 @@ body {
     height: 100vh;
     overflow: auto;
 }
-
+ 
 .header {
     width: 100%;
     background: orange;
@@ -437,6 +437,29 @@ cursor: pointer;
     margin-top: 7px;
 }
 
+#Del_all{
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    white-space: nowrap;
+    line-height: 1.2;
+    margin-top: 5px;
+    margin-left: 4px;
+    
+}
+.name-und-button {
+    display: flex;
+    flex-direction: column;
+    margin-left: 150px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
 @media only screen and (max-width: 620px){/*style sheet für Handybildschirme */
     h1{
       font-size: 5vw;  
@@ -599,5 +622,16 @@ cursor: pointer;
     .btn-green{
         margin-left: 0px;
     }
-}
+
+    
+    #del_all {
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+    }
+    .name-und-button {
+        margin-left: 20px;
+        font-size: 4vw;
+    }
+   
 }
