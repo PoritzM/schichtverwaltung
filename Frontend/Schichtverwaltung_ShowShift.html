@@ -101,7 +101,7 @@
                             const serviceHeader = document.createElement("h3");
                             serviceHeader.style.cursor = "pointer";
                             serviceHeader.innerHTML = `
-                                    ${service.serviceDescription} | ${service.timeStart.slice(0, 5)} bis ${service.timeEnd.slice(0, 5)} Uhr |
+                                    <b>${service.serviceDescription}</b> | ${service.timeStart.slice(0, 5)} bis ${service.timeEnd.slice(0, 5)} Uhr |
                                     <span class="counter">${signedUpTotal} / ${neededTotal}</span>
                                     <span class="arrow" style="margin-left:10px">▶</span>
                                 `;
@@ -142,7 +142,7 @@
                                         return `
                                         <div class="worker" id="worker-${w.workerID}">
                                             ${w.workerName}
-                                            ${anzeigen ? `<button onclick="loescheWorker(${w.workerID})">❌</button>` : ""}
+                                            ${anzeigen ? `<button id="Worker_löschen" onclick="loescheWorker(${w.workerID})">❌</button>` : ""}
                                         </div>
                                     `;
                                     }).join("");

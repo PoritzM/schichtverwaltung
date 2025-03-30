@@ -426,6 +426,12 @@ cursor: pointer;
     background-color: #5cb85c; /* grün */
 }
 
+#Worker_löschen{
+    background-color: transparent;
+    border: none;
+    margin-top: 10px;
+}
+
 @media only screen and (max-width: 620px){/*style sheet für Handybildschirme */
     h1{
       font-size: 5vw;  
