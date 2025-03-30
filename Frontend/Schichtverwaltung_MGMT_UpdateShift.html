@@ -118,13 +118,13 @@
                         taskDiv.innerHTML = `
                     <label id="Task_überschrift"><b>Aufgabe</b></label>
                     <div id="Task_container">
-                        <label>Aufgabe:</label>
+                        <label id="Aufgabentextbox_überschrift">Aufgabe:</label>
                         <input type="text" class="taskBeschreibung" value="${task.taskDescription}" 
                             data-day-index="${dayIndex}" data-service-index="${serviceIndex}" data-task-index="${taskIndex}" 
                             data-task-id="${task.taskID}" required>
 
                         
-                        <label>Benötigte Personen:</label>
+                        <label id="Benötigte_personen_überschrift">Benötigte Personen:</label>
                       <input type="number" min="1" step="1" class="taskPersonen" value="${task.neededWorker}" 
                                 data-day-index="${dayIndex}" data-service-index="${serviceIndex}" data-task-index="${taskIndex}" 
                                 data-task-id="${task.taskID}" required>

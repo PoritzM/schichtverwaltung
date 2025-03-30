@@ -299,7 +299,7 @@ cursor: pointer;
     margin-bottom: 30px;
 }
 
-.Normales_textfeld{
+.Normales_textfeld,.taskBeschreibung,.dienstName{
     height: 18px;
     width: 225px;
     margin-left: 10px;
@@ -397,7 +397,7 @@ cursor: pointer;
     font-size: 30px;
 }
 
-#Personen_eingabe{
+#Personen_eingabe,.taskPersonen{
     height: 18px;
     margin-left: 10px;
     margin-right: 20px;  
@@ -540,7 +540,7 @@ cursor: pointer;
         font-size: 4vw;
     }
     
-    .Normales_textfeld{
+    .Normales_textfeld,.dienstName{
         font-size: 4vw;
         width:150px;
         margin-bottom: 10px;
@@ -576,7 +576,7 @@ cursor: pointer;
         font-size: 4vw;
     }
     
-    #Personen_eingabe{
+    #Personen_eingabe,.taskPersonen{
         font-size: 4vw;
         height: 15px;
         width: 100px;
@@ -587,7 +587,7 @@ cursor: pointer;
         font-size: 4vw;
     }
     
-    #Task_textbox{
+    #Task_textbox,.taskBeschreibung{
         width: 250px;
         margin-bottom: 10px;
         margin-top: 10px;
