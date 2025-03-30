@@ -39,7 +39,7 @@
             showToast("Keine Event-ID übergeben.", "error");
             throw new Error("eventID fehlt");
         }
-
+        //infos des Events hollen
         fetch(`http://localhost:8080/shifts/getShift/${eventID}`)
             .then(res => res.json())
             .then(data => {
@@ -85,7 +85,7 @@
         `;
 
                 const servicesContainer = dayDiv.querySelector(".servicesContainer");
-
+                //über eine schleife die Informationen hollen
                 day.services.forEach((service, serviceIndex) => {
                     const serviceDiv = document.createElement("div");
                     serviceDiv.classList.add("service-block");
@@ -96,9 +96,9 @@
                     <label>Dienstbeschreibung:</label>
                     <input type="text" class="dienstName" value="${service.serviceDescription}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
                     <label>Startzeit:</label>
-                    <input type="time" class="startZeit" value="${service.timeStart}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
+                    <input type="time" class="Zeit_eingabe" value="${service.timeStart}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
                     <label>Endzeit:</label>
-                    <input type="time" class="endZeit" value="${service.timeEnd}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
+                    <input type="time" class="Zeit_eingabe" value="${service.timeEnd}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
                     <button type="button" class="btn-red" onclick="deleteService(this)">Entfernen</button>
                 </div>
                 <div class="tasksContainer"></div>
@@ -109,6 +109,7 @@
                     service.tasks.forEach((task, taskIndex) => {
                         const taskDiv = document.createElement("div");
                         taskDiv.classList.add("task-block");
+
 
                         taskDiv.innerHTML = `
                     <label id="Task_überschrift"><b>Aufgabe</b></label>
@@ -164,7 +165,7 @@
         }
 
 
-
+        //Datumsformat für das Backend ersichtilich machen
         function formatDateForBackend(dateInput) {
             const date = new Date(dateInput);
             const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -196,11 +197,12 @@
 
         let finalDayID = -1; // Standardmäßig: Neuer Tag
 
-
+        //Update oushen
         function submitUpdate() {
             const now = new Date();
             const dayBlocks = document.querySelectorAll(".day-block");
 
+            //Current Information
             const updatedEvent = {
                 eventID: currentData.eventID,
                 eventName: document.getElementById("eventName").value,
@@ -281,22 +283,25 @@
                     };
                 })
             };
-
             updatedEvent.deletedDays = deletedDays;
             updatedEvent.deletedServices = deletedServices;
             updatedEvent.deletedTasks = deletedTasks;
 
+            //BugTesting
             console.log("Gesendetes JSON:", JSON.stringify(updatedEvent, null, 2));
 
+            //Update für DB
             fetch("http://localhost:8080/shifts/updateShift", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
                 },
+                //JSON --> String
                 body: JSON.stringify({ event: updatedEvent })
             })
                 .then(res => {
-                    if (!res.ok) throw new Error("Update fehlgeschlagen");
+                    if (!res.ok) 
+                    showToast("Fehler beim Aktualisieren: " + err.message, "error");
                     return res.text();
                 })
                 .then(() => {
@@ -307,7 +312,7 @@
                 });
         }
 
-
+        //für den Tage hinzufügen BUtton
         function addDay() {
             const container = document.getElementById("eventContainer");
 
@@ -328,7 +333,7 @@
 
             container.appendChild(dayDiv);
         }
-
+        //Für Dienste hinzufügen
         function addService(button) {
             const servicesContainer = button.previousElementSibling;
             const serviceDiv = document.createElement("div");
@@ -356,6 +361,7 @@
             servicesContainer.appendChild(serviceDiv);
         }
 
+        //Für die Aufgaben Hinzufügen
         function addTask(button) {
             const tasksContainer = button.previousElementSibling;
             const serviceBlock = button.closest(".service-block");
@@ -382,7 +388,7 @@
         }
 
 
-        //Löschen
+        //Löschen Tag
         function deleteDay(button) {
             const dayBlock = button.closest(".day-block");
             const dayID = parseInt(dayBlock.querySelector("input[type='date']").getAttribute("data-day-id"));
@@ -391,7 +397,7 @@
             }
             dayBlock.remove();
         }
-
+        // Löschen Dienst
         function deleteService(button) {
             const serviceBlock = button.closest(".service-block");
             const dayBlock = button.closest(".day-block");
@@ -406,7 +412,7 @@
             }
             serviceBlock.remove();
         }
-
+        //Löschen Aufgabe
         function deleteTask(button) {
             const taskBlock = button.closest(".task-block");
             const serviceBlock = button.closest(".service-block");

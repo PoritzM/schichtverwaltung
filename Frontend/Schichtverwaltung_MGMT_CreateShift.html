@@ -33,7 +33,7 @@
             <label for="registerOnEvent">Eintragung erlauben</label>
         </div>
 
-        <!-- Bereich für dynamisch hinzufügbare Tage -->
+        <!-- Bereich für Tage -->
         <div id="daysContainer"></div>
 
         <button type="button" class="btn-orange-va" onclick="addDay()">+ Tag hinzufügen</button>
@@ -66,6 +66,8 @@
 
             container.appendChild(dayDiv);
         }
+
+
         function addService(button) {
             const servicesContainer = button.previousElementSibling;
 
@@ -110,9 +112,9 @@
             tasksContainer.appendChild(taskDiv);
         }
 
-
+        // Verhindert Seiten-Neuladen
         document.getElementById("eventForm").addEventListener("submit", function (e) {
-            e.preventDefault(); // Verhindert Seiten-Neuladen
+            e.preventDefault(); 
 
             const eventName = document.getElementById("eventName").value;
             const showEvent = document.getElementById("showEvent").checked;
@@ -165,7 +167,7 @@
                 }
             };
 
-            // Jetzt senden!       
+            // pushen       
             fetch("http://localhost:8080/shifts/addShift",
                 {
                     method: "POST",

@@ -81,7 +81,7 @@
                     console.error("Fehler beim Laden der Seite:", err);
                 })
         }
-
+        //Checkbox für Allow register
         function toggleRegister(eventID, value) {
             fetch(`http://localhost:8080/shifts/updateRegister/${eventID}`, {
                 method: "PUT",
@@ -103,7 +103,7 @@
                 });
         }
 
-
+        //Checkbox für Toggle show
         function toggleShow(eventID, value) {
             fetch(`http://localhost:8080/shifts/updateShowEvent/${eventID}`, {
                 method: "PUT",
@@ -127,7 +127,7 @@
 
 
 
-
+        
         function Anlegen() {
             window.location.href = "Schichtverwaltung_MGMT_CreateShift.html"
         }
