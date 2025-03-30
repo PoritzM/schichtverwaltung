@@ -16,7 +16,7 @@ public class YmalReader {
         try {
             filePath = Paths.get("..", "SchichtverwaltungsBackendConfig.ymal").toString();
 
-            InputStream inputStream = new FileInputStream(filePath);
+            InputStream inputStream = new FileInputStream("SchichtverwaltungsBackendConfig.ymal");
             Yaml yaml = new Yaml();
             Map<String, Object> yamlData = yaml.load(inputStream);
 
