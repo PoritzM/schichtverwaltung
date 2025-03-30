@@ -28,7 +28,7 @@ function getErrorMessage(statusCode) {
 
 function Start() {
 
-    window.location.href = "Seite.html"
+    window.location.href = "Schichtverwaltung_Overview.html"
 
 }
 

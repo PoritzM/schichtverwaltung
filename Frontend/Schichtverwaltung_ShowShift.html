@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Veranstaltungsdetails</title>
     <link rel="stylesheet" href="style.css">
-	<meta name="viewport" content="width= device-width, initial-scale= 1.0">
+    <meta name="viewport" content="width= device-width, initial-scale= 1.0">
 </head>
 
 <body>
@@ -101,10 +101,11 @@
                             const serviceHeader = document.createElement("h3");
                             serviceHeader.style.cursor = "pointer";
                             serviceHeader.innerHTML = `
-                                ${service.serviceDescription} | ${service.timeStart.slice(0, 5)} bis ${service.timeEnd.slice(0, 5)} Uhr |
-                                ${signedUpTotal} / ${neededTotal} 
-                                <span class="arrow" style="margin-left:10px">▶</span>
-                            `;
+                                    ${service.serviceDescription} | ${service.timeStart.slice(0, 5)} bis ${service.timeEnd.slice(0, 5)} Uhr |
+                                    <span class="counter">${signedUpTotal} / ${neededTotal}</span>
+                                    <span class="arrow" style="margin-left:10px">▶</span>
+                                `;
+
                             serviceDiv.appendChild(serviceHeader);
 
                             const serviceContent = document.createElement("div");
@@ -124,7 +125,7 @@
                                 taskDiv.classList.add("task");
                                 taskDiv.setAttribute("data-needed", task.neededWorker); // <-- DAS HIER HINZUFÜGEN
 
-                                let taskHTML = `<strong>${task.taskDescription}</strong> | ${signedUp} / ${task.neededWorker}`;
+                                let taskHTML = `<strong>${task.taskDescription} | <span class="task-counter">${signedUp} / ${task.neededWorker}</span></strong>`;
 
                                 if (anzeigen == true) {
                                     taskHTML += `
@@ -256,7 +257,7 @@
                 .then(() => {
                     const workerElement = document.getElementById(`worker-${workerID}`);
                     if (workerElement) {
-                        
+
                         const taskDiv = workerElement.closest(".task");
                         workerElement.remove();
                         updateCounter(taskDiv);
@@ -277,11 +278,13 @@
             const taskLine = taskDiv.querySelector("strong");
             if (!taskLine) return;
 
-            const needed = parseInt(taskDiv.getAttribute("data-needed")); // <-- HIER ändern
-            const description = taskLine.textContent.split("|")[0].trim();
+            const needed = parseInt(taskDiv.getAttribute("data-needed"));
             const workers = taskDiv.querySelectorAll(".worker").length;
 
-            taskLine.innerHTML = `${description} | ${workers} / ${needed}`;
+            const counter = taskDiv.querySelector(".task-counter");
+            if (counter) {
+                counter.textContent = `${workers} / ${needed}`;
+            }
 
             // Dienst aktualisieren
             const serviceDiv = taskDiv.closest(".service");
@@ -298,7 +301,11 @@
 
             const serviceHeader = serviceDiv.querySelector("h3");
             if (serviceHeader) {
-                serviceHeader.innerHTML = serviceHeader.innerHTML.replace(/\d+\s*\/\s*\d+/, `${totalWorkers} / ${totalNeeded}`);
+                const counter = serviceDiv.querySelector(".counter");
+                if (counter) {
+                    counter.textContent = `${totalWorkers} / ${totalNeeded}`;
+                }
+
             }
 
             // Tag aktualisieren

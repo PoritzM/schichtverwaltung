@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>UPDATE DER VERANSTALTUNG </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <div class="header" onclick="Start()">Turnverein St. Ingbert</div>
+
+    <div class="menu" onclick="toggleMenu()">☰</div>
+    <ul class="menu-list" id="menuList">
+        <li onclick="Start()">Veranstaltung bearbeiten</li>
+    </ul>
+
+
+    <div id="eventContainer"></div>
+    <button type="button" class="btn-orange-va" onclick="addDay()">+ Tag hinzufügen</button>
+    <button onclick="submitUpdate()" class="btn-green">Speichern</button>
+    <div id="toast" class="toast"></div>
+
+
+
+    <script src="utils.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const eventID = urlParams.get("eventID");
+
+        let currentData;
+        let deletedDays = [];
+        let deletedServices = [];
+        let deletedTasks = [];
+
+
+        if (!eventID) {
+            showToast("Keine Event-ID übergeben.", "error");
+            throw new Error("eventID fehlt");
+        }
+
+        fetch(`http://localhost:8080/shifts/getShift/${eventID}`)
+            .then(res => res.json())
+            .then(data => {
+                currentData = data;
+                renderEvent(data);
+            })
+            .catch(err => {
+                showToast("Fehler beim Laden der Veranstaltung.", "error");
+            });
+        function renderEvent(event) {
+            const container = document.getElementById("eventContainer");
+            container.innerHTML = "";
+
+            const eventHeader = document.createElement("div");
+            eventHeader.classList.add("event-header");
+            eventHeader.innerHTML = `
+        <div class="Name_der_veranstaltung">
+            <label for="eventName">Name der Veranstaltung:</label>
+            <input type="text" id="eventName" value="${event.eventName}" required>
+        </div>
+        <div class="Anzeige_der_veranstaltung">
+            <input type="checkbox" id="showEvent" ${event.showEvent ? "checked" : ""}>
+            <label for="showEvent">Veranstaltung anzeigen</label>
+        </div>
+        <div class="Eintragen_erlauben">
+            <input type="checkbox" id="registerOnEvent" ${event.registerOnEvent ? "checked" : ""}>
+            <label for="registerOnEvent">Eintragung erlauben</label>
+        </div>
+    `;
+            container.appendChild(eventHeader);
+
+            event.days.forEach((day, dayIndex) => {
+                const dayDiv = document.createElement("div");
+                dayDiv.classList.add("day-block");
+
+                dayDiv.innerHTML = `
+            <div id="Datum_container">
+                <label id="Datum_Überschrift"><b><h2>Datum:</h2></b></label>
+                <input type="date" id="Datum_eingeben" class="day-date" value="${day.day}" data-day-index="${dayIndex}" data-day-id="${day.dayID}" required>
+                <button type="button" class="btn-red" onclick="deleteDay(this)">Entfernen</button>
+            </div>
+            <div class="servicesContainer"></div>
+        `;
+
+                const servicesContainer = dayDiv.querySelector(".servicesContainer");
+
+                day.services.forEach((service, serviceIndex) => {
+                    const serviceDiv = document.createElement("div");
+                    serviceDiv.classList.add("service-block");
+
+                    serviceDiv.innerHTML = `
+                <label id="Service_überschrift"><b>Dienst</b></label>
+                <div id="Service_container">
+                    <label>Dienstbeschreibung:</label>
+                    <input type="text" class="dienstName" value="${service.serviceDescription}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
+                    <label>Startzeit:</label>
+                    <input type="time" class="startZeit" value="${service.timeStart}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
+                    <label>Endzeit:</label>
+                    <input type="time" class="endZeit" value="${service.timeEnd}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
+                    <button type="button" class="btn-red" onclick="deleteService(this)">Entfernen</button>
+                </div>
+                <div class="tasksContainer"></div>
+            `;
+
+                    const tasksContainer = serviceDiv.querySelector(".tasksContainer");
+
+                    service.tasks.forEach((task, taskIndex) => {
+                        const taskDiv = document.createElement("div");
+                        taskDiv.classList.add("task-block");
+
+                        taskDiv.innerHTML = `
+                    <label id="Task_überschrift"><b>Aufgabe</b></label>
+                    <div id="Task_container">
+                        <label>Aufgabe:</label>
+                        <input type="text" class="taskBeschreibung" value="${task.taskDescription}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" data-task-index="${taskIndex}" required>
+                        <label>Benötigte Personen:</label>
+                        <input type="number" min="1" step="1" class="taskPersonen" value="${task.neededWorker}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" data-task-index="${taskIndex}" required>
+                        <button type="button" class="btn-red" onclick="deleteTask(this)">Entfernen</button>
+                    </div>
+                `;
+                        tasksContainer.appendChild(taskDiv);
+                    });
+
+                    // Aufgabe hinzufügen-Button
+                    const addTaskButton = document.createElement("button");
+                    addTaskButton.type = "button";
+                    addTaskButton.className = "btn-orange-va";
+                    addTaskButton.id = "Task_button";
+                    addTaskButton.textContent = "+ Aufgabe hinzufügen";
+                    addTaskButton.onclick = function () {
+                        addTask(addTaskButton);
+                    };
+                    serviceDiv.appendChild(addTaskButton);
+
+                    servicesContainer.appendChild(serviceDiv);
+                });
+
+                // Dienst hinzufügen-Button
+                const addServiceButton = document.createElement("button");
+                addServiceButton.type = "button";
+                addServiceButton.className = "btn-orange-va";
+                addServiceButton.id = "Service_button";
+                addServiceButton.textContent = "+ Dienst hinzufügen";
+                addServiceButton.onclick = function () {
+                    addService(addServiceButton);
+                };
+                dayDiv.appendChild(addServiceButton);
+
+                container.appendChild(dayDiv);
+            });
+        }
+
+
+        function padSeconds(timeStr) {
+            return timeStr.length === 5 ? timeStr + ":00" : timeStr;
+        }
+
+
+
+        function formatDateForBackend(dateInput) {
+            const date = new Date(dateInput);
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+            const month = monthNames[date.getMonth()];
+            const day = String(date.getDate()).padStart(2, '0');
+            const year = date.getFullYear();
+
+            let hours = date.getHours();
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            const ampm = hours >= 12 ? "PM" : "AM";
+
+            hours = hours % 12;
+            hours = hours ? hours : 12; // 0 => 12
+
+            return `${month} ${day}, ${year}, ${hours}:${minutes}:${seconds} ${ampm}`;
+        }
+
+        // Hilfsfunktion zum Datum vergleichen
+        function normalizeDate(d) {
+            if (!d) return null;
+            const date = new Date(d);
+            if (isNaN(date)) return null;
+            return date.toISOString().slice(0, 10); // "YYYY-MM-DD"
+        }
+
+        
+        let finalDayID = -1; // Standardmäßig: Neuer Tag
+
+       
+        function submitUpdate() {
+            const now = new Date();
+            const dayBlocks = document.querySelectorAll(".day-block");
+
+            const updatedEvent = {
+                eventID: currentData.eventID,
+                eventName: document.getElementById("eventName").value,
+                showEvent: document.getElementById("showEvent").checked,
+                registerOnEvent: document.getElementById("registerOnEvent").checked,
+                timeStamps: {
+                    timeStampCreate: formatDateForBackend(currentData.timeStamps?.timeStampCreate || now),
+                    timeStampEdit: formatDateForBackend(now)
+                },
+                days: Array.from(dayBlocks).map((dayBlock) => {
+                    const dateInput = dayBlock.querySelector("input[type='date']");
+                    const currentDayValue = dateInput.value;
+                    const originalDayID = parseInt(dateInput.getAttribute("data-day-id"));
+                    const originalDayObj = currentData.days.find(d => d.dayID === originalDayID);
+
+                    // Prüfe, ob das Datum verändert wurde
+                    const normalizeDate = (d) => new Date(d).toISOString().slice(0, 10); // "YYYY-MM-DD"
+
+                    const effectiveDayID = originalDayObj ? originalDayID : -1;
+
+
+                    const serviceBlocks = dayBlock.querySelectorAll(".service-block");
+                    const isNewDay = effectiveDayID === -1 || !originalDayObj;
+
+
+                    const services = Array.from(serviceBlocks).map((serviceBlock) => {
+                        const serviceDescription = serviceBlock.querySelector(".dienstName").value;
+                        const timeStart = padSeconds(serviceBlock.querySelector(".startZeit").value);
+                        const timeEnd = padSeconds(serviceBlock.querySelector(".endZeit").value);
+
+                        const taskBlocks = serviceBlock.querySelectorAll(".task-block");
+
+                        const tasks = Array.from(taskBlocks).map((taskBlock) => {
+                            const taskDescription = taskBlock.querySelector(".taskBeschreibung").value;
+                            const neededWorker = parseInt(taskBlock.querySelector(".taskPersonen").value);
+
+                            const origTask = originalDayObj?.services?.find(s =>
+                                s.serviceDescription === serviceDescription &&
+                                s.timeStart === timeStart &&
+                                s.timeEnd === timeEnd
+                            )?.tasks?.find(t =>
+                                t.taskDescription === taskDescription &&
+                                t.neededWorker === neededWorker
+                            );
+
+                            return {
+                                taskID: origTask ? origTask.taskID : -1,
+                                taskDescription,
+                                neededWorker,
+                                timeStamps: {
+                                    timeStampCreate: formatDateForBackend(origTask?.timeStamps?.timeStampCreate || now),
+                                    timeStampEdit: formatDateForBackend(now)
+                                },
+                                workers: origTask?.workers?.map(worker => ({
+                                    workerID: worker.workerID,
+                                    workerName: worker.workerName,
+                                    timeStamps: {
+                                        timeStampCreate: formatDateForBackend(worker.timeStamps?.timeStampCreate || now),
+                                        timeStampEdit: formatDateForBackend(now)
+                                    }
+                                })) || []
+                            };
+                        });
+
+                        const origService = originalDayObj?.services?.find(s =>
+                            s.serviceDescription === serviceDescription &&
+                            s.timeStart === timeStart &&
+                            s.timeEnd === timeEnd
+                        );
+
+                        return {
+                            serviceID: origService ? origService.serviceID : -1,
+
+                            serviceDescription,
+                            timeStart,
+                            timeEnd,
+                            timeStamps: {
+                                timeStampCreate: formatDateForBackend(origService?.timeStamps?.timeStampCreate || now),
+                                timeStampEdit: formatDateForBackend(now)
+                            },
+                            tasks
+                        };
+                    });
+
+                    return {
+                        dayID: effectiveDayID,
+                        day: currentDayValue,
+                        timeStamps: {
+                            timeStampCreate: formatDateForBackend(originalDayObj?.timeStamps?.timeStampCreate || now),
+                            timeStampEdit: formatDateForBackend(now)
+                        },
+                        services
+                    };
+                })
+
+            };
+
+            console.log("Gesendetes JSON:", JSON.stringify(updatedEvent, null, 2));
+
+            updatedEvent.deletedDays = deletedDays;
+            updatedEvent.deletedServices = deletedServices;
+            updatedEvent.deletedTasks = deletedTasks;
+
+
+            fetch("http://localhost:8080/shifts/updateShift", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ event: updatedEvent })
+
+            })
+                .then(res => {
+                    if (!res.ok) throw new Error("Update fehlgeschlagen");
+                    return res.text();
+                })
+                .then(() => {
+                    showToast("Veranstaltung erfolgreich aktualisiert.", "success");
+                })
+                .catch(err => {
+                    showToast("Fehler beim Aktualisieren: " + err.message, "error");
+                });
+        }
+
+        function addDay() {
+            const container = document.getElementById("eventContainer");
+
+            const dayDiv = document.createElement("div");
+            dayDiv.classList.add("day-block");
+
+            const dayIndex = document.querySelectorAll(".day-block").length;
+
+            dayDiv.innerHTML = `
+                    <div id="Datum_container">
+                        <label id="Datum_überschrift"><b><h2>Datum:</h2></b></label>
+                        <input type="date" id="Datum_eingeben" class="day-date" data-day-index="${dayIndex}" data-day-id="-1" required>
+                        <button type="button" class="btn-red" onclick="this.closest('.day-block').remove()">Entfernen</button>
+                    </div>
+                    <div class="servicesContainer"></div>
+                    <button type="button" id="Service_button" class="btn-orange-va" onclick="addService(this)">+ Dienst hinzufügen</button>
+                `;
+
+            container.appendChild(dayDiv);
+        }
+
+        function addService(button) {
+            const servicesContainer = button.previousElementSibling;
+            const serviceDiv = document.createElement("div");
+            serviceDiv.classList.add("service-block");
+
+            const dayIndex = button.closest(".day-block").querySelector(".day-date").getAttribute("data-day-index");
+            const serviceIndex = servicesContainer.querySelectorAll(".service-block").length;
+
+            serviceDiv.innerHTML = `
+                    <label id="Service_überschrift"><b>Dienst</b></label>
+                    <div id="Service_container">
+                        <label>Schichtbeschreibung:</label>
+                        <input type="text" class="dienstName Normales_textfeld" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
+                        <label class="Zeit_überschrift">Startzeit:</label>
+                        <input type="time" class="startZeit Zeit_eingabe" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
+                        <label class="Zeit_überschrift">Endzeit:</label>
+                        <input type="time" class="endZeit Zeit_eingabe" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
+                        <button type="button" class="btn-red" onclick="this.closest('.service-block').remove()">Entfernen</button>
+                    </div>
+
+                    <div class="tasksContainer"></div>
+                    <button type="button" id="Task_button" class="btn-orange-va" onclick="addTask(this)">+ Aufgabe hinzufügen</button>
+                `;
+
+            servicesContainer.appendChild(serviceDiv);
+        }
+
+        function addTask(button) {
+            const tasksContainer = button.previousElementSibling;
+            const serviceBlock = button.closest(".service-block");
+
+            const dayIndex = serviceBlock.querySelector(".dienstName").getAttribute("data-day-index");
+            const serviceIndex = serviceBlock.querySelector(".dienstName").getAttribute("data-service-index");
+            const taskIndex = tasksContainer.querySelectorAll(".task-block").length;
+
+            const taskDiv = document.createElement("div");
+            taskDiv.classList.add("task-block");
+
+            taskDiv.innerHTML = `
+                    <label id="Task_überschrift"><b>Aufgabe</b></label>
+                    <div id="Task_container">
+                        <label id="Aufgabentextbox_überschrift">Aufgabe:</label>
+                        <input type="text" class="taskBeschreibung" id="Task_textbox" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" data-task-index="${taskIndex}" required>
+                        <label id="Benötigte_personen_überschrift">Benötigte Personen:</label>
+                        <input type="number" min="1" step="1" class="taskPersonen" id="Personen_eingabe" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" data-task-index="${taskIndex}" required>
+                        <button type="button" class="btn-red" onclick="this.closest('.task-block').remove()">Entfernen</button>
+                    </div>
+                `;
+
+            tasksContainer.appendChild(taskDiv);
+        }
+
+
+        //Löschen
+        function deleteDay(button) {
+            const dayBlock = button.closest(".day-block");
+            const dayID = parseInt(dayBlock.querySelector("input[type='date']").getAttribute("data-day-id"));
+            if (dayID !== -1) {
+                deletedDays.push(dayID);
+            }
+            dayBlock.remove();
+        }
+
+        function deleteService(button) {
+            const serviceBlock = button.closest(".service-block");
+            const dayBlock = button.closest(".day-block");
+            const dayID = parseInt(dayBlock.querySelector("input[type='date']").getAttribute("data-day-id"));
+
+            const index = serviceBlock.querySelector(".dienstName")?.getAttribute("data-service-index");
+            const origDay = currentData.days.find(d => d.dayID === dayID);
+            const origService = origDay?.services?.[index];
+
+            if (origService?.serviceID !== undefined && origService.serviceID !== -1) {
+                deletedServices.push(origService.serviceID);
+            }
+            serviceBlock.remove();
+        }
+
+        function deleteTask(button) {
+            const taskBlock = button.closest(".task-block");
+            const serviceBlock = button.closest(".service-block");
+
+            const dayIndex = serviceBlock.querySelector(".dienstName")?.getAttribute("data-day-index");
+            const serviceIndex = serviceBlock.querySelector(".dienstName")?.getAttribute("data-service-index");
+            const taskIndex = taskBlock.querySelector(".taskBeschreibung")?.getAttribute("data-task-index");
+
+            const origDay = currentData.days[dayIndex];
+            const origService = origDay?.services?.[serviceIndex];
+            const origTask = origService?.tasks?.[taskIndex];
+
+            if (origTask?.taskID !== undefined && origTask.taskID !== -1) {
+                deletedTasks.push(origTask.taskID);
+            }
+
+            taskBlock.remove();
+        }
+
+
+
+    </script>
+</body>
+
+</html>
