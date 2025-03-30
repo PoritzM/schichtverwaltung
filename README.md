@@ -1,33 +1,25 @@
 # Schichtverwaltungssystem
 Das Schichtverwaltungssystem bietet die Möglichkeit Veranstaltungen anzulegen auf welche sich anschließend Personen auf die in der Veranstaltung definierten Schichten eintragen können.
 
-## Frontend Todo`s:
+## Installation/Inbetriebnahme
 
-- Übersichtsseite
-	- Style Desktop
-	- Style Mobile
-	- ~~Klickbox "Sichtverwaltung" anpassen. (Geht horizontal komplett über die Seite)~~
-	- ~~Mouseover zur Startseite nicht vorhanden (Turnverein St. Ingbert)~~
-- Veranstaltungs-Seite
-	- Style Desktop
-	- Style Mobile
-	- ~~Dropdown für Dienste~~
-	- ~~Bestätigung wen erfolgreich in Event eingetragen~~
-	- ~~Seite nicht immer neu laden bei eintragen -> Position beibehalten (Scroll Position)~~
-	- ~~Mouseover zur Startseite nicht vorhanden (Turnverein St. Ingbert)~~
-- Verwaltungslogin-Seite
-	~~- Fehlermeldung bei Falschem Passwort~~
-	- ~~Mouseover zur Startseite nicht vorhanden (Turnverein St. Ingbert)~~
-- Verwaltungsübersicht-Seite
-	- Style Desktop
-	- ~~Möglichkeit Register On Event -> ON/OFF~~
-	- ~~Möglichkeit Show Event -> ON/OFF~~
-	- ~~Mouseover zur Startseite nicht vorhanden (Turnverein St. Ingbert)~~
-- Veranstaltung-Anlegen-Seite
-  	- ~~Style Desktop~~
-	- ~~Mouseover zur Startseite nicht vorhanden (Turnverein St. Ingbert)~~
-- Veranstaltung-Bearbeiten-Seite
-	- Möglichkeit Formular wie bei "Veranstaltung Anlegen" mit werten vorzufühlen und Änderungen an eingetragenen werten durchzuführen  
+**Info**: Aktuell ist nur der Betrieb auf einer Maschine (Frontend und Backend auf einem PC) implementiert und getestet.
+
+**Info**: Das Schichtverwaltungssystem ist nur für Windows 10 & 11 implementiert und getestet.
+
+### Frontend
+Zur Inbetriebnahme werden nur die HTML, JS und CSS Dateien benötigt.
+Das Passwort für den Management Bereich lautet `richtig`
+Die `Schichtverwaltung_Overview.html` öffnen um auf das Frontend zu gelangen
+
+### Backend
+Zur Inbetriebnahme des Backend werden folgende punkte benötigt:
+1. Eine Java Runtime Environment 22 muss auf dem PC Installiert sein. Diese können beispielsweise bei OpenJDK heruntergeladen werden (https://openjdk.org/)
+2. Die `sichtverwaltungs_backend-1.0.jar` muss aus GitHub heruntergeladen werden.
+3. Die SQLite Datenbank muss aus GitHub heruntergeladen werden.
+4. Im gleichen Verzeichnis in welchem die `sichtverwaltungs_backend-1.0.jar` ist muss sich auch die `SchichtverwaltungsBackendConfig.ymal` befinden. In dieser müssen zwei Einträge vorhanden sein. Einmal `DBpath:` mit dem Pfad zur Datenbank und zweitens `LOGpath:` welches angibt wo sich die Logdatei befinden soll. Sollte die Logdatei noch nicht unter diesem Pfad existieren wird diese durch das Backend angelegt.
+5. Das Backend mit `java -jar .\sichtverwaltungs_backend-1.0.jar` aus der Konsole heraus starten.
+6. Anschließend wird der Webserver gestartet und die API Schnittstellen des Backend stehen dem Frontend zur Verfügung. In der Konsole werden nun alle anfragen mit jeweiligen HTTP Response Code angezeigt. In der Logdatei finden man zudem noch die übersendeten JSON Bodys.
 
 ## Grundstruktur
 Es gibt mehrere hierarchiestufen um die Schicht anzulegen und zu verwalten. Diese einzelnen Stufen haben wiederum weitere Informationen
@@ -51,7 +43,7 @@ Es gibt mehrere hierarchiestufen um die Schicht anzulegen und zu verwalten. Dies
 
 **Wichtig: "Shift" bezeichnet immer das gesamte Konstrukt aus mehreren zu einem Event gehörenden Tagen, Aufgaben usw.**
 
-Es werden 9 API Schnittstellen bereit gestellt:
+Es werden 9 API Schnittstellen durch das Backend bereit gestellt:
 - **Post**
 	- *Post Shift* (`/shifts/addShift`)
 		- Übergabe im Body:
