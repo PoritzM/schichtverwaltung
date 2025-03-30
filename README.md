@@ -7,10 +7,12 @@ Das Schichtverwaltungssystem bietet die Möglichkeit Veranstaltungen anzulegen a
 
 **Info**: Das Schichtverwaltungssystem ist nur für Windows 10 & 11 implementiert und getestet.
 
+**Info**: Das Frontend ist sowohl am Desktop PCs als auch an Handys nutzbar.
+
 ### Frontend
 Zur Inbetriebnahme werden nur die HTML, JS und CSS Dateien benötigt.
 Das Passwort für den Management Bereich lautet `richtig`
-Die `Schichtverwaltung_Overview.html` öffnen um auf das Frontend zu gelangen
+Die `Schichtverwaltung_Overview.html` öffnen um auf das Frontend zu gelangen.
 
 ### Backend
 Zur Inbetriebnahme des Backend werden folgende punkte benötigt:
