@@ -229,7 +229,7 @@
                         workerDiv.id = `worker-${newWorkerID}`;
                         workerDiv.innerHTML = `
                 ${workerName}
-                <button onclick="loescheWorker(${newWorkerID})">❌</button>
+                <button onclick="loescheWorker(${newWorkerID})" id= "Worker_löschen">❌</button>
             `;
                         taskDiv.appendChild(workerDiv);
                         updateCounter(taskDiv);
