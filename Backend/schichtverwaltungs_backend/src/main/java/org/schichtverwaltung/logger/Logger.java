@@ -20,10 +20,11 @@ public class Logger {
 
         String singleLineJson = jsonString.replaceAll("\\r\\n", "");
 
-        String logMessage = formattedDateTime + " | " + statusCode + " | " + statusMessage + " | " + singleLineJson + "\n";
+        String logMessageConsole = formattedDateTime + " | " + statusCode + " | " + statusMessage + "\n";
+        String logMessageLog = formattedDateTime + " | " + statusCode + " | " + statusMessage + " | " + singleLineJson + "\n";
 
-        System.out.print(logMessage);
-        logToFile(logMessage);
+        System.out.print(logMessageConsole);
+        logToFile(logMessageLog);
     }
 
     //Schreiben der Log-Infos in eine Datei
