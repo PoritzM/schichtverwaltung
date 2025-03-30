@@ -44,7 +44,7 @@ public class UpdateShift {
         JsonObject jsonObject = gson.fromJson(jsonString, JsonObject.class);
         Event event = gson.fromJson(jsonObject.getAsJsonObject("event"), Event.class);
 
-        event.print();
+//        event.print();
 
         //Test ob alles past
         checkShift(event);
@@ -57,7 +57,6 @@ public class UpdateShift {
 
         //Einträge hinzufügen
         insertShift(event);
-
     }
 
     private static void checkShift (Event event) throws BackendException, SQLException {
@@ -77,6 +76,7 @@ public class UpdateShift {
                 }
                 if ((Integer) infoSetDay.getColumnValues("dayID").get(0) != day.getDayID() ||
                         (Integer) infoSetDay.getColumnValues("eventID").get(0) != event.getEventID()) {
+
                     throw new BackendException("Missmatch in a ID (Day Object vs Day in DB)");
                 }
             }
@@ -121,14 +121,17 @@ public class UpdateShift {
         event.updateEventOnDB();
         for (Day day : event.getDays()) {
             if(day.getDayID() != -1) {
+                day.initDay(event.getEventID());
                 day.updateDayOnDB();
             }
             for(Service service : day.getServices()) {
                 if(service.getServiceID() != -1) {
+                    service.initService(event.getEventID(), day.getDayID());
                     service.updateServiceOnDB();
                 }
                 for(Task task : service.getTasks()) {
                     if(task.getTaskID() != -1) {
+                        task.initTask(event.getEventID(), day.getDayID(), service.getServiceID());
                         task.updateTaskOnDB();
                     }
                 }
