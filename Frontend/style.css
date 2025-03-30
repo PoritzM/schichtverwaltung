@@ -239,6 +239,7 @@ cursor: pointer;
 }
 
 .btn-orange-va{
+	width:150px;
 	background-color: orange;
     color: white;
     border: none;
@@ -359,6 +360,10 @@ cursor: pointer;
 	padding: 10px 15px;
 	margin-top:20px;
 	margin-bottom:20px; 
+}
+
+#Task_button:hover{
+	background-color: darkorange;
 }
 
 #Send_container{
@@ -591,7 +596,7 @@ cursor: pointer;
     }
     
     .btn-green{
-        margin-left: 100px;
+        margin-left: 0px;
     }
 }
 }
