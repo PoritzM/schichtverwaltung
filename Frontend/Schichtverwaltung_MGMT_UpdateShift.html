@@ -114,7 +114,13 @@
                     <label id="Task_überschrift"><b>Aufgabe</b></label>
                     <div id="Task_container">
                         <label>Aufgabe:</label>
-                        <input type="text" class="taskBeschreibung" value="${task.taskDescription}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" data-task-index="${taskIndex}" required>
+                        <input type="text" class="taskBeschreibung" value="${task.taskDescription}" 
+                            data-day-index="${dayIndex}" data-service-index="${serviceIndex}" data-task-index="${taskIndex}" 
+                            data-task-id="${task.taskID}" required>
+
+                        <input type="number" min="1" step="1" class="taskPersonen" value="${task.neededWorker}" 
+                            data-day-index="${dayIndex}" data-service-index="${serviceIndex}" data-task-index="${taskIndex}" 
+                            data-task-id="${task.taskID}" required>
                         <label>Benötigte Personen:</label>
                         <input type="number" min="1" step="1" class="taskPersonen" value="${task.neededWorker}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" data-task-index="${taskIndex}" required>
                         <button type="button" class="btn-red" onclick="deleteTask(this)">Entfernen</button>
@@ -187,10 +193,10 @@
             return date.toISOString().slice(0, 10); // "YYYY-MM-DD"
         }
 
-        
+
         let finalDayID = -1; // Standardmäßig: Neuer Tag
 
-       
+
         function submitUpdate() {
             const now = new Date();
             const dayBlocks = document.querySelectorAll(".day-block");
@@ -204,23 +210,16 @@
                     timeStampCreate: formatDateForBackend(currentData.timeStamps?.timeStampCreate || now),
                     timeStampEdit: formatDateForBackend(now)
                 },
-                days: Array.from(dayBlocks).map((dayBlock) => {
+                days: Array.from(dayBlocks).map((dayBlock, dayIndex) => {
                     const dateInput = dayBlock.querySelector("input[type='date']");
                     const currentDayValue = dateInput.value;
                     const originalDayID = parseInt(dateInput.getAttribute("data-day-id"));
                     const originalDayObj = currentData.days.find(d => d.dayID === originalDayID);
-
-                    // Prüfe, ob das Datum verändert wurde
-                    const normalizeDate = (d) => new Date(d).toISOString().slice(0, 10); // "YYYY-MM-DD"
-
                     const effectiveDayID = originalDayObj ? originalDayID : -1;
 
-
                     const serviceBlocks = dayBlock.querySelectorAll(".service-block");
-                    const isNewDay = effectiveDayID === -1 || !originalDayObj;
 
-
-                    const services = Array.from(serviceBlocks).map((serviceBlock) => {
+                    const services = Array.from(serviceBlocks).map((serviceBlock, serviceIndex) => {
                         const serviceDescription = serviceBlock.querySelector(".dienstName").value;
                         const timeStart = padSeconds(serviceBlock.querySelector(".startZeit").value);
                         const timeEnd = padSeconds(serviceBlock.querySelector(".endZeit").value);
@@ -228,20 +227,17 @@
                         const taskBlocks = serviceBlock.querySelectorAll(".task-block");
 
                         const tasks = Array.from(taskBlocks).map((taskBlock) => {
-                            const taskDescription = taskBlock.querySelector(".taskBeschreibung").value;
-                            const neededWorker = parseInt(taskBlock.querySelector(".taskPersonen").value);
+                            const taskDescriptionInput = taskBlock.querySelector(".taskBeschreibung");
+                            const neededWorkerInput = taskBlock.querySelector(".taskPersonen");
 
-                            const origTask = originalDayObj?.services?.find(s =>
-                                s.serviceDescription === serviceDescription &&
-                                s.timeStart === timeStart &&
-                                s.timeEnd === timeEnd
-                            )?.tasks?.find(t =>
-                                t.taskDescription === taskDescription &&
-                                t.neededWorker === neededWorker
-                            );
+                            const taskID = parseInt(taskDescriptionInput.getAttribute("data-task-id")) || -1;
+                            const taskDescription = taskDescriptionInput.value;
+                            const neededWorker = parseInt(neededWorkerInput.value);
+
+                            const origTask = currentData.days?.[dayIndex]?.services?.[serviceIndex]?.tasks?.find(t => t.taskID === taskID);
 
                             return {
-                                taskID: origTask ? origTask.taskID : -1,
+                                taskID,
                                 taskDescription,
                                 neededWorker,
                                 timeStamps: {
@@ -259,15 +255,10 @@
                             };
                         });
 
-                        const origService = originalDayObj?.services?.find(s =>
-                            s.serviceDescription === serviceDescription &&
-                            s.timeStart === timeStart &&
-                            s.timeEnd === timeEnd
-                        );
+                        const origService = currentData.days?.[dayIndex]?.services?.[serviceIndex];
 
                         return {
-                            serviceID: origService ? origService.serviceID : -1,
-
+                            serviceID: origService?.serviceID ?? -1,
                             serviceDescription,
                             timeStart,
                             timeEnd,
@@ -289,15 +280,13 @@
                         services
                     };
                 })
-
             };
-
-            console.log("Gesendetes JSON:", JSON.stringify(updatedEvent, null, 2));
 
             updatedEvent.deletedDays = deletedDays;
             updatedEvent.deletedServices = deletedServices;
             updatedEvent.deletedTasks = deletedTasks;
 
+            console.log("Gesendetes JSON:", JSON.stringify(updatedEvent, null, 2));
 
             fetch("http://localhost:8080/shifts/updateShift", {
                 method: "PUT",
@@ -305,7 +294,6 @@
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({ event: updatedEvent })
-
             })
                 .then(res => {
                     if (!res.ok) throw new Error("Update fehlgeschlagen");
@@ -318,6 +306,7 @@
                     showToast("Fehler beim Aktualisieren: " + err.message, "error");
                 });
         }
+
 
         function addDay() {
             const container = document.getElementById("eventContainer");
