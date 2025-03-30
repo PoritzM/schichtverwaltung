@@ -49,6 +49,8 @@
             .catch(err => {
                 showToast("Fehler beim Laden der Veranstaltung.", "error");
             });
+
+
         function renderEvent(event) {
             const container = document.getElementById("eventContainer");
             container.innerHTML = "";
@@ -119,12 +121,12 @@
                             data-day-index="${dayIndex}" data-service-index="${serviceIndex}" data-task-index="${taskIndex}" 
                             data-task-id="${task.taskID}" required>
 
-                        <input type="number" min="1" step="1" class="taskPersonen" value="${task.neededWorker}" 
-                            data-day-index="${dayIndex}" data-service-index="${serviceIndex}" data-task-index="${taskIndex}" 
-                            data-task-id="${task.taskID}" required>
+                        
                         <label>Benötigte Personen:</label>
-                        <input type="number" min="1" step="1" class="taskPersonen" value="${task.neededWorker}" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" data-task-index="${taskIndex}" required>
-                        <button type="button" class="btn-red" onclick="deleteTask(this)">Entfernen</button>
+                      <input type="number" min="1" step="1" class="taskPersonen" value="${task.neededWorker}" 
+                                data-day-index="${dayIndex}" data-service-index="${serviceIndex}" data-task-index="${taskIndex}" 
+                                data-task-id="${task.taskID}" required>
+                            <button type="button" class="btn-red" onclick="deleteTask(this)">Entfernen</button>
                     </div>
                 `;
                         tasksContainer.appendChild(taskDiv);
@@ -223,8 +225,9 @@
 
                     const services = Array.from(serviceBlocks).map((serviceBlock, serviceIndex) => {
                         const serviceDescription = serviceBlock.querySelector(".dienstName").value;
-                        const timeStart = padSeconds(serviceBlock.querySelector(".startZeit").value);
-                        const timeEnd = padSeconds(serviceBlock.querySelector(".endZeit").value);
+                        const zeitInputs = serviceBlock.querySelectorAll(".Zeit_eingabe");
+                        const timeStart = padSeconds(zeitInputs[0].value);
+                        const timeEnd = padSeconds(zeitInputs[1].value);
 
                         const taskBlocks = serviceBlock.querySelectorAll(".task-block");
 
@@ -300,8 +303,8 @@
                 body: JSON.stringify({ event: updatedEvent })
             })
                 .then(res => {
-                    if (!res.ok) 
-                    showToast("Fehler beim Aktualisieren: " + err.message, "error");
+                    if (!res.ok)
+                        showToast("Fehler beim Aktualisieren: " + err.message, "error");
                     return res.text();
                 })
                 .then(() => {
@@ -348,9 +351,9 @@
                         <label>Schichtbeschreibung:</label>
                         <input type="text" class="dienstName Normales_textfeld" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
                         <label class="Zeit_überschrift">Startzeit:</label>
-                        <input type="time" class="startZeit Zeit_eingabe" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
+                        <input type="time" class="Zeit_eingabe" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
                         <label class="Zeit_überschrift">Endzeit:</label>
-                        <input type="time" class="endZeit Zeit_eingabe" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
+                        <input type="time" class="Zeit_eingabe" data-day-index="${dayIndex}" data-service-index="${serviceIndex}" required>
                         <button type="button" class="btn-red" onclick="this.closest('.service-block').remove()">Entfernen</button>
                     </div>
 
